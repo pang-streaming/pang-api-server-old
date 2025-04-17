@@ -38,45 +38,45 @@ pipeline {
             }
         }
 
-		stage('Build Docker') {
-			steps {
-				echo 'Build Docker'
-                script {
-					dockerImage = docker.build("${IMAGE_NAME}")
-                }
-            }
-            post {
-				failure {
-					error '도커 빌드 실패'
-                }
-            }
-        }
-
-        stage('Push Docker') {
-			steps {
-				echo 'Push Docker'
-                script {
-					docker.withRegistry('', REGISTRY_CREDENTIALS_ID) {
-						dockerImage.push()
-                    }
-                }
-            }
-            post {
-				failure {
-					error 'This pipeline stops here...'
-                }
-            }
-        }
-
-        stage('Docker Run') {
-			steps {
-				echo 'Pull Docker Image & Docker Image Run'
-                sshagent (credentials: ['ssh']) {
-					sh "ssh -o StrictHostKeyChecking=no ubuntu@{서버IP} 'docker pull ${imagename}'"
-                    sh "ssh -o StrictHostKeyChecking=no ubuntu@{서버IP} 'docker compose -f /home/ubuntu/spring/compose/docker-compose.yml up --build -d'"
-                    sh "ssh -o StrictHostKeyChecking=no ubuntu@{서버IP} 'docker image prune -f'"
-                }
-            }
-        }
+		//stage('Build Docker') {
+		//	steps {
+		//		echo 'Build Docker'
+        //        script {
+		//			dockerImage = docker.build("${IMAGE_NAME}")
+        //        }
+        //    }
+        //    post {
+		//		failure {
+		//			error '도커 빌드 실패'
+        //        }
+        //    }
+        //}
+		//
+        //stage('Push Docker') {
+		//	steps {
+		//		echo 'Push Docker'
+        //        script {
+		//			docker.withRegistry('', REGISTRY_CREDENTIALS_ID) {
+		//				dockerImage.push()
+        //            }
+        //        }
+        //    }
+        //    post {
+		//		failure {
+		//			error 'This pipeline stops here...'
+        //        }
+        //    }
+        //}
+		//
+        //stage('Docker Run') {
+		//	steps {
+		//		echo 'Pull Docker Image & Docker Image Run'
+        //        sshagent (credentials: ['ssh']) {
+		//			sh "ssh -o StrictHostKeyChecking=no ubuntu@{서버IP} 'docker pull ${imagename}'"
+        //            sh "ssh -o StrictHostKeyChecking=no ubuntu@{서버IP} 'docker compose -f /home/ubuntu/spring/compose/docker-compose.yml up --build -d'"
+        //            sh "ssh -o StrictHostKeyChecking=no ubuntu@{서버IP} 'docker image prune -f'"
+        //        }
+        //    }
+        //}
 	}
 }

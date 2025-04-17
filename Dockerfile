@@ -1,4 +1,4 @@
-FROM openjdk:17
+FROM openjdk:17-jdk-slim
 
 COPY build/libs/pang-api-server-0.0.1-SNAPSHOT.jar app.jar
 

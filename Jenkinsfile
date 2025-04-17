@@ -2,7 +2,7 @@ pipeline {
 	agent any
 
     environment {
-		IMAGE_NAME = 'your-dockerhub-username/your-image-name'
+		IMAGE_NAME = 'pang/pang-api-server'
         IMAGE_TAG = 'latest'
         REGISTRY_CREDENTIALS_ID = 'docker-hub-credentials'
         BRANCH = 'main'
@@ -38,19 +38,19 @@ pipeline {
             }
         }
 
-		//stage('Build Docker') {
-		//	steps {
-		//		echo 'Build Docker'
-        //        script {
-		//			dockerImage = docker.build("${IMAGE_NAME}")
-        //        }
-        //    }
-        //    post {
-		//		failure {
-		//			error '도커 빌드 실패'
-        //        }
-        //    }
-        //}
+		stage('Build Docker') {
+			steps {
+				echo 'Build Docker'
+                script {
+					dockerImage = docker.build("${IMAGE_NAME}")
+                }
+            }
+            post {
+				failure {
+					error '도커 빌드 실패'
+                }
+            }
+        }
 		//
         //stage('Push Docker') {
 		//	steps {

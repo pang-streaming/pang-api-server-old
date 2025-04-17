@@ -9,6 +9,11 @@ pipeline {
     }
 
     stages {
+		stage('Checkout') {
+			steps {
+				git 'https://github.com/pang-streaming/pang-api-server'
+            }
+        }
 		stage('Clone') {
 			steps {
 				git branch: 'main', url: 'https://github.com/pang-streaming/pang-api-server.git'

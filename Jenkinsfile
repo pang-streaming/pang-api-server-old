@@ -2,9 +2,9 @@ pipeline {
 	agent any
 
     environment {
-		IMAGE_NAME = 'pang/pang-api-server'
+		IMAGE_NAME = 'pangstream/pang-api-server'
         IMAGE_TAG = 'latest'
-        REGISTRY_CREDENTIALS_ID = 'docker-hub-credentials'
+        REGISTRY_CREDENTIALS_ID = 'dockerhub-token'
         BRANCH = 'main'
     }
 

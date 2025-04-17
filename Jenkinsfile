@@ -2,81 +2,67 @@ pipeline {
 	agent any
 
     environment {
-		IMAGE_NAME = 'pangstream/pang-api-server'
-        IMAGE_TAG = 'latest'
-        REGISTRY_CREDENTIALS_ID = 'dockerhub-token'
-        BRANCH = 'main'
+        IMAGE_NAME = "pangstream/pang-api-server"
+        REGISTRY_CREDENTIAL = "dockerhub-token"
+        GIT_CREDENTIAL = "github-token"
+        SSH_CREDENTIAL = "ssh-credential-id"
+        SERVER_USER = "ec2-user"
+        //SERVER_IP = "your.server.ip"
+        CONTAINER_NAME = "pang-api-server"
+        APP_PORT = "8080"
+        TAG = "latest"
     }
 
     stages {
-		stage('Clone') {
+		stage('Git Pull') {
 			steps {
-				git branch: 'main', url: 'https://github.com/pang-streaming/pang-api-server.git'
-            }
-            post {
-				success {
-					echo '레포지토리 가져오기 성공'
-                }
-                failure {
-					error '파이프라인 정지'
-                }
+				echo 'Cloning Repository...'
+                git url: 'git@github.com:your/repo.git',
+                    branch: 'main',
+                    credentialsId: "${GIT_CREDENTIAL}"
             }
         }
 
-        stage('Build Gradle') {
+        stage('Gradle Build') {
 			steps {
-				echo 'Build Gradle'
-                dir('.') {
-					sh 'chmod +x gradlew'
-                    sh './gradlew clean build -x test'
-                }
-            }
-            post {
-				failure {
-					error '파이프라인 정지'
-                }
+				echo 'Building with Gradle...'
+                sh 'chmod +x ./gradlew'
+                sh './gradlew clean build -x test'
             }
         }
 
-		stage('Build Docker') {
+        stage('Docker Build') {
 			steps {
-				echo 'Build Docker'
+				echo 'Building Docker image...'
                 script {
-					dockerImage = docker.build("${IMAGE_NAME}")
-                }
-            }
-            post {
-				failure {
-					error '도커 빌드 실패'
+					dockerImage = docker.build("${IMAGE_NAME}:${TAG}")
                 }
             }
         }
-		//
-        //stage('Push Docker') {
-		//	steps {
-		//		echo 'Push Docker'
-        //        script {
-		//			docker.withRegistry('', REGISTRY_CREDENTIALS_ID) {
-		//				dockerImage.push()
-        //            }
-        //        }
-        //    }
-        //    post {
-		//		failure {
-		//			error 'This pipeline stops here...'
-        //        }
-        //    }
-        //}
-		//
-        //stage('Docker Run') {
-		//	steps {
-		//		echo 'Pull Docker Image & Docker Image Run'
-        //        sshagent (credentials: ['ssh']) {
-		//			sh "ssh -o StrictHostKeyChecking=no ubuntu@{서버IP} 'docker pull ${imagename}'"
-        //            sh "ssh -o StrictHostKeyChecking=no ubuntu@{서버IP} 'docker compose -f /home/ubuntu/spring/compose/docker-compose.yml up --build -d'"
-        //            sh "ssh -o StrictHostKeyChecking=no ubuntu@{서버IP} 'docker image prune -f'"
-        //        }
-        //    }
-        //}
-	}
+
+        stage('Docker Push') {
+			steps {
+				echo 'Pushing Docker image...'
+                script {
+					docker.withRegistry('', "${REGISTRY_CREDENTIAL}") {
+						dockerImage.push()
+                    }
+                }
+            }
+        }
+
+        stage('Deploy on Remote Server') {
+			steps {
+				echo 'Deploying on remote server...'
+                sshagent (credentials: ["${SSH_CREDENTIAL}"]) {
+					// 도커 이미지 pull
+                    sh "ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_IP} 'docker pull ${IMAGE_NAME}:${TAG}'"
+                    // 기존 컨테이너 중지 및 삭제
+                    sh "ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_IP} 'docker ps -q --filter name=${CONTAINER_NAME} | grep -q . && docker rm -f \$(docker ps -aq --filter name=${CONTAINER_NAME}) || true'"
+                    // 새 컨테이너 실행
+                    sh "ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_IP} 'docker run -d --name ${CONTAINER_NAME} -p ${APP_PORT}:${APP_PORT} ${IMAGE_NAME}:${TAG}'"
+                }
+            }
+        }
+    }
 }

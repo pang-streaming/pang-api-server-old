@@ -1,15 +1,21 @@
 package com.pangapiserver.domain.user.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import java.util.UUID;
 import java.time.LocalDate;
 import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import com.pangapiserver.domain.user.enumeration.Role;
 import com.pangapiserver.domain.user.enumeration.Gender;
 
 @Getter
+@Builder
 @Entity
-@Table("users")
+@Table(name = "users")
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

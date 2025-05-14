@@ -3,6 +3,6 @@ spring:
     name: pang-api-server
 app:
   token:
-    access-token: 360000000
-    refresh-token: 64000000000
-    secret: dskjfasdjkfhasdflhkjadlhuvawerlkhvlhksdfhkvawluefghazsdlkg12e132lhawelkfawbrfliudb
+    access-token: ${TOKEN_ACCESS}
+    refresh-token: ${TOKEN_REFRESH}
+    secret: ${TOKEN_SECRET}

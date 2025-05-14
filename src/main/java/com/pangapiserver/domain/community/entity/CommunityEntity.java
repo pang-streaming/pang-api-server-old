@@ -1,4 +1,4 @@
-package com.pangapiserver.domain.follow.entity;
+package com.pangapiserver.domain.community.entity;
 
 import lombok.Getter;
 import lombok.Builder;
@@ -7,23 +7,20 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import com.pangapiserver.domain.user.entity.UserEntity;
 
-@Entity
 @Getter
+@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "follows")
-public class FollowEntity {
+@Table(name = "communites")
+public class CommunityEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_follower_id", nullable = false)
-    private UserEntity follower;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_user_id", nullable = false)
     private UserEntity user;
 
-    private boolean isAlarm;
+    @Column(nullable = false)
+    private String description;
 }

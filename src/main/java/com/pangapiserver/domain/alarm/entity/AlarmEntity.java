@@ -23,12 +23,9 @@ public class AlarmEntity {
     @JoinColumn(name = "fk_user_id", nullable = false)
     private UserEntity user;
 
-    @Column(nullable = false)
     private String content;
 
-    @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
-    private String url;
+    private String uri;
 }

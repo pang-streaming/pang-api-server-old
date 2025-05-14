@@ -1,6 +1,8 @@
-package com.pangapiserver.domain.follow.entity;
+package com.pangapiserver.domain.stream.entity;
+
 
 import lombok.Getter;
+import java.util.UUID;
 import lombok.Builder;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
@@ -12,18 +14,15 @@ import com.pangapiserver.domain.user.entity.UserEntity;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "follows")
-public class FollowEntity {
+@Table(name = "streams_keys")
+public class StreamKeyEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_follower_id", nullable = false)
-    private UserEntity follower;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_user_id", nullable = false)
     private UserEntity user;
 
-    private boolean isAlarm;
+    @Column(nullable = false)
+    private UUID key;
 }

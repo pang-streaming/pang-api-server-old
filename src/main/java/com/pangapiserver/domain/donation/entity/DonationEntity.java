@@ -1,14 +1,12 @@
 package com.pangapiserver.domain.donation.entity;
 
-import com.pangapiserver.domain.user.entity.UserEntity;
 import lombok.Getter;
 import lombok.Builder;
-
 import java.util.Date;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-
+import com.pangapiserver.domain.user.entity.UserEntity;
 
 @Entity
 @Getter
@@ -20,7 +18,6 @@ public class DonationEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -31,9 +28,5 @@ public class DonationEntity {
     @JoinColumn(name = "fk_streamer_id", nullable = false)
     private UserEntity streamer;
 
-    @Column(nullable = false)
     private int price;
-
-    @Column(nullable = false)
-    private Date created_at;
 }

@@ -1,8 +1,9 @@
-package com.pangapiserver.domain.follow.entity;
+package com.pangapiserver.domain.stream.entity;
 
 import lombok.Getter;
 import lombok.Builder;
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import com.pangapiserver.domain.user.entity.UserEntity;
@@ -12,18 +13,27 @@ import com.pangapiserver.domain.user.entity.UserEntity;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "follows")
-public class FollowEntity {
+@Table(name = "streams")
+public class StreamEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_follower_id", nullable = false)
-    private UserEntity follower;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_user_id", nullable = false)
     private UserEntity user;
 
-    private boolean isAlarm;
+    @Column(nullable = false)
+    private String title;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String url;
+
+    @Column(nullable = false)
+    private LocalDateTime startedAt;
+
+    @Column(nullable = true)
+    private LocalDateTime endAt;
 }

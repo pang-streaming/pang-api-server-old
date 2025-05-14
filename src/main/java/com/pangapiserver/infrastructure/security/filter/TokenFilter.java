@@ -1,6 +1,9 @@
 package com.pangapiserver.infrastructure.security.filter;
 
+import com.pangapiserver.domain.user.entity.UserPrincipal;
+import com.pangapiserver.domain.user.repository.UserRepository;
 import com.pangapiserver.infrastructure.security.token.TokenExtractor;
+import com.pangapiserver.infrastructure.security.token.TokenParser;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,7 +22,9 @@ import java.util.Enumeration;
 @Component
 @RequiredArgsConstructor
 public class TokenFilter extends OncePerRequestFilter {
+    private final UserRepository repository;
     private final TokenExtractor tokenExtractor;
+    private final TokenParser parser;
 
     @Override
     protected void doFilterInternal(
@@ -37,18 +42,18 @@ public class TokenFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-//    private void setAuthentication(String token) {
-//        SecurityContextHolder.getContext().setAuthentication(
-//                createAuthentication(token)
-//        );
-//    }
-//
-//    private Authentication createAuthentication(String token) {
-//        CustomUserDetails details = getMemberDetails(token);
-//        return new UsernamePasswordAuthenticationToken(details, null, details.getAuthorities());
-//    }
-//
-//    private CustomUserDetails getMemberDetails(String token) {
-//        return new CustomUserDetails(memberRepository.getById(tokenClient.getMemberIdByToken(token)));
-//    }
+    private void setAuthentication(String token) {
+        SecurityContextHolder.getContext().setAuthentication(
+                createAuthentication(token)
+        );
+    }
+
+    private Authentication createAuthentication(String token) {
+        UserPrincipal principal = getMemberDetails(token);
+        return new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
+    }
+
+    private UserPrincipal getMemberDetails(String token) {
+        return new UserPrincipal(repository.findByUsername(parser.findUsername(token)));
+    }
 }

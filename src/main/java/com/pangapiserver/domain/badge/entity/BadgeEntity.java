@@ -1,4 +1,4 @@
-package com.pangapiserver.domain.follow.entity;
+package com.pangapiserver.domain.badge.entity;
 
 import lombok.Getter;
 import lombok.Builder;
@@ -12,18 +12,24 @@ import com.pangapiserver.domain.user.entity.UserEntity;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "follows")
-public class FollowEntity {
+@Table(name = "badge")
+public class BadgeEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(nullable = false)
+    private String description;
+
+    @Column(nullable = false)
+    private String image;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_follower_id", nullable = false)
-    private UserEntity follower;
+    @JoinColumn(name = "fk_streamer_id", nullable = false)
+    private UserEntity streamer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_user_id", nullable = false)
     private UserEntity user;
 
-    private boolean isAlarm;
+
 }

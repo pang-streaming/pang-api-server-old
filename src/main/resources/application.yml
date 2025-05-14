@@ -1,3 +1,8 @@
 spring:
   application:
     name: pang-api-server
+app:
+  token:
+    access-token: ${TOKEN_ACCESS}
+    refresh-token: ${TOKEN_REFRESH}
+    secret: ${TOKEN_SECRET}

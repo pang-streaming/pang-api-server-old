@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import com.pangapiserver.domain.user.enumeration.Role;
 import com.pangapiserver.domain.user.enumeration.Gender;
 
+//TODO: 생성자로 빌더 분리
 @Getter
 @Builder
 @Entity
@@ -18,18 +19,20 @@ import com.pangapiserver.domain.user.enumeration.Gender;
 @AllArgsConstructor
 public class UserEntity {
     @Id
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String username;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String nickname;
 
+    @Column(nullable = false)
     private String password;
 
     private LocalDate age;
@@ -46,6 +49,7 @@ public class UserEntity {
     private boolean isAdult;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Role role;
 
     private boolean isAlarm;

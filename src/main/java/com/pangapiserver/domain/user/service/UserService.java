@@ -11,6 +11,10 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final UserRepository repository;
 
+    public void update(UserEntity user) {
+        repository.save(user);
+    }
+
     public void create(UserEntity user) {
         repository.save(user);
     }

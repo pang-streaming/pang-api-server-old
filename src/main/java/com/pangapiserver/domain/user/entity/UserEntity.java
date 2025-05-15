@@ -53,4 +53,23 @@ public class UserEntity {
     private Role role;
 
     private boolean isAlarm;
+
+    public void updateInfo(String nickname, LocalDate age, Gender gender, String profileImage, String bannerImage) {
+        if (nickname != null) {
+            this.nickname = nickname;
+        }
+        if (age != null) {
+            this.age = age;
+        }
+        if (gender != null) {
+            this.gender = gender;
+        }
+        if (profileImage != null) {
+            this.profileImage = profileImage;
+        }
+        if (bannerImage != null) {
+            this.bannerImage = bannerImage;
+        }
+    }
+
 }

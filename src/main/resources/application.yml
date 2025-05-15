@@ -1,6 +1,11 @@
 spring:
   application:
     name: pang-api-server
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/pang
+    password: 1234
+    username: root
 app:
   token:
     access-token: ${TOKEN_ACCESS}

@@ -2,6 +2,7 @@ package com.pangapiserver.presentation.auth;
 
 import com.pangapiserver.application.auth.AuthUseCase;
 import com.pangapiserver.application.auth.data.LoginRequest;
+import com.pangapiserver.application.auth.data.RegisterRequest;
 import com.pangapiserver.application.auth.data.TokenResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,5 +20,10 @@ public class AuthController {
     @PostMapping("/login")
     public TokenResponse login(@Valid @RequestBody LoginRequest request) {
         return useCase.login(request);
+    }
+
+    @PostMapping("/register")
+    public void register(@Valid @RequestBody RegisterRequest request) {
+        useCase.register(request);
     }
 }

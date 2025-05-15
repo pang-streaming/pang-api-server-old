@@ -34,8 +34,8 @@ public class AuthUseCase {
         );
     }
 
-    private void register(RegisterRequest request) {
+    public void register(RegisterRequest request) {
         service.validateByUsernameAndEmail(request.id(), request.email());
-        service.create();
+        service.create(request.toEntity(encoder.encode(request.password())));
     }
 }

@@ -7,8 +7,6 @@ import com.pangapiserver.domain.stream.service.StreamService;
 import com.pangapiserver.application.stream.data.StreamListResponse;
 import java.util.List;
 
-import static com.pangapiserver.application.stream.data.StreamListResponse.of;
-
 @Component
 @RequiredArgsConstructor
 public class StreamUseCase {

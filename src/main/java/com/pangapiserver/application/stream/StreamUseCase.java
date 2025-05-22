@@ -6,7 +6,8 @@ import com.pangapiserver.domain.stream.entity.StreamEntity;
 import com.pangapiserver.domain.stream.service.StreamService;
 import com.pangapiserver.application.stream.data.StreamListResponse;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static com.pangapiserver.application.stream.data.StreamListResponse.of;
 
 @Component
 @RequiredArgsConstructor
@@ -15,17 +16,12 @@ public class StreamUseCase {
 
     public List<StreamListResponse> getItems() {
         List<StreamEntity> items = service.getAll();
-        return toResponse(items);
+        return StreamListResponse.of(items);
     }
 
+    //TODO 바뀔 예정
     public List<StreamListResponse> getPopularItems() {
         List<StreamEntity> items = service.getAll();
-        return toResponse(items);
-    }
-
-    private List<StreamListResponse> toResponse(List<StreamEntity> items) {
-        return items.stream()
-                .map(StreamListResponse::of)
-                .collect(Collectors.toList());
+        return StreamListResponse.of(items);
     }
 }

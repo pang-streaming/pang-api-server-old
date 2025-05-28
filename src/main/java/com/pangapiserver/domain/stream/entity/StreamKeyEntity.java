@@ -23,6 +23,6 @@ public class StreamKeyEntity {
     @JoinColumn(name = "fk_user_id", nullable = false)
     private UserEntity user;
 
-    @Column(nullable = false)
+    @Column(name = "stream_key", nullable = false)
     private UUID key;
 }

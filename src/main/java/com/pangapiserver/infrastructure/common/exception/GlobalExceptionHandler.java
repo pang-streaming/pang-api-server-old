@@ -6,12 +6,13 @@ import com.pangapiserver.infrastructure.common.dto.BaseResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 @RequiredArgsConstructor
-public class ExceptionHandler {
-    @org.springframework.web.bind.annotation.ExceptionHandler(BasicException.class)
+public class GlobalExceptionHandler {
+    @ExceptionHandler(BasicException.class)
     private ResponseEntity<BaseResponse> handleBasicException(BasicException e) {
         StatusCode statusCode = (StatusCode) e;
         BaseResponse response = BaseResponse.error(
@@ -21,7 +22,7 @@ public class ExceptionHandler {
         return new ResponseEntity<>(response, statusCode.getHttpStatus());
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
+    @ExceptionHandler(Exception.class)
     private ResponseEntity<BaseResponse> handleAll(Exception e) {
         BaseResponse response = BaseResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         return new ResponseEntity(response, HttpStatus.INTERNAL_SERVER_ERROR);

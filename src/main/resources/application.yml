@@ -3,9 +3,9 @@ spring:
     name: pang-api-server
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/pang
-    password: 1234
-    username: root
+    url: ${DB_URL}
+    password: ${DB_PASSWORD}
+    username: ${DB_USER}
   jpa:
     hibernate:
       ddl-auto: validate

@@ -1,7 +1,10 @@
 package com.pangapiserver.infrastructure.security.configuration;
 
+import com.pangapiserver.infrastructure.security.filter.TokenFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +18,10 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+    private final TokenFilter tokenFilter;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
@@ -25,13 +31,18 @@ public class SecurityConfig {
             .formLogin(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(request ->
                 request
-                     .requestMatchers(
+                    .requestMatchers(
+                        "/auth/**"
+                    ).anonymous()
+                    .requestMatchers(
                         "/swagger-ui/**",
                         "/v3/api-docs/**",
                         "/swagger-ui.html"
-                     ).permitAll()
+                    ).permitAll()
                     .anyRequest().authenticated()
-            ).build();
+            )
+            .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class)
+            .build();
     }
 
     @Bean

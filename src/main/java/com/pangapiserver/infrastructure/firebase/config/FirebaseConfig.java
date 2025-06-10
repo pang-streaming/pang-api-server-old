@@ -9,21 +9,21 @@ import org.springframework.core.io.ClassPathResource;
 import javax.annotation.PostConstruct;
 import java.io.InputStream;
 
-@Configuration
-public class FirebaseConfig {
-    @PostConstruct
-    public void init(){
-        try{
-            InputStream serviceAccount = new ClassPathResource("firebaseKey.json").getInputStream();
-            FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                    .build();
-
-            if (FirebaseApp.getApps().isEmpty()) {
-                FirebaseApp.initializeApp(options);
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-}
+//@Configuration
+//public class FirebaseConfig {
+//    @PostConstruct
+//    public void init(){
+//        try{
+//            InputStream serviceAccount = new ClassPathResource("firebaseKey.json").getInputStream();
+//            FirebaseOptions options = new FirebaseOptions.Builder()
+//                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+//                    .build();
+//
+//            if (FirebaseApp.getApps().isEmpty()) {
+//                FirebaseApp.initializeApp(options);
+//            }
+//        } catch (Exception e){
+//            e.printStackTrace();
+//        }
+//    }
+//}

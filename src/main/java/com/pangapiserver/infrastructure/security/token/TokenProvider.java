@@ -22,6 +22,7 @@ public class TokenProvider {
             .claim("category", tokenType.name())
             .claim("email", user.getEmail())
             .claim("role", user.getRole())
+            .claim("username", user.getUsername())
             .issuedAt(new Date(currentTimeMillis()))
             .expiration(new Date(currentTimeMillis() + getTokenExpire(tokenType)))
             .signWith(properties.getSecretKey())

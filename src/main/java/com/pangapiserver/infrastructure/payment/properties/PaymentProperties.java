@@ -1,4 +1,4 @@
-package com.pangapiserver.application.payment.properties;
+package com.pangapiserver.infrastructure.payment.properties;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,4 +10,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class PaymentProperties {
     private String linkkey;
     private String linkval;
+    private String sellerid;
 }

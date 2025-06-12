@@ -18,6 +18,7 @@ app:
     refresh-token: ${TOKEN_REFRESH}
     secret: ${TOKEN_SECRET}
   pg:
+    sellerid: ${PAYAPP_PG_SELLERID}
     linkkey: ${PAYAPP_PG_LINKKEY}
     linkval: ${PAYAPP_PG_LINKVAL}
 

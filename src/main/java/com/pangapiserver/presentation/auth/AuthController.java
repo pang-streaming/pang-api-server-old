@@ -4,7 +4,8 @@ import com.pangapiserver.application.auth.AuthUseCase;
 import com.pangapiserver.application.auth.data.LoginRequest;
 import com.pangapiserver.application.auth.data.RegisterRequest;
 import com.pangapiserver.application.auth.data.TokenResponse;
-import com.pangapiserver.infrastructure.common.dto.BaseResponse;
+import com.pangapiserver.infrastructure.common.dto.DataResponse;
+import com.pangapiserver.infrastructure.common.dto.Response;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,12 +20,12 @@ public class AuthController {
     private final AuthUseCase useCase;
 
     @PostMapping("/login")
-    public BaseResponse<TokenResponse> login(@Valid @RequestBody LoginRequest request) {
+    public DataResponse<TokenResponse> login(@Valid @RequestBody LoginRequest request) {
         return useCase.login(request);
     }
 
     @PostMapping("/register")
-    public void register(@Valid @RequestBody RegisterRequest request) {
-        useCase.register(request);
+    public Response register(@Valid @RequestBody RegisterRequest request) {
+        return useCase.register(request);
     }
 }

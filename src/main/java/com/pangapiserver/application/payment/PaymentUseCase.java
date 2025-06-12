@@ -1,16 +1,19 @@
 package com.pangapiserver.application.payment;
 
+import com.pangapiserver.application.payment.data.PaymentCallbackRequest;
 import com.pangapiserver.application.payment.data.PaymentRequest;
 import com.pangapiserver.application.payment.data.RegisterCardRequest;
 import com.pangapiserver.domain.card.entity.CardEntity;
 import com.pangapiserver.domain.card.repository.CardRepository;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.infrastructure.common.dto.BaseResponse;
+import com.pangapiserver.infrastructure.payment.dto.PaymentCardResponse;
 import com.pangapiserver.infrastructure.payment.dto.RegisterCardResponse;
 import com.pangapiserver.infrastructure.payment.properties.PaymentProperties;
 import com.pangapiserver.infrastructure.payment.service.PayappService;
 import com.pangapiserver.infrastructure.security.support.UserAuthenticationHolder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -58,7 +61,31 @@ public class PaymentUseCase {
         return true;
     }
 
-    public ResponseEntity callback(PaymentRequest paymentResponse) {
+    public List<CardEntity> getCards() {
+        UserEntity user = holder.current();
+        return cardRepository.findAllByUser(user);
+    }
+
+    public ResponseEntity paymentCardTest(PaymentRequest request) {
+        CardEntity card = cardRepository.findByCardId(request.card_id());
+        System.out.println(card.getCardId());
+        System.out.println(card.getEncryption_key());
+        PaymentCardResponse res = payappService.paymentCard(
+                card.getEncryption_key(),
+                request.name(),
+                request.price().toString(),
+                card.getPhone()
+            );
+        if (res.getState().equals("1")) {
+            return ResponseEntity.ok().build();
+        }else{
+            return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(res.getErrorMessage());
+        }
+    }
+
+    public ResponseEntity callback(PaymentCallbackRequest paymentResponse) {
         // 변조된 클라이언트 처리
         if (!isMatchingCredentials(properties.getLinkkey(), paymentResponse.linkval()))
                 return ResponseEntity.badRequest().build();

@@ -13,17 +13,4 @@ public record RegisterCardRequest(
         String expiredMonth,
         String birth,
         String cardPassword
-) {
-//        public UserEntity toEntity(String encodedPassword) {
-//                return UserEntity.builder()
-//                        .email(email)
-//                        .username(id)
-//                        .nickname(id)
-//                        .age(LocalDate.now())
-//                        .password(encodedPassword)
-//                        .role(Role.USER)
-//                        .isAlarm(false)
-//                        .isAdult(false)
-//                        .build();
-//        }
-}
+) {}

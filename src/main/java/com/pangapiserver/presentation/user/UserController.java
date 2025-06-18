@@ -5,10 +5,7 @@ import com.pangapiserver.application.user.data.UpdateInfoRequest;
 import com.pangapiserver.application.user.data.UserInfoResponse;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
@@ -22,7 +19,7 @@ public class UserController {
     }
 
     @PatchMapping
-    public void updateUser(UpdateInfoRequest request) {
+    public void updateUser(@RequestBody UpdateInfoRequest request) {
         useCase.updateInfo(request);
     }
 }

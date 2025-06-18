@@ -29,10 +29,6 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
         throws ServletException, IOException, UserAleadyExistException {
         try {
             filterChain.doFilter(request, response);
-//            if (request.getRequestURI().contains("/user-exist-error")) {
-//                log.info("User already exist");
-//                throw new UserAleadyExistException();
-//            }
         } catch (UnsupportedJwtException e) {
             setErrorResponse(response, GlobalExceptionStatusCode.valueOf("UNAUTHORIZED"));
         } catch (Exception e) {

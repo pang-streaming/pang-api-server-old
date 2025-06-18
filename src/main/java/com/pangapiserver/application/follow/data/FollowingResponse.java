@@ -1,15 +1,13 @@
 package com.pangapiserver.application.follow.data;
 
 import com.pangapiserver.domain.user.entity.UserEntity;
-import com.pangapiserver.domain.follow.entity.FollowEntity;
 
 public record FollowingResponse (
         String image,
         String nickname,
         Long follower
 ) {
-    public static FollowingResponse toFollowing(FollowEntity follow, Long followerCount) {
-        UserEntity follower = follow.getFollower();
+    public static FollowingResponse toFollowing(UserEntity follower, Long followerCount) {
         return new FollowingResponse(
                 follower.getProfileImage(),
                 follower.getNickname(),
@@ -17,8 +15,7 @@ public record FollowingResponse (
         );
     }
 
-    public static FollowingResponse toFollower(FollowEntity follow, Long followerCount) {
-        UserEntity following = follow.getUser();
+    public static FollowingResponse toFollower(UserEntity following, Long followerCount) {
         return new FollowingResponse(
                 following.getProfileImage(),
                 following.getNickname(),

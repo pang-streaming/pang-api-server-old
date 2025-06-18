@@ -13,16 +13,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 @Repository
-public interface FollowRepository extends JpaRepository<FollowEntity, Integer> {
+public interface FollowRepository extends JpaRepository<FollowEntity, Integer>, FollowCustomRepository {
     List<FollowEntity> findByUser(UserEntity user);
 
     List<FollowEntity> findByFollower(UserEntity user);
 
     Optional<FollowEntity> findByUserAndFollower(UserEntity user, UserEntity follower);
-
-    @Query("SELECT f.follower.id, COUNT(f) " +
-            "FROM FollowEntity f " +
-            "WHERE f.follower.id IN :ids " +
-            "GROUP BY f.follower.id")
-    List<Object[]> countByFollowerIds(@Param("ids") List<UUID> ids);
 }

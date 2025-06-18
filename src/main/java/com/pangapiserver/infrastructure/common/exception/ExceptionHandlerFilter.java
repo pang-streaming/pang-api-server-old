@@ -1,16 +1,10 @@
 package com.pangapiserver.infrastructure.common.exception;
 
 import java.io.IOException;
-
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.pangapiserver.domain.common.exception.GlobalExceptionStatusCode;
-import io.jsonwebtoken.ClaimJwtException;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.UnsupportedJwtException;
+import lombok.extern.slf4j.Slf4j;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import jakarta.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,8 +12,10 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.web.filter.OncePerRequestFilter;
 import com.pangapiserver.infrastructure.common.dto.Response;
 import com.pangapiserver.domain.common.exception.StatusCode;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.pangapiserver.infrastructure.common.dto.ErrorResponse;
 import com.pangapiserver.domain.user.exception.UserAleadyExistException;
+import com.pangapiserver.domain.common.exception.GlobalExceptionStatusCode;
 
 @Component
 @Slf4j
@@ -29,8 +25,6 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
         throws ServletException, IOException, UserAleadyExistException {
         try {
             filterChain.doFilter(request, response);
-        } catch (UnsupportedJwtException e) {
-            setErrorResponse(response, GlobalExceptionStatusCode.valueOf("UNAUTHORIZED"));
         } catch (Exception e) {
             setErrorResponse(response, GlobalExceptionStatusCode.INTERNAL_SERVER_ERROR);
         }

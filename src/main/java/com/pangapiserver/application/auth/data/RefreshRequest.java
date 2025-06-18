@@ -1,6 +1,9 @@
 package com.pangapiserver.application.auth.data;
 
+import jakarta.validation.constraints.NotBlank;
+
 public record RefreshRequest(
-    String refreshToken
+        @NotBlank
+        String refreshToken
 ) {
 }

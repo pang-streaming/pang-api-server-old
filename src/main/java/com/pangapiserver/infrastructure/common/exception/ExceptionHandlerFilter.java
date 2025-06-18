@@ -1,33 +1,61 @@
 package com.pangapiserver.infrastructure.common.exception;
 
 import java.io.IOException;
+
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.pangapiserver.domain.common.exception.GlobalExceptionStatusCode;
+import io.jsonwebtoken.ClaimJwtException;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import org.springframework.http.HttpStatus;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import jakarta.servlet.http.HttpServletResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.web.filter.OncePerRequestFilter;
+import com.pangapiserver.infrastructure.common.dto.Response;
+import com.pangapiserver.domain.common.exception.StatusCode;
+import com.pangapiserver.infrastructure.common.dto.ErrorResponse;
 import com.pangapiserver.domain.user.exception.UserAleadyExistException;
 
 @Component
+@Slf4j
 public class ExceptionHandlerFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
+        throws ServletException, IOException, UserAleadyExistException {
         try {
             filterChain.doFilter(request, response);
-        } catch (UserAleadyExistException e) {
-            setErrorResponse(e.getStatusCode().getHttpStatus(), response, e.getMessage());
+//            if (request.getRequestURI().contains("/user-exist-error")) {
+//                log.info("User already exist");
+//                throw new UserAleadyExistException();
+//            }
+        } catch (UnsupportedJwtException e) {
+            setErrorResponse(response, GlobalExceptionStatusCode.valueOf("UNAUTHORIZED"));
         } catch (Exception e) {
-            setErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, response, e.getMessage());
+            setErrorResponse(response, GlobalExceptionStatusCode.INTERNAL_SERVER_ERROR);
         }
     }
 
-    public void setErrorResponse(HttpStatus status, HttpServletResponse response, String message) throws IOException {
-        response.setStatus(status.value());
-        response.setContentType("application/json;charset=UTF-8");
-        String json = String.format("{\"status\": %d, \"message\": \"%s\"}", status.value(), message);
-        response.getWriter().write(json);
+    private void setErrorResponse(HttpServletResponse response, StatusCode errorCode) throws IOException {
+        response.setStatus(errorCode.getHttpStatus().value());
+        response.setContentType("application/json; charset=UTF-8");
+
+        Response errorResponse = ErrorResponse.builder()
+            .status(errorCode.getHttpStatus())
+            .message(errorCode.getMessage())
+            .build();
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+        String jsonResponse = mapper.writeValueAsString(errorResponse);
+        response.getWriter()
+            .write(jsonResponse);
     }
 }

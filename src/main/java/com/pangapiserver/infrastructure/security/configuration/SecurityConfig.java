@@ -42,8 +42,8 @@ public class SecurityConfig {
                     ).permitAll()
                     .anyRequest().authenticated()
             )
-            .addFilterBefore(exceptionHandlerFilter, TokenFilter.class)
             .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(exceptionHandlerFilter, TokenFilter.class)
             .build();
     }
 

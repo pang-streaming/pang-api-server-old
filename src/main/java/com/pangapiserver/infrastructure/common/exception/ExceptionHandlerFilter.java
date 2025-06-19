@@ -1,7 +1,6 @@
 package com.pangapiserver.infrastructure.common.exception;
 
 import java.io.IOException;
-import lombok.extern.slf4j.Slf4j;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

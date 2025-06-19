@@ -42,7 +42,7 @@ public class SecurityConfig {
                     ).permitAll()
                     .anyRequest().authenticated()
             )
-            .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class)
+            .addFilterAfter(tokenFilter, UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(exceptionHandlerFilter, TokenFilter.class)
             .build();
     }

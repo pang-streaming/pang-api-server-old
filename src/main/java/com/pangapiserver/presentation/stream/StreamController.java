@@ -1,6 +1,5 @@
 package com.pangapiserver.presentation.stream;
 
-import com.pangapiserver.infrastructure.common.dto.BaseResponse;
 import lombok.RequiredArgsConstructor;
 import com.pangapiserver.application.stream.StreamUseCase;
 import org.springframework.web.bind.annotation.*;

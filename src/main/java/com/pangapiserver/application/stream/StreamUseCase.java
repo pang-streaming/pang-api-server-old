@@ -1,5 +1,6 @@
 package com.pangapiserver.application.stream;
 
+import com.pangapiserver.infrastructure.common.dto.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import com.pangapiserver.domain.stream.entity.StreamEntity;
@@ -21,5 +22,11 @@ public class StreamUseCase {
     public List<StreamListResponse> getPopularItems() {
         List<StreamEntity> items = service.getAll();
         return StreamListResponse.of(items);
+    }
+
+    //TODO
+    public Response addItem(String title) {
+        service.save(title);
+        return Response.ok("added");
     }
 }

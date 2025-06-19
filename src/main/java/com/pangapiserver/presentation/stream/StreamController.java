@@ -1,5 +1,6 @@
 package com.pangapiserver.presentation.stream;
 
+import com.pangapiserver.infrastructure.common.dto.Response;
 import lombok.RequiredArgsConstructor;
 import com.pangapiserver.application.stream.StreamUseCase;
 import org.springframework.web.bind.annotation.*;
@@ -20,5 +21,11 @@ public class StreamController {
     @GetMapping("/items/popular")
     public List<StreamListResponse> getPopularItems() {
         return useCase.getPopularItems();
+    }
+
+    //TODO
+    @PostMapping("/add")
+    public Response addItem(@RequestParam String title) {
+        return useCase.addItem(title);
     }
 }

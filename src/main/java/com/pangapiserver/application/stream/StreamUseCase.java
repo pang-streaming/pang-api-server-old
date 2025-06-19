@@ -24,7 +24,7 @@ public class StreamUseCase {
         return StreamListResponse.of(items);
     }
 
-    //test
+    //TODO
     public Response addItem(String title) {
         service.save(title);
         return Response.ok("added");

@@ -14,15 +14,13 @@ import com.pangapiserver.infrastructure.common.dto.Response;
 import com.pangapiserver.domain.common.exception.StatusCode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.pangapiserver.infrastructure.common.dto.ErrorResponse;
-import com.pangapiserver.domain.user.exception.UserAleadyExistException;
 import com.pangapiserver.domain.common.exception.GlobalExceptionStatusCode;
 
 @Component
-@Slf4j
 public class ExceptionHandlerFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-        throws ServletException, IOException, UserAleadyExistException {
+        throws ServletException, IOException {
         try {
             filterChain.doFilter(request, response);
         } catch (Exception e) {

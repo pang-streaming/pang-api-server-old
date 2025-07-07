@@ -14,17 +14,19 @@ import java.util.List;
 public class StreamController implements StreamDocuments {
     private final StreamUseCase useCase;
 
+    @Override
     @GetMapping("/items")
     public List<StreamListResponse> getItems() {
         return useCase.getItems();
     }
 
+    @Override
     @GetMapping("/items/popular")
     public List<StreamListResponse> getPopularItems() {
         return useCase.getPopularItems();
     }
 
-    //TODO
+    @Override
     @PostMapping("/add")
     public Response addItem(@RequestParam String title) {
         return useCase.addItem(title);

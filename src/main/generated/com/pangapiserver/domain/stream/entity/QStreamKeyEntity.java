@@ -24,7 +24,7 @@ public class QStreamKeyEntity extends EntityPathBase<StreamKeyEntity> {
 
     public final NumberPath<Integer> id = createNumber("id", Integer.class);
 
-    public final StringPath key = createString("key");
+    public final ComparablePath<java.util.UUID> key = createComparable("key", java.util.UUID.class);
 
     public final com.pangapiserver.domain.user.entity.QUserEntity user;
 

@@ -22,7 +22,7 @@ CREATE TABLE alarm
 CREATE TABLE badge
 (
     id             INT AUTO_INCREMENT NOT NULL,
-    `description`  VARCHAR(255) NOT NULL,
+    description  VARCHAR(255) NOT NULL,
     image          VARCHAR(255) NOT NULL,
     fk_streamer_id BINARY(16)         NOT NULL,
     fk_user_id     BINARY(16)         NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE communites
 (
     id            BIGINT AUTO_INCREMENT NOT NULL,
     fk_user_id    BINARY(16)            NOT NULL,
-    `description` VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NOT NULL,
     CONSTRAINT pk_communites PRIMARY KEY (id)
 );
 
@@ -158,7 +158,7 @@ CREATE TABLE users
     profile_image TEXT NULL,
     banner_image  TEXT NULL,
     is_adult      BIT(1)       NOT NULL,
-    `role`        VARCHAR(255) NOT NULL,
+    role          VARCHAR(255) NOT NULL,
     is_alarm      BIT(1)       NOT NULL,
     CONSTRAINT pk_users PRIMARY KEY (id)
 );

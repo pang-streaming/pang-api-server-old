@@ -1,6 +1,7 @@
 package com.pangapiserver.presentation.stream;
 
 import com.pangapiserver.infrastructure.common.dto.Response;
+import com.pangapiserver.presentation.stream.document.StreamDocuments;
 import lombok.RequiredArgsConstructor;
 import com.pangapiserver.application.stream.StreamUseCase;
 import org.springframework.web.bind.annotation.*;
@@ -10,20 +11,22 @@ import java.util.List;
 @RestController
 @RequestMapping("/stream")
 @RequiredArgsConstructor
-public class StreamController {
+public class StreamController implements StreamDocuments {
     private final StreamUseCase useCase;
 
+    @Override
     @GetMapping("/items")
     public List<StreamListResponse> getItems() {
         return useCase.getItems();
     }
 
+    @Override
     @GetMapping("/items/popular")
     public List<StreamListResponse> getPopularItems() {
         return useCase.getPopularItems();
     }
 
-    //TODO
+    @Override
     @PostMapping("/add")
     public Response addItem(@RequestParam String title) {
         return useCase.addItem(title);

@@ -25,4 +25,8 @@ public class StreamKeyEntity {
 
     @Column(name = "stream_key", nullable = false)
     private UUID key;
+
+    public static StreamKeyEntity create(UserEntity user) {
+        return StreamKeyEntity.builder().user(user).key(UUID.randomUUID()).build();
+    }
 }

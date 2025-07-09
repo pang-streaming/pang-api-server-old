@@ -20,8 +20,6 @@ public class StreamService {
         return repository.findAllByOrderByIdDesc();
     }
 
-    //TODO
-    @Transactional
     public void save(String title) {
         repository.save(StreamEntity.builder()
             .user(holder.current())

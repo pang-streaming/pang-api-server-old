@@ -17,7 +17,7 @@ public class FollowUseCase {
     private final UserAuthenticationHolder userAuthHolder;
 
     public DataResponse<List<FollowingResponse>> getFollowings(String username) {
-        return DataResponse.ok(service.getByFollowing(
+        return DataResponse.ok("팔로잉 조회 성공", service.getByFollowing(
                         username == null
                                 ? userAuthHolder.current().getUsername()
                                 : username
@@ -26,7 +26,7 @@ public class FollowUseCase {
     }
 
     public DataResponse<List<FollowingResponse>> getFollowers(String username) {
-        return DataResponse.ok(service.getByFollower(
+        return DataResponse.ok("팔로워 조회 성공", service.getByFollower(
             username == null
                 ? userAuthHolder.current().getUsername()
                 : username

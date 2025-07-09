@@ -6,9 +6,12 @@ import org.springframework.stereotype.Component;
 import com.pangapiserver.domain.stream.entity.StreamEntity;
 import com.pangapiserver.domain.stream.service.StreamService;
 import com.pangapiserver.application.stream.data.StreamListResponse;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Component
+@Transactional
 @RequiredArgsConstructor
 public class StreamUseCase {
     private final StreamService service;

@@ -1,5 +1,8 @@
 package com.pangapiserver.presentation.stream;
 
+import com.pangapiserver.application.stream.StreamKeyUseCase;
+import com.pangapiserver.application.stream.data.response.StreamKeyResponse;
+import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.infrastructure.common.dto.Response;
 import com.pangapiserver.presentation.stream.document.StreamDocuments;
 import lombok.RequiredArgsConstructor;
@@ -12,23 +15,36 @@ import java.util.List;
 @RequestMapping("/stream")
 @RequiredArgsConstructor
 public class StreamController implements StreamDocuments {
-    private final StreamUseCase useCase;
+    private final StreamUseCase streamUseCase;
+    private final StreamKeyUseCase streamKeyUseCase;
 
     @Override
     @GetMapping("/items")
     public List<StreamListResponse> getItems() {
-        return useCase.getItems();
+        return streamUseCase.getItems();
     }
 
     @Override
     @GetMapping("/items/popular")
     public List<StreamListResponse> getPopularItems() {
-        return useCase.getPopularItems();
+        return streamUseCase.getPopularItems();
+    }
+
+    @Override
+    @GetMapping("/key")
+    public DataResponse<StreamKeyResponse> getKey() {
+        return streamKeyUseCase.getKey();
     }
 
     @Override
     @PostMapping("/add")
     public Response addItem(@RequestParam String title) {
-        return useCase.addItem(title);
+        return streamUseCase.addItem(title);
+    }
+
+    @Override
+    @PostMapping("/key")
+    public DataResponse<StreamKeyResponse> createKey() {
+        return streamKeyUseCase.createKey();
     }
 }

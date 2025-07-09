@@ -2,6 +2,7 @@ package com.pangapiserver.infrastructure.encode;
 
 import com.pangapiserver.infrastructure.encode.exception.EncodeException;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
 public class Sha512Encoder {
@@ -9,7 +10,7 @@ public class Sha512Encoder {
         try {
             StringBuilder sb = new StringBuilder();
             MessageDigest md = MessageDigest.getInstance("SHA-512");
-            md.update(raw.getBytes());
+            md.update(raw.getBytes(StandardCharsets.UTF_8));
 
             for (byte byteDatum : md.digest()) {
                 sb.append(Integer.toString((byteDatum & 0xff) + 0x100, 16).substring(1));

@@ -18,26 +18,9 @@ public class DataResponse<T> {
     private T data;
     private final LocalDateTime timestamp = LocalDateTime.now();
 
-    public static <T> DataResponse<T> created(String message, T data) {
-        return DataResponse.<T>builder()
-            .status(HttpStatus.CREATED)
-            .message(message)
-            .data(data)
-            .build();
-    }
-
-    public static <T> DataResponse<T> ok(String message, T data) {
+    public static <T> DataResponse<T> ok(T data) {
         return DataResponse.<T>builder()
             .status(HttpStatus.OK)
-            .message(message)
-            .data(data)
-            .build();
-    }
-
-    public static <T> DataResponse<T> noContent(String message, T data) {
-        return DataResponse.<T>builder()
-            .status(HttpStatus.NO_CONTENT)
-            .message(message)
             .data(data)
             .build();
     }

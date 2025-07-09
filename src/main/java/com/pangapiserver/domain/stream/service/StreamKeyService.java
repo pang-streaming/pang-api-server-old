@@ -22,7 +22,7 @@ public class StreamKeyService {
         return repository.save(streamKey);
     }
 
-    public StreamKeyEntity getByUser(UserEntity user) {
+    public StreamKeyEntity findByUser(UserEntity user) {
         return repository.findByUser(user);
     }
 }

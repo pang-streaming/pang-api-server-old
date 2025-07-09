@@ -33,7 +33,7 @@ public class AuthUseCase {
     public DataResponse<TokenResponse> login(LoginRequest request) {
         UserEntity user = service.getByUsername(request.id());
         if (!encoder.matches(request.password(), user.getPassword())) throw new UserPasswordIncorrectException();
-        return DataResponse.ok(generateTokens(user));
+        return DataResponse.ok("로그인 성공", generateTokens(user));
     }
 
     private TokenResponse generateTokens(UserEntity user) {
@@ -61,6 +61,6 @@ public class AuthUseCase {
         }
 
         UserEntity user = service.getByUsername(parser.findUsername(refreshToken));
-        return DataResponse.ok(generateTokens(user));
+        return DataResponse.ok("재발급 성공", generateTokens(user));
     }
 }

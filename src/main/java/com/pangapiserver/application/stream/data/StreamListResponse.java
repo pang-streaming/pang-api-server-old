@@ -14,19 +14,19 @@ public record StreamListResponse (
 ) {
     public static List<StreamListResponse> of(List<StreamEntity> items) {
         return items.stream()
-                .map(StreamListResponse::toEntity)
-                .toList();
+            .map(StreamListResponse::toEntity)
+            .toList();
     }
 
     private static StreamListResponse toEntity(StreamEntity stream) {
         UserEntity user = stream.getUser();
         return new StreamListResponse(
-                user.getNickname(),
-                user.getProfileImage(),
-                null,
-                stream.getTitle(),
-                null,
-                stream.getUrl()
+            user.getNickname(),
+            user.getProfileImage(),
+            null,
+            stream.getTitle(),
+            null,
+            stream.getUrl()
         );
     }
 }

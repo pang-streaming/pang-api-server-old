@@ -17,7 +17,7 @@ public class UserUseCase {
 
     public DataResponse<UserInfoResponse> getMyInfo() {
         UserEntity user = holder.current();
-        return DataResponse.ok(UserInfoResponse.of(user));
+        return DataResponse.ok("내 정보 조회 성공", UserInfoResponse.of(user));
     }
 
     public void updateInfo(UpdateInfoRequest request) {

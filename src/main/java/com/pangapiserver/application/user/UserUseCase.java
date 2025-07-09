@@ -32,6 +32,6 @@ public class UserUseCase {
         UserEntity me = holder.current();
         List<UserEntity> users = service.getUsers(me.getId());
         List<Object[]> followers = service.getFollowers(me.getId());
-        return DataResponse.ok(UserListResponse.of(users, followers));
+        return DataResponse.ok("유저 목록 조회 성공", UserListResponse.of(users, followers));
     }
 }

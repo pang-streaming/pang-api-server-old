@@ -52,13 +52,13 @@ public class PayappService {
 
         Map<String, String> map = parseQueryString(response);
 
-        return PaymentCardResponse.builder()
-            .state(decode(map.get("state")))
-            .errorMessage(decode(map.get("errorMessage")))
-            .CSTURL(decode(map.get("CSTURL")))
-            .price(decode(map.get("price")))
-            .mul_no(decode(map.get("mul_no")))
-            .build();
+        return new PaymentCardResponse(
+            decode(map.get("state")),
+            decode(map.get("errorMessage")),
+            decode(map.get("CSTURL")),
+            decode(map.get("price")),
+            decode(map.get("mul_no"))
+        );
     }
 
     public RegisterCardResponse registerCard(

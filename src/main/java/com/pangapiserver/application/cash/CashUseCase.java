@@ -10,6 +10,7 @@ import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.infrastructure.common.dto.Response;
 import com.pangapiserver.infrastructure.payment.service.PayappService;
 import com.pangapiserver.infrastructure.security.support.UserAuthenticationHolder;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,7 @@ public class CashUseCase {
     private final PayappService payappService;
     private final CardService cardService;
 
+    @Transactional
     public Response chargeCash(CashChargeRequest request) {
         UserEntity user = holder.current();
         CardEntity card = cardService.getCard(request.cardId());

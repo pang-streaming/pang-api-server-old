@@ -4,6 +4,8 @@ import com.pangapiserver.domain.cash.data.CashTransactionDto;
 import com.pangapiserver.domain.cash.entity.CashEntity;
 import com.pangapiserver.domain.cash.enumeration.CashType;
 import com.pangapiserver.domain.cash.exception.InsufficientBalanceException;
+import com.pangapiserver.domain.cash.repository.CashQueryRepository;
+import com.pangapiserver.domain.cash.repository.CashQueryRepositoryImpl;
 import com.pangapiserver.domain.cash.repository.CashRepository;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import jakarta.transaction.Transactional;
@@ -16,9 +18,9 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CashService {
-    private final CashRepository cashRepository;
+    private final CashQueryRepository cashQueryRepository;
+    private final CashRepository repository;
 
-    @Transactional
     public void charge(UserEntity user, int amount, String description) {
         CashEntity cash = CashEntity.builder()
             .user(user)
@@ -28,10 +30,9 @@ public class CashService {
             .created_at(LocalDateTime.now())
             .build();
 
-        cashRepository.save(cash);
+        repository.save(cash);
     }
 
-    @Transactional
     public void use(UserEntity user, int amount, String description) {
         int balance = getBalance(user);
         if (balance < amount) {
@@ -46,10 +47,9 @@ public class CashService {
             .created_at(LocalDateTime.now())
             .build();
 
-        cashRepository.save(cash);
+        repository.save(cash);
     }
 
-    @Transactional
     public void refund(UserEntity user, int amount, String description) {
         CashEntity cash = CashEntity.builder()
             .user(user)
@@ -59,14 +59,14 @@ public class CashService {
             .created_at(LocalDateTime.now())
             .build();
 
-        cashRepository.save(cash);
+        repository.save(cash);
     }
 
     public int getBalance(UserEntity user) {
-        return cashRepository.sumByUserId(user.getId()).orElse(0);
+        return cashQueryRepository.sumAmountByUserId(user.getId()).orElse(0);
     }
 
     public List<CashTransactionDto> getTransactions(UserEntity user) {
-        return cashRepository.findAllByUser(user);
+        return cashQueryRepository.findAllByUser(user);
     }
 }

@@ -47,7 +47,7 @@ public class PaymentUseCase {
                 .phone(request.phone())
                 .build();
             cardService.save(card);
-            return Response.ok("카드가 성공적으로 추가 되었습니다");
+            return Response.ok("카드 추가 성공");
         }else{
             return ErrorResponse.builder()
                 .status(HttpStatus.BAD_REQUEST)

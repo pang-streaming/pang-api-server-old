@@ -25,13 +25,12 @@ public class PaymentController {
     }
 
     @GetMapping("/card")
-    public ResponseEntity<DataResponse<List<CardDto>>> getCards() {
+    public DataResponse<List<CardDto>> getCards() {
         List<CardDto> CardList = useCase.getCards().stream()
             .map(CardDto::new)
             .toList();
 
-        DataResponse<List<CardDto>> response = DataResponse.ok("카드 목록을 성공적으로 불러왔습니다.", CardList);
-        return ResponseEntity.ok(response);
+        return DataResponse.ok("카드 목록을 성공적으로 불러왔습니다.", CardList);
     }
 
 }

@@ -6,7 +6,6 @@ import com.pangapiserver.application.payment.data.RegisterCardRequest;
 import com.pangapiserver.domain.card.entity.CardEntity;
 import com.pangapiserver.domain.card.repository.CardRepository;
 import com.pangapiserver.domain.user.entity.UserEntity;
-import com.pangapiserver.infrastructure.common.dto.BaseResponse;
 import com.pangapiserver.infrastructure.payment.dto.PaymentCardResponse;
 import com.pangapiserver.infrastructure.payment.dto.RegisterCardResponse;
 import com.pangapiserver.infrastructure.payment.properties.PaymentProperties;

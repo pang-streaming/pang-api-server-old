@@ -5,7 +5,7 @@ import com.pangapiserver.application.payment.data.CardDto;
 import com.pangapiserver.application.payment.data.PaymentCallbackRequest;
 import com.pangapiserver.application.payment.data.PaymentRequest;
 import com.pangapiserver.application.payment.data.RegisterCardRequest;
-import com.pangapiserver.infrastructure.common.dto.BaseResponse;
+import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,12 +42,12 @@ public class PaymentController {
     }
 
     @GetMapping
-    public ResponseEntity<BaseResponse<List<CardDto>>> getCards() {
+    public ResponseEntity<DataResponse<List<CardDto>>> getCards() {
         List<CardDto> CardList = useCase.getCards().stream()
             .map(CardDto::new)
             .toList();
 
-        BaseResponse<List<CardDto>> response = BaseResponse.ok(HttpStatus.OK, CardList);
+        DataResponse<List<CardDto>> response = DataResponse.ok("카드 목록을 성공적으로 불러왔습니다.", CardList);
         return ResponseEntity.ok(response);
     }
 

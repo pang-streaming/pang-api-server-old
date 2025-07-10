@@ -10,6 +10,7 @@ import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.domain.user.exception.UserNotFoundException;
 import com.pangapiserver.domain.user.repository.UserRepository;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
+import com.pangapiserver.infrastructure.common.dto.Response;
 import com.pangapiserver.infrastructure.security.support.UserAuthenticationHolder;
 import com.pangapiserver.infrastructure.security.token.enumeration.TokenType;
 import jakarta.transaction.Transactional;
@@ -25,14 +26,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CashService {
     private final CashRepository cashRepository;
-    private final UserRepository userRepository;
-    private final UserAuthenticationHolder holder;
 
     @Transactional
-    public void charge(UUID userId, int amount, String description) {
-        UserEntity user = userRepository.findById(userId)
-            .orElseThrow(UserNotFoundException::new);
-
+    public void charge(UserEntity user, int amount, String description) {
         CashEntity cash = CashEntity.builder()
             .user(user)
             .type(CashType.CHARGE)
@@ -45,14 +41,11 @@ public class CashService {
     }
 
     @Transactional
-    public void use(UUID userId, int amount, String description) {
-        int balance = getBalance(userId);
+    public void use(UserEntity user, int amount, String description) {
+        int balance = getBalance(user);
         if (balance < amount) {
             throw new InsufficientBalanceException();
         }
-
-        UserEntity user = userRepository.findById(userId)
-            .orElseThrow(UserNotFoundException::new);
 
         CashEntity cash = CashEntity.builder()
             .user(user)
@@ -66,10 +59,7 @@ public class CashService {
     }
 
     @Transactional
-    public void refund(UUID userId, int amount, String description) {
-        UserEntity user = userRepository.findById(userId)
-            .orElseThrow(UserNotFoundException::new);
-
+    public void refund(UserEntity user, int amount, String description) {
         CashEntity cash = CashEntity.builder()
             .user(user)
             .type(CashType.REFUND)
@@ -81,20 +71,11 @@ public class CashService {
         cashRepository.save(cash);
     }
 
-    public DataResponse<CashResponse> getCash() {
-        UserEntity user = holder.current();
-        List<CashEntity> transaction = cashRepository.findAllByUser(user);
-
-        return DataResponse.ok(
-            "캐시 조회 성공",
-            new CashResponse(
-                getBalance(user.getId()),
-                transaction
-            )
-        );
+    public int getBalance(UserEntity user) {
+        return cashRepository.sumByUserId(user.getId()).orElse(0);
     }
 
-    public int getBalance(UUID userId) {
-        return cashRepository.sumByUserId(userId).orElse(0);
+    public List<CashEntity> getTransactions(UserEntity user) {
+        return cashRepository.findAllByUser(user);
     }
 }

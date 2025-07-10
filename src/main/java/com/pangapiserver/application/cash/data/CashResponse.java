@@ -1,4 +1,4 @@
-package com.pangapiserver.domain.cash.data;
+package com.pangapiserver.application.cash.data;
 
 import com.pangapiserver.domain.cash.entity.CashEntity;
 

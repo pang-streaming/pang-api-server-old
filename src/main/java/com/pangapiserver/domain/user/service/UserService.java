@@ -1,5 +1,6 @@
 package com.pangapiserver.domain.user.service;
 
+import com.pangapiserver.application.follow.data.FollowerCountResponse;
 import com.pangapiserver.domain.follow.repository.FollowCustomRepositoryImpl;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.domain.user.exception.UserAleadyExistException;
@@ -39,7 +40,7 @@ public class UserService {
         return repository.findAllByIdNot(id);
     }
 
-    public List<Object[]> getFollowers(UUID id) {
+    public List<FollowerCountResponse> getFollowers(UUID id) {
         List<UUID> userIDs = repository.findAllByIdNot(id).stream()
             .map(UserEntity::getId)
             .toList();

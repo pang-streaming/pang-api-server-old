@@ -27,7 +27,7 @@ public class UserController {
     }
 
     @GetMapping("/list")
-    public DataResponse<List<UserListResponse>> getUserList() {
+    public DataResponse<List<UserListResponse>> getUsers() {
         return useCase.getUsers();
     }
 }

@@ -1,5 +1,6 @@
 package com.pangapiserver.application.user.data;
 
+import com.pangapiserver.application.follow.data.FollowerCountResponse;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.domain.user.enumeration.Role;
 
@@ -17,11 +18,11 @@ public record UserListResponse(
     Long follower,
     Role role
 ) {
-    public static List<UserListResponse> of(List<UserEntity> users, List<Object[]> followers) {
+    public static List<UserListResponse> of(List<UserEntity> users, List<FollowerCountResponse> followers) {
         Map<UUID, Long> followerCountMap = followers.stream()
             .collect(Collectors.toMap(
-                follower -> (UUID) follower[0],
-                follower -> (Long) follower[1]
+                FollowerCountResponse::id,
+                FollowerCountResponse::count
             ));
 
         return users.stream()

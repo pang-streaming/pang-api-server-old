@@ -1,5 +1,6 @@
 package com.pangapiserver.application.user;
 
+import com.pangapiserver.application.follow.data.FollowerCountResponse;
 import com.pangapiserver.application.user.data.UpdateInfoRequest;
 import com.pangapiserver.application.user.data.UserInfoResponse;
 import com.pangapiserver.application.user.data.UserListResponse;
@@ -31,7 +32,7 @@ public class UserUseCase {
     public DataResponse<List<UserListResponse>> getUsers() {
         UserEntity me = holder.current();
         List<UserEntity> users = service.getUsers(me.getId());
-        List<Object[]> followers = service.getFollowers(me.getId());
+        List<FollowerCountResponse> followers = service.getFollowers(me.getId());
         return DataResponse.ok("유저 목록 조회 성공", UserListResponse.of(users, followers));
     }
 }

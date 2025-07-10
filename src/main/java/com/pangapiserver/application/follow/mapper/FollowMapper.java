@@ -8,6 +8,7 @@ import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.domain.follow.entity.FollowEntity;
 import com.pangapiserver.application.follow.data.FollowingResponse;
 import com.pangapiserver.domain.follow.repository.FollowRepository;
+import com.pangapiserver.application.follow.data.FollowerCountResponse;
 
 @Service
 public class FollowMapper {
@@ -29,12 +30,12 @@ public class FollowMapper {
                 .distinct()
                 .toList();
 
-        List<Object[]> countList = followRepository.countByFollowerIds(targetIds);
+        List<FollowerCountResponse> countList = followRepository.countByFollowerIds(targetIds);
 
         Map<UUID, Long> countMap = new HashMap<>();
-        for (Object[] row : countList) {
-            UUID id = (UUID) row[0];
-            Long count = (Long) row[1];
+        for (FollowerCountResponse row : countList) {
+            UUID id = row.id();
+            Long count = row.count();
             countMap.put(id, count);
         }
 

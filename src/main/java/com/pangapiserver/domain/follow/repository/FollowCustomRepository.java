@@ -1,8 +1,10 @@
 package com.pangapiserver.domain.follow.repository;
 
+import com.pangapiserver.application.follow.data.FollowerCountResponse;
+
 import java.util.List;
 import java.util.UUID;
 
 public interface FollowCustomRepository {
-    List<Object[]> countByFollowerIds(List<UUID> ids);
+    List<FollowerCountResponse> countByFollowerIds(List<UUID> ids);
 }

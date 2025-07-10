@@ -24,5 +24,9 @@ public class StreamKeyEntity {
     private UserEntity user;
 
     @Column(name = "stream_key", nullable = false)
-    private UUID key;
+    private String key;
+
+    public static StreamKeyEntity create(UserEntity user, String key) {
+        return StreamKeyEntity.builder().user(user).key(key).build();
+    }
 }

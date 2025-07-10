@@ -1,0 +1,1 @@
+ALTER TABLE streams_keys MODIFY stream_key VARCHAR(255) NULL;

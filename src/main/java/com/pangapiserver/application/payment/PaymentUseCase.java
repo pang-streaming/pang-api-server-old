@@ -25,6 +25,7 @@ public class PaymentUseCase {
     private final PayappService payappService;
     private final UserAuthenticationHolder holder;
     private final CardRepository cardRepository;
+
     private Boolean isMatchingCredentials(String linkkey, String linkval) {
         return properties.getLinkkey().equals(linkkey) &&
             properties.getLinkval().equals(linkval);

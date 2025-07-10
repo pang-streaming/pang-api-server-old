@@ -1,5 +1,6 @@
 package com.pangapiserver.domain.cash.service;
 
+import com.pangapiserver.domain.cash.data.CashTransactionDto;
 import com.pangapiserver.domain.cash.entity.CashEntity;
 import com.pangapiserver.domain.cash.enumeration.CashType;
 import com.pangapiserver.domain.cash.exception.InsufficientBalanceException;
@@ -65,7 +66,7 @@ public class CashService {
         return cashRepository.sumByUserId(user.getId()).orElse(0);
     }
 
-    public List<CashEntity> getTransactions(UserEntity user) {
+    public List<CashTransactionDto> getTransactions(UserEntity user) {
         return cashRepository.findAllByUser(user);
     }
 }

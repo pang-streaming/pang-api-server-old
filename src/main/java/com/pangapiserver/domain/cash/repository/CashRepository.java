@@ -1,5 +1,6 @@
 package com.pangapiserver.domain.cash.repository;
 
+import com.pangapiserver.domain.cash.data.CashTransactionDto;
 import com.pangapiserver.domain.cash.entity.CashEntity;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,5 +15,7 @@ public interface CashRepository extends JpaRepository<CashEntity, UUID> {
     @Query("SELECT SUM(c.amount) FROM CashEntity c WHERE c.user.id = :userId")
     Optional<Integer> sumByUserId(UUID userId);
 
-    List<CashEntity> findAllByUser(UserEntity user);
+    @Query("SELECT new com.pangapiserver.domain.cash.data.CashTransactionDto(c.id, c.type, c.amount, c.created_at, c.description) " +
+        "FROM CashEntity c WHERE c.user = :user")
+    List<CashTransactionDto> findAllByUser(UserEntity user);
 }

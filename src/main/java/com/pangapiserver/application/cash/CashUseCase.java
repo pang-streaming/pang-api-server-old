@@ -29,7 +29,7 @@ public class CashUseCase {
         payappService.paymentCard(
             card.getEncryption_key(),
             description,
-            String.valueOf(request.amount()+100),
+            String.valueOf(request.amount()+ request.amount()/10),
             card.getPhone()
         );
         service.charge(user, request.amount(), description);

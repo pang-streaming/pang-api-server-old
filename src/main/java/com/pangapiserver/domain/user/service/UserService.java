@@ -42,10 +42,10 @@ public class UserService {
     }
 
     public List<FollowerCountResponse> getFollowers(UUID id) {
-        List<UUID> userIDs = repository.findAllByIdNot(id).stream()
+        List<UUID> userIds = repository.findAllByIdNot(id).stream()
             .map(UserEntity::getId)
             .toList();
-        return followCustomRepository.countByFollowerIds(userIDs).entrySet().stream()
+        return followCustomRepository.countByFollowerIds(userIds).entrySet().stream()
             .map(set -> new FollowerCountResponse(
                     set.getKey(),
                     set.getValue()

@@ -36,11 +36,14 @@ public class FollowConverter {
             .toList();
 
         Map<UUID, Long> countMap = new HashMap<>();
-        for (FollowerCountResponse row : countList) {
-            UUID id = row.id();
-            Long count = row.count();
-            countMap.put(id, count);
-        }
+        countList.forEach(count ->
+            countMap.put(count.id(), count.count())
+        );
+//        for (FollowerCountResponse row : countList) {
+//            UUID id = row.id();
+//            Long count = row.count();
+//            countMap.put(id, count);
+//        }
 
         return followEntities.stream()
                 .map(follow -> {

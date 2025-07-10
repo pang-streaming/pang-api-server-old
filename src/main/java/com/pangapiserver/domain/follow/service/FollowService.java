@@ -16,12 +16,12 @@ import com.pangapiserver.application.follow.mapper.FollowConverter;
 public class FollowService {
     private final UserRepository userRepository;
     private final FollowRepository followRepository;
-    private final FollowConverter followMapper;
+    private final FollowConverter followConverter;
 
     public List<FollowingResponse> getByFollowing(String username) {
         UserEntity user = userRepository.findByUsername(username);
         List<FollowEntity> followings = followRepository.findByUser(user);
-        return followMapper.mapToFollowingResponse(
+        return followConverter.mapToFollowingResponse(
                 followings,
                 FollowEntity::getFollower,
                 FollowingResponse::toFollowing
@@ -31,7 +31,7 @@ public class FollowService {
     public List<FollowingResponse> getByFollower(String username) {
         UserEntity user = userRepository.findByUsername(username);
         List<FollowEntity> followers = followRepository.findByFollower(user);
-        return followMapper.mapToFollowingResponse(
+        return followConverter.mapToFollowingResponse(
                 followers,
                 FollowEntity::getUser,
                 FollowingResponse::toFollower

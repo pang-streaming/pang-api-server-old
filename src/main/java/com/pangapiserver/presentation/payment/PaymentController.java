@@ -5,6 +5,7 @@ import com.pangapiserver.application.payment.data.CardDto;
 import com.pangapiserver.application.payment.data.RegisterCardRequest;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.infrastructure.common.dto.Response;
+import com.pangapiserver.presentation.payment.document.PaymentDocuments;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/payment")
 @RequiredArgsConstructor
-public class PaymentController {
+public class PaymentController implements PaymentDocuments {
     private final PaymentUseCase useCase;
 
     @PostMapping("/card")

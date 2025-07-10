@@ -28,7 +28,6 @@ public class FollowConverter {
                 .map(countTargetExtractor)
                 .map(UserEntity::getId)
                 .distinct()
-
                 .toList();
 
         List<FollowerCountResponse> countList = followRepository.countByFollowerIds(targetIds).entrySet().stream()

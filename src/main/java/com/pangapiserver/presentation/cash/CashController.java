@@ -19,7 +19,7 @@ public class CashController {
         return useCase.getCash();
     }
 
-    @PostMapping
+    @PostMapping("/payment")
     public Response chargeCash(@RequestBody CashChargeRequest request) {
         return useCase.chargeCash(request);
     }

@@ -2,12 +2,10 @@ package com.pangapiserver.presentation.payment;
 
 import com.pangapiserver.application.payment.PaymentUseCase;
 import com.pangapiserver.application.payment.data.CardDto;
-import com.pangapiserver.application.payment.data.PaymentCallbackRequest;
-import com.pangapiserver.application.payment.data.PaymentRequest;
 import com.pangapiserver.application.payment.data.RegisterCardRequest;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
+import com.pangapiserver.infrastructure.common.dto.Response;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,21 +17,14 @@ import java.util.List;
 public class PaymentController {
     private final PaymentUseCase useCase;
 
-    @PostMapping("/callback")
-    public ResponseEntity paymentCallback(
-        @ModelAttribute PaymentCallbackRequest request
-    ) {
-        return useCase.callback(request);
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity registerPayment(
+    @PostMapping("/card")
+    public Response registerPayment(
         @RequestBody RegisterCardRequest request
     ) {
-        return ResponseEntity.ok("SUCCESS");
+        return useCase.registerCard(request);
     }
 
-    @GetMapping
+    @GetMapping("/card")
     public ResponseEntity<DataResponse<List<CardDto>>> getCards() {
         List<CardDto> CardList = useCase.getCards().stream()
             .map(CardDto::new)

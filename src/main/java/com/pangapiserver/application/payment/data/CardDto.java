@@ -8,13 +8,11 @@ import java.util.UUID;
 @Getter
 public class CardDto {
     private UUID cardId;
-    private String number;
     private String provider;
     private String name;
 
     public CardDto(CardEntity entity) {
         this.cardId = entity.getCardId();
-        this.number = entity.getNumber();
         this.provider = entity.getProvider();
         this.name = entity.getName();
     }

@@ -8,7 +8,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Setter
 @ConfigurationProperties(prefix = "app.pg")
 public class PaymentProperties {
-    private String linkkey;
-    private String linkval;
     private String sellerid;
 }

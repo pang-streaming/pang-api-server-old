@@ -99,17 +99,17 @@ public class PayappService {
 
         Map<String, String> map = parseQueryString(response);
 
-        return RegisterCardResponse.builder()
-            .state(decode(map.get("state")))
-            .errorMessage(decode(map.get("errorMessage")))
-            .errno(decode(map.get("errno")))
-            .errnoDetail(decode(map.get("errnoDetail")))
-            .encBill(decode(map.get("encBill")))
-            .billAuthNo(decode(map.get("billAuthNo")))
-            .cardno(decode(map.get("cardno")))
-            .cardname(decode(map.get("cardname")))
-            .remoteaddr(decode(map.get("remoteaddr")))
-            .build();
+        return new RegisterCardResponse(
+            decode(map.get("state")),
+            decode(map.get("errorMessage")),
+            decode(map.get("errno")),
+            decode(map.get("errnoDetail")),
+            decode(map.get("encBill")),
+            decode(map.get("billAuthNo")),
+            decode(map.get("cardno")),
+            decode(map.get("cardname")),
+            decode(map.get("remoteaddr"))
+        );
     }
 
     private static Map<String, String> parseQueryString(String query) {

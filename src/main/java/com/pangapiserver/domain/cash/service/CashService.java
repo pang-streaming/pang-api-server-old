@@ -18,8 +18,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CashService {
-    private final CashQueryRepository cashQueryRepository;
-    private final CashRepository repository;
+    private final CashRepository cashRepository;
 
     public void charge(UserEntity user, int amount, String description) {
         CashEntity cash = CashEntity.builder()
@@ -30,7 +29,7 @@ public class CashService {
             .created_at(LocalDateTime.now())
             .build();
 
-        repository.save(cash);
+        cashRepository.save(cash);
     }
 
     public void use(UserEntity user, int amount, String description) {
@@ -47,7 +46,7 @@ public class CashService {
             .created_at(LocalDateTime.now())
             .build();
 
-        repository.save(cash);
+        cashRepository.save(cash);
     }
 
     public void refund(UserEntity user, int amount, String description) {
@@ -59,14 +58,14 @@ public class CashService {
             .created_at(LocalDateTime.now())
             .build();
 
-        repository.save(cash);
+        cashRepository.save(cash);
     }
 
     public int getBalance(UserEntity user) {
-        return cashQueryRepository.sumAmountByUserId(user.getId()).orElse(0);
+        return cashRepository.sumAmountByUserId(user.getId()).orElse(0);
     }
 
     public List<CashTransactionDto> getTransactions(UserEntity user) {
-        return cashQueryRepository.findAllByUser(user);
+        return cashRepository.findAllByUser(user);
     }
 }

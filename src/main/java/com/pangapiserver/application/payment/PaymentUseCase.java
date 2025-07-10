@@ -37,13 +37,13 @@ public class PaymentUseCase {
             request.name()
         );
 
-        if (result.getState().equals("1")) {
+        if (result.state().equals("1")) {
             CardEntity card = CardEntity.builder()
-                .encryption_key(result.getEncBill())
+                .encryption_key(result.encBill())
                 .number(request.phone())
-                .provider(result.getCardname())
+                .provider(result.cardname())
                 .user(user)
-                .name(result.getCardno())
+                .name(result.cardname())
                 .phone(request.phone())
                 .build();
             cardService.save(card);
@@ -51,7 +51,7 @@ public class PaymentUseCase {
         }else{
             return ErrorResponse.builder()
                 .status(HttpStatus.BAD_REQUEST)
-                .message(result.getErrorMessage())
+                .message(result.errorMessage())
                 .build();
         }
     }

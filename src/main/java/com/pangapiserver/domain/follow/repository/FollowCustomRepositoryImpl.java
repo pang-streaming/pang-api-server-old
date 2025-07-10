@@ -1,9 +1,8 @@
 package com.pangapiserver.domain.follow.repository;
 
+import java.util.Map;
 import java.util.List;
 import java.util.UUID;
-
-import com.pangapiserver.application.follow.data.FollowerCountResponse;
 import com.querydsl.core.Tuple;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,7 @@ public class FollowCustomRepositoryImpl implements FollowCustomRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<FollowerCountResponse> countByFollowerIds(List<UUID> ids) {
+    public Map<UUID, Long> countByFollowerIds(List<UUID> ids) {
         QFollowEntity f = QFollowEntity.followEntity;
         List<Tuple> tuples = jpaQueryFactory
                 .select(f.follower.id, f.count())
@@ -27,7 +26,9 @@ public class FollowCustomRepositoryImpl implements FollowCustomRepository {
                 .fetch();
 
         return tuples.stream()
-                .map(tuple -> new FollowerCountResponse(tuple.get(f.follower.id), tuple.get(1, Long.class)))
-                .collect(Collectors.toList());
+            .collect(Collectors.toMap(
+                tuple -> tuple.get(f.follower.id),
+                tuple -> tuple.get(1, Long.class)
+            ));
     }
 }

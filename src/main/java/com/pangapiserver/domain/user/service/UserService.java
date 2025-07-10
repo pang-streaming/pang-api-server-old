@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -44,6 +45,11 @@ public class UserService {
         List<UUID> userIDs = repository.findAllByIdNot(id).stream()
             .map(UserEntity::getId)
             .toList();
-        return followCustomRepository.countByFollowerIds(userIDs);
+        return followCustomRepository.countByFollowerIds(userIDs).entrySet().stream()
+            .map(set -> new FollowerCountResponse(
+                    set.getKey(),
+                    set.getValue()
+                )
+            ).collect(Collectors.toList());
     }
 }

@@ -11,11 +11,11 @@ import com.pangapiserver.domain.follow.repository.FollowRepository;
 import com.pangapiserver.application.follow.data.FollowerCountResponse;
 
 @Service
-public class FollowMapper {
+public class FollowConverter {
 
     private final FollowRepository followRepository;
 
-    public FollowMapper(FollowRepository followRepository) {
+    public FollowConverter(FollowRepository followRepository) {
         this.followRepository = followRepository;
     }
 
@@ -28,9 +28,12 @@ public class FollowMapper {
                 .map(countTargetExtractor)
                 .map(UserEntity::getId)
                 .distinct()
+
                 .toList();
 
-        List<FollowerCountResponse> countList = followRepository.countByFollowerIds(targetIds);
+        List<FollowerCountResponse> countList = followRepository.countByFollowerIds(targetIds).entrySet().stream()
+            .map(set -> new FollowerCountResponse(set.getKey(), set.getValue()))
+            .toList();
 
         Map<UUID, Long> countMap = new HashMap<>();
         for (FollowerCountResponse row : countList) {

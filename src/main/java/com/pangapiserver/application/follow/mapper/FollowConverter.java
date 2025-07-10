@@ -3,14 +3,14 @@ package com.pangapiserver.application.follow.mapper;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.BiFunction;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.domain.follow.entity.FollowEntity;
 import com.pangapiserver.application.follow.data.FollowingResponse;
 import com.pangapiserver.domain.follow.repository.FollowRepository;
 import com.pangapiserver.application.follow.data.FollowerCountResponse;
 
-@Service
+@Component
 public class FollowConverter {
 
     private final FollowRepository followRepository;

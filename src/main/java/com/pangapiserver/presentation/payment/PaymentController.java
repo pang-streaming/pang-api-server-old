@@ -30,15 +30,7 @@ public class PaymentController {
     public ResponseEntity registerPayment(
         @RequestBody RegisterCardRequest request
     ) {
-        System.out.println(useCase.registerCard(request));
         return ResponseEntity.ok("SUCCESS");
-    }
-
-    @PostMapping("/test")
-    public ResponseEntity testPayment(
-        @RequestBody PaymentRequest request
-    ){
-        return useCase.paymentCardTest(request);
     }
 
     @GetMapping

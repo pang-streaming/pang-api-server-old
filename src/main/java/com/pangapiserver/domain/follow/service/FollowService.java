@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.domain.follow.entity.FollowEntity;
 import com.pangapiserver.domain.user.repository.UserRepository;
-import com.pangapiserver.application.follow.mapper.FollowMapper;
 import com.pangapiserver.application.follow.data.FollowingResponse;
 import com.pangapiserver.domain.follow.repository.FollowRepository;
+import com.pangapiserver.application.follow.mapper.FollowConverter;
 
 
 @Service
@@ -16,12 +16,12 @@ import com.pangapiserver.domain.follow.repository.FollowRepository;
 public class FollowService {
     private final UserRepository userRepository;
     private final FollowRepository followRepository;
-    private final FollowMapper followMapper;
+    private final FollowConverter followConverter;
 
     public List<FollowingResponse> getByFollowing(String username) {
         UserEntity user = userRepository.findByUsername(username);
         List<FollowEntity> followings = followRepository.findByUser(user);
-        return followMapper.mapToFollowingResponse(
+        return followConverter.mapToFollowingResponse(
                 followings,
                 FollowEntity::getFollower,
                 FollowingResponse::toFollowing
@@ -31,7 +31,7 @@ public class FollowService {
     public List<FollowingResponse> getByFollower(String username) {
         UserEntity user = userRepository.findByUsername(username);
         List<FollowEntity> followers = followRepository.findByFollower(user);
-        return followMapper.mapToFollowingResponse(
+        return followConverter.mapToFollowingResponse(
                 followers,
                 FollowEntity::getUser,
                 FollowingResponse::toFollower

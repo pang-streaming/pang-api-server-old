@@ -3,18 +3,19 @@ package com.pangapiserver.application.follow.mapper;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.BiFunction;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.domain.follow.entity.FollowEntity;
 import com.pangapiserver.application.follow.data.FollowingResponse;
 import com.pangapiserver.domain.follow.repository.FollowRepository;
+import com.pangapiserver.application.follow.data.FollowerCountResponse;
 
-@Service
-public class FollowMapper {
+@Component
+public class FollowConverter {
 
     private final FollowRepository followRepository;
 
-    public FollowMapper(FollowRepository followRepository) {
+    public FollowConverter(FollowRepository followRepository) {
         this.followRepository = followRepository;
     }
 
@@ -29,14 +30,14 @@ public class FollowMapper {
                 .distinct()
                 .toList();
 
-        List<Object[]> countList = followRepository.countByFollowerIds(targetIds);
+        List<FollowerCountResponse> countList = followRepository.countByFollowerIds(targetIds).entrySet().stream()
+            .map(set -> new FollowerCountResponse(set.getKey(), set.getValue()))
+            .toList();
 
         Map<UUID, Long> countMap = new HashMap<>();
-        for (Object[] row : countList) {
-            UUID id = (UUID) row[0];
-            Long count = (Long) row[1];
-            countMap.put(id, count);
-        }
+        countList.forEach(count ->
+            countMap.put(count.id(), count.count())
+        );
 
         return followEntities.stream()
                 .map(follow -> {

@@ -13,6 +13,7 @@ import java.util.UUID;
 
 import static com.pangapiserver.domain.cash.entity.QCashEntity.cashEntity;
 
+@Repository
 @RequiredArgsConstructor
 public class CashQueryRepositoryImpl implements CashQueryRepository {
     private final JPAQueryFactory queryFactory;

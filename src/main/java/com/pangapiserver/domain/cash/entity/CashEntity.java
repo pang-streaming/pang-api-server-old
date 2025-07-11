@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -16,7 +17,7 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "cash")
+@Table(name = "cashes")
 @Builder
 public class CashEntity {
     @Id
@@ -32,6 +33,7 @@ public class CashEntity {
 
     private int amount;
 
+    @CreatedDate
     private LocalDateTime created_at;
 
     private String description;

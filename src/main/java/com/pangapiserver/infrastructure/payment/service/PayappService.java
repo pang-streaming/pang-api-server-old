@@ -3,24 +3,23 @@ package com.pangapiserver.infrastructure.payment.service;
 import com.pangapiserver.infrastructure.payment.dto.PaymentCardResponse;
 import com.pangapiserver.infrastructure.payment.dto.RegisterCardResponse;
 import com.pangapiserver.infrastructure.payment.properties.PaymentProperties;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Service
+@AllArgsConstructor
 public class PayappService {
+    private final WebClient payappWebClient;
     private final PaymentProperties paymentProperties;
-
-    public PayappService(PaymentProperties paymentProperties) {
-        this.paymentProperties = paymentProperties;
-    }
 
     public PaymentCardResponse paymentCard(
         String encBill,
@@ -28,8 +27,6 @@ public class PayappService {
         String price,
         String recvPhone
     ) {
-        WebClient webClient = WebClient.create("https://api.payapp.kr");
-
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         formData.add("cmd", "billPay");
         formData.add("userid", paymentProperties.getSellerid());
@@ -38,13 +35,12 @@ public class PayappService {
         formData.add("price", price);
         formData.add("recvphone", recvPhone);
 
-        Mono<String> responseMono = webClient.post()
+        String response = payappWebClient.post()
             .uri("/oapi/apiLoad.html")
             .body(BodyInserters.fromFormData(formData))
             .retrieve()
-            .bodyToMono(String.class);
-
-        String response = responseMono.block();
+            .bodyToMono(String.class)
+            .block();
 
         if (response == null) {
             throw new RuntimeException("Null response from PayApp");
@@ -62,36 +58,33 @@ public class PayappService {
     }
 
     public RegisterCardResponse registerCard(
-        String user_id,
-        String card_number,
-        String exp_year,
-        String exp_month,
-        String auth_number,
-        String card_pw,
+        String userId,
+        String cardNumber,
+        String expYear,
+        String expMonth,
+        String authNumber,
+        String cardPw,
         String phone,
         String name
     ) {
-        WebClient webClient = WebClient.create("https://api.payapp.kr");
-
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         formData.add("cmd", "billRegist");
         formData.add("userid", paymentProperties.getSellerid());
-        formData.add("cardNo", card_number);
-        formData.add("expYear", exp_year);
-        formData.add("expMonth", exp_month);
-        formData.add("buyerAuthNo", auth_number);
-        formData.add("cardPw", card_pw);
+        formData.add("cardNo", cardNumber);
+        formData.add("expYear", expYear);
+        formData.add("expMonth", expMonth);
+        formData.add("buyerAuthNo", authNumber);
+        formData.add("cardPw", cardPw);
         formData.add("buyerPhone", phone);
         formData.add("buyerName", name);
-        formData.add("buyerId", user_id);
+        formData.add("buyerId", userId);
 
-        Mono<String> responseMono = webClient.post()
+        String response = payappWebClient.post()
             .uri("/oapi/apiLoad.html")
             .body(BodyInserters.fromFormData(formData))
             .retrieve()
-            .bodyToMono(String.class);
-
-        String response = responseMono.block();
+            .bodyToMono(String.class)
+            .block();
 
         if (response == null) {
             throw new RuntimeException("Null response from PayApp");
@@ -113,18 +106,18 @@ public class PayappService {
     }
 
     private static Map<String, String> parseQueryString(String query) {
-            Map<String, String> map = new LinkedHashMap<>();
-            String[] pairs = query.split("&");
-            for (String pair : pairs) {
-                    int idx = pair.indexOf('=');
-                    String key = idx > 0 ? pair.substring(0, idx) : pair;
-                    String value = idx > 0 && pair.length() > idx + 1 ? pair.substring(idx + 1) : "";
-                    map.put(key, value);
-            }
-            return map;
+        Map<String, String> map = new LinkedHashMap<>();
+        String[] pairs = query.split("&");
+        for (String pair : pairs) {
+            int idx = pair.indexOf('=');
+            String key = idx > 0 ? pair.substring(0, idx) : pair;
+            String value = idx > 0 && pair.length() > idx + 1 ? pair.substring(idx + 1) : "";
+            map.put(key, value);
+        }
+        return map;
     }
 
     private static String decode(String value) {
-            return value != null ? URLDecoder.decode(value, StandardCharsets.UTF_8) : null;
+        return value != null ? URLDecoder.decode(value, StandardCharsets.UTF_8) : null;
     }
 }

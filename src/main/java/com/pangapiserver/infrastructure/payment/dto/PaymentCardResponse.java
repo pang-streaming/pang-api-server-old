@@ -1,12 +1,18 @@
 package com.pangapiserver.infrastructure.payment.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 
 public record PaymentCardResponse (
     String state,
     String errorMessage,
-    String CSTURL,
+
+    @JsonProperty("CSTURL")
+    String cstUrl,
+
     String price,
-    String mul_no
+
+    @JsonProperty("mul_no")
+    String mulNo
 ) { }

@@ -4,6 +4,6 @@ import java.util.UUID;
 
 public record PaymentRequest(
     String name,
-    UUID card_id,
+    UUID cardId,
     Number price
 ) {}

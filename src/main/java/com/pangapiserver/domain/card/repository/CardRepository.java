@@ -11,7 +11,7 @@ import java.util.UUID;
 @Repository
 public interface CardRepository extends JpaRepository<CardEntity, UUID> {
     List<CardEntity> findAllByUser(UserEntity user);
-    CardEntity findByCardId(UUID card_id);
+    CardEntity findByCardId(UUID cardId);
 
 
 }

@@ -34,7 +34,7 @@ public class CashUseCase {
             String.valueOf(request.amount()+ request.amount()/10),
             card.getPhone()
         );
-        service.charge(user, request.amount(), description);
+        service.deposit(user, request.amount(), description);
         return Response.ok("충전을 완료하였습니다.");
     }
 

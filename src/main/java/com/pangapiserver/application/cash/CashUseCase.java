@@ -29,7 +29,7 @@ public class CashUseCase {
         String description = "펑 "+ request.amount() +"개 충전";
 
         payappService.paymentCard(
-            card.getEncryption_key(),
+            card.getEncryptionKey(),
             description,
             String.valueOf(request.amount()+ request.amount()/10),
             card.getPhone()

@@ -37,7 +37,7 @@ public class PaymentUseCase {
 
         if (result.state().equals("1")) {
             CardEntity card = CardEntity.builder()
-                .encryption_key(result.encBill())
+                .encryptionKey(result.encBill())
                 .number(request.phone())
                 .provider(result.cardname())
                 .user(user)

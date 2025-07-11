@@ -31,6 +31,6 @@ public class CardEntity {
 
     private String phone;
 
-    private String encryption_key;
+    private String encryptionKey;
 
 }

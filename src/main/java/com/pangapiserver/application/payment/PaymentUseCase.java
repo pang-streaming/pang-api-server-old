@@ -4,14 +4,12 @@ import com.pangapiserver.application.payment.data.RegisterCardRequest;
 import com.pangapiserver.domain.card.entity.CardEntity;
 import com.pangapiserver.domain.card.service.CardService;
 import com.pangapiserver.domain.user.entity.UserEntity;
-import com.pangapiserver.infrastructure.common.dto.ErrorResponse;
 import com.pangapiserver.infrastructure.common.dto.Response;
 import com.pangapiserver.infrastructure.payment.dto.RegisterCardResponse;
-import com.pangapiserver.infrastructure.payment.properties.PaymentProperties;
+import com.pangapiserver.infrastructure.payment.exception.PayappException;
 import com.pangapiserver.infrastructure.payment.service.PayappService;
 import com.pangapiserver.infrastructure.security.support.UserAuthenticationHolder;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -49,10 +47,7 @@ public class PaymentUseCase {
             cardService.save(card);
             return Response.ok("카드 추가 성공");
         }else{
-            return ErrorResponse.builder()
-                .status(HttpStatus.BAD_REQUEST)
-                .message(result.errorMessage())
-                .build();
+            throw new PayappException(result.errorMessage());
         }
     }
 

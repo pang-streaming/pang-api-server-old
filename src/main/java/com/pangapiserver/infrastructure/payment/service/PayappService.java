@@ -12,6 +12,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -107,13 +108,13 @@ public class PayappService {
 
     private static Map<String, String> parseQueryString(String query) {
         Map<String, String> map = new LinkedHashMap<>();
-        String[] pairs = query.split("&");
-        for (String pair : pairs) {
-            int idx = pair.indexOf('=');
-            String key = idx > 0 ? pair.substring(0, idx) : pair;
-            String value = idx > 0 && pair.length() > idx + 1 ? pair.substring(idx + 1) : "";
-            map.put(key, value);
-        }
+        Arrays.stream(query.split("&"))
+            .forEach(pair -> {
+                int idx = pair.indexOf('=');
+                String key = (idx > 0) ? pair.substring(0, idx) : pair;
+                String value = (idx > 0 && pair.length() > idx + 1) ? pair.substring(idx + 1) : "";
+                map.put(key, value);
+            });
         return map;
     }
 

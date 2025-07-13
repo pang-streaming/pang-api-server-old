@@ -1,8 +1,9 @@
 package com.pangapiserver.application.stream.data;
 
-import java.util.List;
-import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.domain.stream.entity.StreamEntity;
+import com.pangapiserver.domain.user.entity.UserEntity;
+
+import java.util.List;
 
 public record StreamListResponse (
         String nickname,

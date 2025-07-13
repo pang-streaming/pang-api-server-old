@@ -1,12 +1,11 @@
 package com.pangapiserver.domain.donation.entity;
 
-import lombok.Getter;
-import lombok.Builder;
-import java.util.Date;
-import jakarta.persistence.*;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 import com.pangapiserver.domain.user.entity.UserEntity;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter

@@ -1,14 +1,13 @@
 package com.pangapiserver.domain.stream.service;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
+import com.pangapiserver.domain.stream.entity.StreamEntity;
+import com.pangapiserver.domain.stream.repository.StreamRepository;
 import com.pangapiserver.infrastructure.security.support.UserAuthenticationHolder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import com.pangapiserver.domain.stream.entity.StreamEntity;
-import com.pangapiserver.domain.stream.repository.StreamRepository;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor

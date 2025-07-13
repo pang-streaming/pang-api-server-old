@@ -1,9 +1,10 @@
 package com.pangapiserver.domain.user.entity;
 
-import java.util.Collection;
-import java.util.Collections;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.Collections;
 
 public record UserPrincipal(UserEntity user) implements UserDetails {
     @Override

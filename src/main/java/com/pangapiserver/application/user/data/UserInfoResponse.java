@@ -18,9 +18,10 @@ public record UserInfoResponse(
     String bannerImage,
     boolean isAdult,
     Role role,
-    boolean isAlarm
+    boolean isAlarm,
+    int cash
 ) {
-    public static UserInfoResponse of(UserEntity user) {
+    public static UserInfoResponse of(UserEntity user, int cash) {
         return new UserInfoResponse(
             user.getId(),
             user.getUsername(),
@@ -32,7 +33,8 @@ public record UserInfoResponse(
             user.getBannerImage(),
             user.isAdult(),
             user.getRole(),
-            user.isAlarm()
+            user.isAlarm(),
+            cash
         );
     }
 }

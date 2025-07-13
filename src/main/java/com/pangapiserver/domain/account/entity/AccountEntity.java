@@ -1,15 +1,15 @@
 package com.pangapiserver.domain.account.entity;
 
 
-
-import com.pangapiserver.domain.user.entity.UserEntity;
-import lombok.Getter;
-import lombok.Builder;
-import java.util.UUID;
-import jakarta.persistence.*;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 import com.pangapiserver.domain.account.enumeration.AccountType;
+import com.pangapiserver.domain.user.entity.UserEntity;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.util.UUID;
 
 @Entity
 @Getter

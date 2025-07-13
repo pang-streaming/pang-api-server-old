@@ -1,7 +1,7 @@
 package com.pangapiserver.domain.user.enumeration;
 
-import lombok.Getter;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @Getter
 @AllArgsConstructor

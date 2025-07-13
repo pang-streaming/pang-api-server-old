@@ -1,12 +1,13 @@
 package com.pangapiserver.domain.stream.entity;
 
-import lombok.Getter;
-import lombok.Builder;
-import jakarta.persistence.*;
-import java.time.LocalDateTime;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 import com.pangapiserver.domain.user.entity.UserEntity;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter

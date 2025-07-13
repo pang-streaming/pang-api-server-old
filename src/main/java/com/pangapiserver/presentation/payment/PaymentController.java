@@ -28,7 +28,11 @@ public class PaymentController implements PaymentDocuments {
     @GetMapping("/card")
     public DataResponse<List<CardDto>> getCards() {
         List<CardDto> CardList = useCase.getCards().stream()
-            .map(CardDto::new)
+            .map(card -> new CardDto(
+                card.getCardId(),
+                card.getProvider(),
+                card.getName()
+            ))
             .toList();
 
         return DataResponse.ok("카드 목록을 성공적으로 불러왔습니다.", CardList);

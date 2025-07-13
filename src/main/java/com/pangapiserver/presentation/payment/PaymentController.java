@@ -19,6 +19,7 @@ public class PaymentController implements PaymentDocuments {
     private final PaymentUseCase useCase;
 
     @PostMapping("/card")
+    @Override
     public Response registerPayment(
         @RequestBody RegisterCardRequest request
     ) {
@@ -26,6 +27,7 @@ public class PaymentController implements PaymentDocuments {
     }
 
     @GetMapping("/card")
+    @Override
     public DataResponse<List<CardDto>> getCards() {
         List<CardDto> CardList = useCase.getCards().stream()
             .map(card -> new CardDto(

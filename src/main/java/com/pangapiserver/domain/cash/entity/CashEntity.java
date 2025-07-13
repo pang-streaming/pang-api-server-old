@@ -1,6 +1,5 @@
 package com.pangapiserver.domain.cash.entity;
 
-import com.pangapiserver.domain.account.enumeration.AccountType;
 import com.pangapiserver.domain.cash.enumeration.CashType;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import jakarta.persistence.*;

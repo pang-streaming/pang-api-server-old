@@ -1,4 +1,4 @@
-CREATE TABLE card
+CREATE TABLE cards
 (
     card_id        BINARY(16)   NOT NULL,
     number         VARCHAR(255) NULL,
@@ -21,7 +21,7 @@ CREATE TABLE cashes
     CONSTRAINT pk_cashes PRIMARY KEY (id)
 );
 
-ALTER TABLE card
+ALTER TABLE cards
     ADD CONSTRAINT FK_CARD_ON_FK_USER FOREIGN KEY (fk_user_id) REFERENCES users (id);
 
 ALTER TABLE cashes

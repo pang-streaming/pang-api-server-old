@@ -1,14 +1,16 @@
 package com.pangapiserver.domain.follow.service;
 
-import java.util.*;
+import com.pangapiserver.application.follow.data.FollowingResponse;
+import com.pangapiserver.application.follow.mapper.FollowConverter;
+import com.pangapiserver.domain.follow.entity.FollowEntity;
+import com.pangapiserver.domain.follow.repository.FollowRepository;
+import com.pangapiserver.domain.user.entity.UserEntity;
+import com.pangapiserver.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import com.pangapiserver.domain.user.entity.UserEntity;
-import com.pangapiserver.domain.follow.entity.FollowEntity;
-import com.pangapiserver.domain.user.repository.UserRepository;
-import com.pangapiserver.application.follow.data.FollowingResponse;
-import com.pangapiserver.domain.follow.repository.FollowRepository;
-import com.pangapiserver.application.follow.mapper.FollowConverter;
+
+import java.util.List;
+import java.util.Optional;
 
 
 @Service

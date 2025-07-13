@@ -1,7 +1,5 @@
 package com.pangapiserver.presentation.payment.document;
 
-import com.pangapiserver.application.cash.data.CashChargeRequest;
-import com.pangapiserver.application.cash.data.CashResponse;
 import com.pangapiserver.application.payment.data.CardDto;
 import com.pangapiserver.application.payment.data.RegisterCardRequest;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;

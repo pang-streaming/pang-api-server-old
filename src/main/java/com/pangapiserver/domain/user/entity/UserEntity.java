@@ -1,14 +1,14 @@
 package com.pangapiserver.domain.user.entity;
 
-import lombok.AllArgsConstructor;
+import com.pangapiserver.domain.user.enumeration.Gender;
+import com.pangapiserver.domain.user.enumeration.Role;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
-import java.util.UUID;
-import java.time.LocalDate;
-import jakarta.persistence.*;
-import com.pangapiserver.domain.user.enumeration.Role;
-import com.pangapiserver.domain.user.enumeration.Gender;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+import java.util.UUID;
 
 //TODO: 생성자로 빌더 분리
 @Getter

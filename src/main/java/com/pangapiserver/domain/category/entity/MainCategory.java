@@ -1,10 +1,10 @@
 package com.pangapiserver.domain.category.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Builder

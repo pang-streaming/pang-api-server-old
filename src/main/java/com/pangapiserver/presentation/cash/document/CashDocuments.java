@@ -2,7 +2,6 @@ package com.pangapiserver.presentation.cash.document;
 
 import com.pangapiserver.application.cash.data.CashChargeRequest;
 import com.pangapiserver.application.cash.data.CashResponse;
-import com.pangapiserver.application.payment.data.RegisterCardRequest;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.infrastructure.common.dto.Response;
 import io.swagger.v3.oas.annotations.Operation;

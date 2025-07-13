@@ -2,7 +2,6 @@ package com.pangapiserver.domain.cash.exception;
 
 import com.pangapiserver.domain.common.exception.StatusCode;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @AllArgsConstructor

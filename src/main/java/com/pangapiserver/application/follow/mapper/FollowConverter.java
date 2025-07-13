@@ -1,14 +1,18 @@
 package com.pangapiserver.application.follow.mapper;
 
-import java.util.*;
-import java.util.function.Function;
-import java.util.function.BiFunction;
-import org.springframework.stereotype.Component;
-import com.pangapiserver.domain.user.entity.UserEntity;
-import com.pangapiserver.domain.follow.entity.FollowEntity;
-import com.pangapiserver.application.follow.data.FollowingResponse;
-import com.pangapiserver.domain.follow.repository.FollowRepository;
 import com.pangapiserver.application.follow.data.FollowerCountResponse;
+import com.pangapiserver.application.follow.data.FollowingResponse;
+import com.pangapiserver.domain.follow.entity.FollowEntity;
+import com.pangapiserver.domain.follow.repository.FollowRepository;
+import com.pangapiserver.domain.user.entity.UserEntity;
+import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 @Component
 public class FollowConverter {

@@ -1,14 +1,14 @@
 package com.pangapiserver.presentation.follow;
 
-import java.util.List;
-
+import com.pangapiserver.application.follow.FollowUseCase;
+import com.pangapiserver.application.follow.data.FollowingResponse;
+import com.pangapiserver.infrastructure.common.dto.DataResponse;
+import com.pangapiserver.infrastructure.common.dto.Response;
 import com.pangapiserver.presentation.follow.document.FollowDocuments;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import com.pangapiserver.application.follow.FollowUseCase;
-import com.pangapiserver.infrastructure.common.dto.Response;
-import com.pangapiserver.infrastructure.common.dto.DataResponse;
-import com.pangapiserver.application.follow.data.FollowingResponse;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/follow")

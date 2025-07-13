@@ -1,8 +1,6 @@
 package com.pangapiserver.infrastructure.payment.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
-import lombok.Data;
 
 public record PaymentCardResponse (
     String state,

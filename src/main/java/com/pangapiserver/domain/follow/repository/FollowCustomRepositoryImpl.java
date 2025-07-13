@@ -1,14 +1,15 @@
 package com.pangapiserver.domain.follow.repository;
 
-import java.util.Map;
-import java.util.List;
-import java.util.UUID;
-import com.querydsl.core.Tuple;
-import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.springframework.stereotype.Repository;
 import com.pangapiserver.domain.follow.entity.QFollowEntity;
+import com.querydsl.core.Tuple;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor

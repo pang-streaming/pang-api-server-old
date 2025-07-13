@@ -9,6 +9,7 @@ import com.pangapiserver.infrastructure.payment.dto.RegisterCardResponse;
 import com.pangapiserver.infrastructure.payment.exception.PayappException;
 import com.pangapiserver.infrastructure.payment.service.PayappService;
 import com.pangapiserver.infrastructure.security.support.UserAuthenticationHolder;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,7 @@ public class PaymentUseCase {
     private final UserAuthenticationHolder holder;
     private final CardService cardService;
 
+    @Transactional
     public Response registerCard(RegisterCardRequest request) {
         UserEntity user = holder.current();
 

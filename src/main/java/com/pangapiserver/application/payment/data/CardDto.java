@@ -1,6 +1,5 @@
 package com.pangapiserver.application.payment.data;
 
-import lombok.Data;
 import java.util.UUID;
 
 public record CardDto (

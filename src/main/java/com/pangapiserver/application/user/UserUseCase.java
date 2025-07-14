@@ -28,7 +28,8 @@ public class UserUseCase {
 
     public void updateInfo(UpdateInfoRequest request) {
         UserEntity user = holder.current();
-        user.updateInfo(request.nickname(), request.age(), request.gender(), request.profileImage(), request.bannerImage());
+        user.updateInfo(request.nickname(), request.age(), request.gender(), request.profileImage(), request.bannerImage(),
+            request.description());
         service.update(user);
     }
 

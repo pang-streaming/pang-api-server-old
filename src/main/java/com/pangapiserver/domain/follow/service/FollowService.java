@@ -5,12 +5,14 @@ import com.pangapiserver.application.follow.mapper.FollowConverter;
 import com.pangapiserver.domain.follow.entity.FollowEntity;
 import com.pangapiserver.domain.follow.repository.FollowRepository;
 import com.pangapiserver.domain.user.entity.UserEntity;
+import com.pangapiserver.domain.user.exception.UserNotFoundException;
 import com.pangapiserver.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
@@ -20,8 +22,9 @@ public class FollowService {
     private final FollowRepository followRepository;
     private final FollowConverter followConverter;
 
-    public List<FollowingResponse> getByFollowing(String username) {
-        UserEntity user = userRepository.findByUsername(username);
+    public List<FollowingResponse> getByFollowing(UUID id) {
+        UserEntity user = userRepository.findById(id)
+            .orElseThrow(UserNotFoundException::new);
         List<FollowEntity> followings = followRepository.findByUser(user);
         return followConverter.mapToFollowingResponse(
                 followings,
@@ -30,8 +33,9 @@ public class FollowService {
         );
     }
 
-    public List<FollowingResponse> getByFollower(String username) {
-        UserEntity user = userRepository.findByUsername(username);
+    public List<FollowingResponse> getByFollower(UUID id) {
+        UserEntity user = userRepository.findById(id)
+            .orElseThrow(UserNotFoundException::new);
         List<FollowEntity> followers = followRepository.findByFollower(user);
         return followConverter.mapToFollowingResponse(
                 followers,
@@ -40,8 +44,9 @@ public class FollowService {
         );
     }
 
-    public void followOrNot(UserEntity following, String username) {
-        UserEntity follower = userRepository.findByUsername(username);
+    public void followOrNot(UserEntity following, UUID id) {
+        UserEntity follower = userRepository.findById(id)
+            .orElseThrow(UserNotFoundException::new);
         Optional<FollowEntity> follow = followRepository.findByUserAndFollower(following, follower);
         if (follow.isPresent()) {
             followRepository.delete(follow.get());

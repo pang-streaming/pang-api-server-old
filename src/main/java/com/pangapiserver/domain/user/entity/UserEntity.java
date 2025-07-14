@@ -55,7 +55,7 @@ public class UserEntity {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    public void updateInfo(String nickname, LocalDate age, Gender gender, String profileImage, String bannerImage) {
+    public void updateInfo(String nickname, LocalDate age, Gender gender, String profileImage, String bannerImage, String description) {
         if (nickname != null) {
             this.nickname = nickname;
         }
@@ -70,6 +70,9 @@ public class UserEntity {
         }
         if (bannerImage != null) {
             this.bannerImage = bannerImage;
+        }
+        if (description != null) {
+            this.description = description;
         }
     }
 

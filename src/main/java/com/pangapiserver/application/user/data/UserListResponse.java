@@ -15,6 +15,7 @@ public record UserListResponse(
     String nickname,
     String profileImage,
     String bannerImage,
+    String description,
     Long follower,
     Role role
 ) {
@@ -32,6 +33,7 @@ public record UserListResponse(
                 user.getNickname(),
                 user.getProfileImage(),
                 user.getBannerImage(),
+                user.getDescription(),
                 followerCountMap.getOrDefault(user.getId(), 0L),
                 user.getRole()
             ))

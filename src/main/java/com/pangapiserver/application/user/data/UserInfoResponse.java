@@ -19,6 +19,7 @@ public record UserInfoResponse(
     boolean isAdult,
     Role role,
     boolean isAlarm,
+    String description,
     int cash
 ) {
     public static UserInfoResponse of(UserEntity user, int cash) {
@@ -34,6 +35,7 @@ public record UserInfoResponse(
             user.isAdult(),
             user.getRole(),
             user.isAlarm(),
+            user.getDescription(),
             cash
         );
     }

@@ -11,6 +11,7 @@ public record UpdateInfoRequest(
     LocalDate age,
     Gender gender,
     String profileImage,
-    String bannerImage
+    String bannerImage,
+    String description
 ) {
 }

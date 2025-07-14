@@ -52,6 +52,7 @@ public class UserEntity {
 
     private boolean isAlarm;
 
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     public void updateInfo(String nickname, LocalDate age, Gender gender, String profileImage, String bannerImage) {

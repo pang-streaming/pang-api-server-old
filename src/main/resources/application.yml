@@ -22,7 +22,7 @@ spring:
   data:
     redis:
       port: 6379
-      host: localhost
+      host: ${REDIS_HOST}
       database: 0
 
 app:

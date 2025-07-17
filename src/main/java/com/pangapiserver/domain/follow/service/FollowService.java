@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 
 @Service
@@ -22,7 +21,7 @@ public class FollowService {
     private final FollowRepository followRepository;
     private final FollowConverter followConverter;
 
-    public List<FollowingResponse> getByFollowing(String username) {
+    public List<FollowingResponse> getFollowingsByUsername(String username) {
         UserEntity user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
         List<FollowEntity> followings = followRepository.findByUser(user);
         return followConverter.mapToFollowingResponse(
@@ -32,7 +31,7 @@ public class FollowService {
         );
     }
 
-    public List<FollowingResponse> getByFollower(String username) {
+    public List<FollowingResponse> getFollowersByUsername(String username) {
         UserEntity user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
         List<FollowEntity> followers = followRepository.findByFollower(user);
         return followConverter.mapToFollowingResponse(

@@ -8,10 +8,14 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Stream;
 
 @Repository
-public interface StreamRepository extends JpaRepository<StreamEntity, Integer> {
+public interface StreamRepository extends JpaRepository<StreamEntity, UUID> {
     List<StreamEntity> findAllByOrderByIdDesc();
+
+    List<StreamEntity> findByEndAtIsNull();
 
     Optional<StreamEntity> findByUserAndEndAtNull(UserEntity user);
 }

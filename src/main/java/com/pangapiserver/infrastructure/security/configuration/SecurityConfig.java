@@ -35,7 +35,13 @@ public class SecurityConfig {
             .authorizeHttpRequests(request ->
                 request
                     .requestMatchers("/auth/**").anonymous()
-                    .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
+                    .requestMatchers("/stream/key").authenticated()
+                    .requestMatchers(
+                            "/swagger-ui/**",
+                            "/v3/api-docs/**",
+                            "/swagger-ui.html",
+                            "/stream/**"
+                    ).permitAll()
                     .anyRequest().authenticated()
             )
             .addFilterAfter(tokenFilter, UsernamePasswordAuthenticationFilter.class)

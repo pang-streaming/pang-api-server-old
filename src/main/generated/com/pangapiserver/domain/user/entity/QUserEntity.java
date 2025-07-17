@@ -23,6 +23,8 @@ public class QUserEntity extends EntityPathBase<UserEntity> {
 
     public final StringPath bannerImage = createString("bannerImage");
 
+    public final StringPath description = createString("description");
+
     public final StringPath email = createString("email");
 
     public final EnumPath<com.pangapiserver.domain.user.enumeration.Gender> gender = createEnum("gender", com.pangapiserver.domain.user.enumeration.Gender.class);

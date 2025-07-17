@@ -21,15 +21,8 @@ public class StreamUseCase {
         return StreamListResponse.of(items);
     }
 
-    //TODO 바뀔 예정
     public List<StreamListResponse> getPopularItems() {
         List<StreamEntity> items = service.getAll();
         return StreamListResponse.of(items);
-    }
-
-    //TODO
-    public Response addItem(String title) {
-        service.save(title);
-        return Response.ok("added");
     }
 }

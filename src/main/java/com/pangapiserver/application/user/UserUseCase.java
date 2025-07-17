@@ -33,6 +33,8 @@ public class UserUseCase {
         service.update(user);
     }
 
+
+
     public DataResponse<List<UserListResponse>> getUsers() {
         UserEntity me = holder.current();
         List<UserEntity> users = service.getUsers(me.getId());

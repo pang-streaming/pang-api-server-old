@@ -26,6 +26,8 @@ spring:
       database: 0
 
 app:
+  video:
+    key: ${VIDEO_KEY}
   token:
     access-token: ${TOKEN_ACCESS}
     refresh-token: ${TOKEN_REFRESH}

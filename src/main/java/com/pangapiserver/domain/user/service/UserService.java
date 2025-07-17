@@ -4,6 +4,7 @@ import com.pangapiserver.application.follow.data.FollowerCountResponse;
 import com.pangapiserver.domain.follow.repository.FollowCustomRepositoryImpl;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.domain.user.exception.UserAleadyExistException;
+import com.pangapiserver.domain.user.exception.UserNotFoundException;
 import com.pangapiserver.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,8 @@ public class UserService {
     }
 
     public UserEntity getByUsername(String username) {
-        return repository.findByUsername(username);
+        return repository.findByUsername(username)
+            .orElseThrow(UserNotFoundException::new);
     }
 
     public UserEntity getByEmail(String email) {

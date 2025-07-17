@@ -1,6 +1,7 @@
 package com.pangapiserver.infrastructure.security.filter;
 
 import com.pangapiserver.domain.user.entity.UserPrincipal;
+import com.pangapiserver.domain.user.exception.UserNotFoundException;
 import com.pangapiserver.domain.user.repository.UserRepository;
 import com.pangapiserver.infrastructure.security.token.TokenExtractor;
 import com.pangapiserver.infrastructure.security.token.TokenParser;
@@ -54,6 +55,6 @@ public class TokenFilter extends OncePerRequestFilter {
     }
 
     private UserPrincipal getMemberDetails(String token) {
-        return new UserPrincipal(repository.findByUsername(parser.findUsername(token)));
+        return new UserPrincipal(repository.findByUsername(parser.findUsername(token)).orElseThrow(UserNotFoundException::new));
     }
 }

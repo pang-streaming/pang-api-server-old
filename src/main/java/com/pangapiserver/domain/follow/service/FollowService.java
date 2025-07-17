@@ -23,7 +23,7 @@ public class FollowService {
     private final FollowConverter followConverter;
 
     public List<FollowingResponse> getByFollowing(String username) {
-        UserEntity user = userRepository.findByUsername(username);
+        UserEntity user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
         List<FollowEntity> followings = followRepository.findByUser(user);
         return followConverter.mapToFollowingResponse(
                 followings,
@@ -33,7 +33,7 @@ public class FollowService {
     }
 
     public List<FollowingResponse> getByFollower(String username) {
-        UserEntity user = userRepository.findByUsername(username);
+        UserEntity user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
         List<FollowEntity> followers = followRepository.findByFollower(user);
         return followConverter.mapToFollowingResponse(
                 followers,
@@ -43,7 +43,7 @@ public class FollowService {
     }
 
     public void followOrNot(UserEntity following, String username) {
-        UserEntity follower = userRepository.findByUsername(username);
+        UserEntity follower = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
         Optional<FollowEntity> follow = followRepository.findByUserAndFollower(following, follower);
         if (follow.isPresent()) {
             followRepository.delete(follow.get());

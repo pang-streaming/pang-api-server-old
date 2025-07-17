@@ -1,29 +1,37 @@
 package com.pangapiserver.domain.stream.service;
 
 import com.pangapiserver.domain.stream.entity.StreamEntity;
-import com.pangapiserver.domain.stream.exception.StreamKeyNotFoundException;
+import com.pangapiserver.domain.stream.exception.StreamNotFoundException;
 import com.pangapiserver.domain.stream.repository.StreamRepository;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.infrastructure.security.support.UserAuthenticationHolder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class StreamService {
     private final StreamRepository repository;
-    private final UserAuthenticationHolder holder;
 
     public List<StreamEntity> getAll() {
         return repository.findAllByOrderByIdDesc();
     }
 
-    public StreamEntity getByStreamingId(UserEntity user) {
+    public StreamEntity getByStreamId(UUID streamId) {
+        return repository.findById(streamId)
+            .orElseThrow(StreamNotFoundException::new);
+    }
+
+    public List<StreamEntity> getLiveStreams() {
+        return repository.findByEndAtIsNull();
+    }
+
+    public StreamEntity getLiveStreamByUserId(UserEntity user) {
         return repository.findByUserAndEndAtNull(user)
-            .orElseThrow(StreamKeyNotFoundException::new);
+            .orElseThrow(StreamNotFoundException::new);
     }
 
     public void save(StreamEntity stream) {

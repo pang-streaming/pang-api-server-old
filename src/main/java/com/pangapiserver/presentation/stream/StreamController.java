@@ -2,14 +2,16 @@ package com.pangapiserver.presentation.stream;
 
 import com.pangapiserver.application.stream.StreamKeyUseCase;
 import com.pangapiserver.application.stream.StreamUseCase;
-import com.pangapiserver.application.stream.data.StreamListResponse;
+import com.pangapiserver.application.stream.data.response.StreamInfoResponse;
 import com.pangapiserver.application.stream.data.response.StreamKeyResponse;
+import com.pangapiserver.application.stream.data.response.StreamResponse;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.presentation.stream.document.StreamDocuments;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/stream")
@@ -19,15 +21,15 @@ public class StreamController implements StreamDocuments {
     private final StreamKeyUseCase streamKeyUseCase;
 
     @Override
-    @GetMapping
-    public List<StreamListResponse> getStreams() {
-        return streamUseCase.getStreams();
+    @GetMapping("/{streamId}")
+    public DataResponse<StreamInfoResponse> getStream(@PathVariable("streamId") UUID streamId) {
+        return streamUseCase.getStreamById(streamId);
     }
 
     @Override
-    @GetMapping("/items/popular")
-    public List<StreamListResponse> getPopularItems() {
-        return streamUseCase.getPopularItems();
+    @GetMapping
+    public DataResponse<List<StreamResponse>> getLiveStreams() {
+        return streamUseCase.getLiveStreams();
     }
 
     @Override

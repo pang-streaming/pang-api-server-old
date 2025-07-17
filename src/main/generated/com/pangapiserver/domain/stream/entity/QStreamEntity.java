@@ -24,7 +24,7 @@ public class QStreamEntity extends EntityPathBase<StreamEntity> {
 
     public final DateTimePath<java.time.LocalDateTime> endAt = createDateTime("endAt", java.time.LocalDateTime.class);
 
-    public final NumberPath<Integer> id = createNumber("id", Integer.class);
+    public final ComparablePath<java.util.UUID> id = createComparable("id", java.util.UUID.class);
 
     public final DateTimePath<java.time.LocalDateTime> startedAt = createDateTime("startedAt", java.time.LocalDateTime.class);
 

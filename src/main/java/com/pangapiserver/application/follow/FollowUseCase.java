@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -19,7 +18,7 @@ public class FollowUseCase {
     private final UserAuthenticationHolder userAuthHolder;
 
     public DataResponse<List<FollowingResponse>> getFollowings(String username) {
-        return DataResponse.ok("팔로잉 조회 성공", service.getByFollowing(
+        return DataResponse.ok("팔로잉 조회 성공", service.getFollowingsByUsername(
                         username == null
                                 ? userAuthHolder.current().getUsername()
                                 : username
@@ -28,7 +27,7 @@ public class FollowUseCase {
     }
 
     public DataResponse<List<FollowingResponse>> getFollowers(String username) {
-        return DataResponse.ok("팔로워 조회 성공", service.getByFollower(
+        return DataResponse.ok("팔로워 조회 성공", service.getFollowersByUsername(
             username == null
                 ? userAuthHolder.current().getUsername()
                 : username

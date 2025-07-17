@@ -28,7 +28,11 @@ public class UserService {
     }
 
     public void validateByUsernameAndEmail(String username, String email) {
-        if (getByUsername(username) != null || getByEmail(email) != null) throw new UserAleadyExistException();
+        if (existsByUsername(username) || getByEmail(email) != null) throw new UserAleadyExistException();
+    }
+
+    public boolean existsByUsername(String username) {
+        return repository.existsByUsername(username);
     }
 
     public UserEntity getByUsername(String username) {

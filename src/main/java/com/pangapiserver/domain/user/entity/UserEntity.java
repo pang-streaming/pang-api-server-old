@@ -71,7 +71,7 @@ public class UserEntity {
         if (bannerImage != null) {
             this.bannerImage = bannerImage;
         }
-        if (description != null) {
+        if (this.description != null) {
             this.description = description;
         }
     }

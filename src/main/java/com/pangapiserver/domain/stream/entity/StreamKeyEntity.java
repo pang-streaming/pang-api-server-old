@@ -25,7 +25,11 @@ public class StreamKeyEntity {
     @Column(name = "stream_key", nullable = false)
     private String key;
 
-    public static StreamKeyEntity create(UserEntity user, String key) {
-        return StreamKeyEntity.builder().user(user).key(key).build();
+    public static StreamKeyEntity create(UserEntity user) {
+        return StreamKeyEntity.builder().user(user).build();
+    }
+
+    public void updateKey(String key) {
+        this.key = key;
     }
 }

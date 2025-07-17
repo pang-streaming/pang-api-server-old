@@ -3,7 +3,7 @@ package com.pangapiserver.domain.user.service;
 import com.pangapiserver.application.follow.data.FollowerCountResponse;
 import com.pangapiserver.domain.follow.repository.FollowCustomRepositoryImpl;
 import com.pangapiserver.domain.user.entity.UserEntity;
-import com.pangapiserver.domain.user.exception.UserAleadyExistException;
+import com.pangapiserver.domain.user.exception.UserAlreadyExistException;
 import com.pangapiserver.domain.user.exception.UserNotFoundException;
 import com.pangapiserver.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ public class UserService {
     }
 
     public void validateByUsernameAndEmail(String username, String email) {
-        if (existsByUsername(username) || getByEmail(email) != null) throw new UserAleadyExistException();
+        if (existsByUsername(username) || getByEmail(email) != null) throw new UserAlreadyExistException();
     }
 
     public boolean existsByUsername(String username) {

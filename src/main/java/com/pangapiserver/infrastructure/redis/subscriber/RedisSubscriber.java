@@ -36,7 +36,6 @@ public class RedisSubscriber implements MessageListener {
                 streamService.save(liveStatus.toEntity(user, urlConvertor.setUrl(liveStatus.streamerId())));
             } else {
                 StreamEntity stream = streamService.getByStreamingId(user);
-                stream.updateEndAt();
                 streamService.update(stream);
             }
         } catch (JsonProcessingException e) {

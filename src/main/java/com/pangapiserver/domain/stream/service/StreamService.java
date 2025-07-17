@@ -31,6 +31,7 @@ public class StreamService {
     }
 
     public void update(StreamEntity stream) {
-
+        stream.updateEndAt();
+        repository.save(stream);
     }
 }

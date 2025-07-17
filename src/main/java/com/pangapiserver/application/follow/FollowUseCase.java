@@ -18,27 +18,27 @@ public class FollowUseCase {
     private final FollowService service;
     private final UserAuthenticationHolder userAuthHolder;
 
-    public DataResponse<List<FollowingResponse>> getFollowings(UUID id) {
+    public DataResponse<List<FollowingResponse>> getFollowings(String username) {
         return DataResponse.ok("팔로잉 조회 성공", service.getByFollowing(
-                        id == null
-                                ? userAuthHolder.current().getId()
-                                : id
+                        username == null
+                                ? userAuthHolder.current().getUsername()
+                                : username
                 )
         );
     }
 
-    public DataResponse<List<FollowingResponse>> getFollowers(UUID id) {
+    public DataResponse<List<FollowingResponse>> getFollowers(String username) {
         return DataResponse.ok("팔로워 조회 성공", service.getByFollower(
-            id == null
-                ? userAuthHolder.current().getId()
-                : id
+            username == null
+                ? userAuthHolder.current().getUsername()
+                : username
             )
         );
     }
 
-    public Response followOrUnfollow(UUID id) {
+    public Response followOrUnfollow(String username) {
         UserEntity user = userAuthHolder.current();
-        service.followOrNot(user, id);
+        service.followOrNot(user, username);
         return Response.ok("success");
     }
 }

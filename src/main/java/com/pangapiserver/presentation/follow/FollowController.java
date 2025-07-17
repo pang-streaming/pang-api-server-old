@@ -19,19 +19,19 @@ public class FollowController implements FollowDocuments {
 
     @Override
     @GetMapping("/following")
-    public DataResponse<List<FollowingResponse>> getFollowings(@RequestParam(name = "id", required = false) UUID id) {
-        return useCase.getFollowings(id);
+    public DataResponse<List<FollowingResponse>> getFollowings(@RequestParam(name = "username", required = false) String username) {
+        return useCase.getFollowings(username);
     }
 
     @Override
     @GetMapping("/follower")
-    public DataResponse<List<FollowingResponse>> getFollowers(@RequestParam(name = "id", required = false) UUID id) {
-        return useCase.getFollowers(id);
+    public DataResponse<List<FollowingResponse>> getFollowers(@RequestParam(name = "username", required = false) String username) {
+        return useCase.getFollowers(username);
     }
 
     @Override
     @PostMapping
-    public Response followOrUnfollow(@RequestParam("id") UUID id) {
-        return useCase.followOrUnfollow(id);
+    public Response followOrUnfollow(@RequestParam("username") String username) {
+        return useCase.followOrUnfollow(username);
     }
 }

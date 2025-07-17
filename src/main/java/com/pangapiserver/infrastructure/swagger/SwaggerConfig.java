@@ -25,7 +25,10 @@ public class SwaggerConfig {
         );
         return new OpenAPI()
                 .components(new Components())
-                .servers(List.of(new Server().url("https://pang-api.euns.dev")))
+                .servers(List.of(
+                    new Server().url("https://pang-api.euns.dev"),
+                    new Server().url("http://localhost:8080")
+                ))
                 .info(apiInfo())
                 .addSecurityItem(securityRequirement)
                 .components(components);

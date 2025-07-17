@@ -1,0 +1,1 @@
+ALTER TABLE streams_keys MODIFY COLUMN stream_key TEXT NOT NULL;

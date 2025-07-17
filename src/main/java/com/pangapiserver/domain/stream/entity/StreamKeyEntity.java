@@ -22,7 +22,7 @@ public class StreamKeyEntity {
     @JoinColumn(name = "fk_user_id", nullable = false)
     private UserEntity user;
 
-    @Column(name = "stream_key", nullable = false)
+    @Column(name = "stream_key", nullable = false, columnDefinition = "TEXT")
     private String key;
 
     public static StreamKeyEntity create(UserEntity user) {

@@ -1,7 +1,9 @@
 package com.pangapiserver.domain.stream.service;
 
 import com.pangapiserver.domain.stream.entity.StreamEntity;
+import com.pangapiserver.domain.stream.exception.StreamKeyNotFoundException;
 import com.pangapiserver.domain.stream.repository.StreamRepository;
+import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.infrastructure.security.support.UserAuthenticationHolder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,13 +21,16 @@ public class StreamService {
         return repository.findAllByOrderByIdDesc();
     }
 
-    public void save(String title) {
-        repository.save(StreamEntity.builder()
-            .user(holder.current())
-            .title(title)
-            .url("")
-            .startedAt(LocalDateTime.now())
-            .endAt(LocalDateTime.now())
-            .build());
+    public StreamEntity getByStreamingId(UserEntity user) {
+        return repository.findByUserAndEndAtNull(user)
+            .orElseThrow(StreamKeyNotFoundException::new);
+    }
+
+    public void save(StreamEntity stream) {
+        repository.save(stream);
+    }
+
+    public void update(StreamEntity stream) {
+
     }
 }

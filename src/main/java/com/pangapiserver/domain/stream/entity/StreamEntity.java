@@ -6,15 +6,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "streams")
+@EntityListeners(AuditingEntityListener.class)
+@NoArgsConstructor
 public class StreamEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -29,9 +30,20 @@ public class StreamEntity {
     @Column(nullable = false)
     private String url;
 
+    @CreatedDate
     @Column(nullable = false)
     private LocalDateTime startedAt;
 
-    @Column(nullable = true)
     private LocalDateTime endAt;
+
+    @Builder
+    public StreamEntity(UserEntity user, String title, String url) {
+        this.user = user;
+        this.title = title;
+        this.url = url;
+    }
+
+    public void updateEndAt() {
+        this.endAt = LocalDateTime.now();
+    }
 }

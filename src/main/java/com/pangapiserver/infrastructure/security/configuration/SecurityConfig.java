@@ -35,7 +35,13 @@ public class SecurityConfig {
             .authorizeHttpRequests(request ->
                 request
                     .requestMatchers("/auth/**").anonymous()
-                    .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
+                    .requestMatchers("/stream/key").authenticated()
+                    .requestMatchers(
+                            "/swagger-ui/**",
+                            "/v3/api-docs/**",
+                            "/swagger-ui.html",
+                            "/stream/**"
+                    ).permitAll()
                     .anyRequest().authenticated()
             )
             .addFilterAfter(tokenFilter, UsernamePasswordAuthenticationFilter.class)
@@ -48,7 +54,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOrigins(List.of("*"));
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         configuration.setAllowCredentials(false);
 

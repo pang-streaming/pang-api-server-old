@@ -33,16 +33,12 @@ public class SecurityConfig {
             .httpBasic(AbstractHttpConfigurer::disable)
             .formLogin(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(request ->
-                request
-                    .requestMatchers("/auth/**").anonymous()
-                    .requestMatchers("/stream/key").authenticated()
-                    .requestMatchers(
-                            "/swagger-ui/**",
-                            "/v3/api-docs/**",
-                            "/swagger-ui.html",
-                            "/stream/**"
-                    ).permitAll()
-                    .anyRequest().authenticated()
+                    request
+                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
+                        .requestMatchers("/stream/key").authenticated()
+                        .requestMatchers("/stream/**").permitAll()
+                        .anyRequest().authenticated()
             )
             .addFilterAfter(tokenFilter, UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(exceptionHandlerFilter, TokenFilter.class)

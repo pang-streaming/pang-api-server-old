@@ -1,5 +1,6 @@
 package com.pangapiserver.domain.community.entity;
 
+import com.pangapiserver.domain.common.entity.BaseEntity;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "posts")
-public class PostEntity {
+public class PostEntity extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 

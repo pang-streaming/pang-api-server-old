@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "communites")
+@Table(name = "communities")
 public class CommunityEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

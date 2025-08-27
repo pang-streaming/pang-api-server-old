@@ -25,6 +25,10 @@ spring:
       host: ${REDIS_HOST}
       database: 0
 
+springdoc:
+  swagger-ui:
+    display-request-duration: true
+
 app:
   video:
     key: ${VIDEO_KEY}

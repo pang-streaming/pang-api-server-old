@@ -27,7 +27,7 @@ public class FollowService {
         return followConverter.mapToFollowingResponse(
                 followings,
                 FollowEntity::getFollower,
-                FollowingResponse::toFollowing
+                FollowingResponse::of
         );
     }
 
@@ -37,7 +37,7 @@ public class FollowService {
         return followConverter.mapToFollowingResponse(
                 followers,
                 FollowEntity::getUser,
-                FollowingResponse::toFollower
+                FollowingResponse::of
         );
     }
 

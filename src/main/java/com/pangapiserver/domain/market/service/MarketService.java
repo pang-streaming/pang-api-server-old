@@ -7,6 +7,8 @@ import com.pangapiserver.domain.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class MarketService {
@@ -23,5 +25,9 @@ public class MarketService {
                 .seller(user)
                 .build()
         );
+    }
+
+    public List<ProductEntity> getItems() {
+        return productRepository.findAll();
     }
 }

@@ -2,11 +2,14 @@ package com.pangapiserver.application.market.data;
 
 import com.pangapiserver.domain.market.entity.ProductEntity;
 
+import java.util.UUID;
+
 public record ProductDetailResponse (
     String image,
     String name,
     int likes,
     int price,
+    UUID userId,
     String profileImage,
     String username
 ) {
@@ -16,6 +19,7 @@ public record ProductDetailResponse (
             entity.getName(),
             likes,
             entity.getPrice(),
+            entity.getId(),
             entity.getSeller().getProfileImage(),
             entity.getSeller().getUsername()
         );

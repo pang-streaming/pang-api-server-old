@@ -5,6 +5,7 @@ import com.pangapiserver.application.market.data.ProductDetailResponse;
 import com.pangapiserver.application.market.data.ProductLikeRequest;
 import com.pangapiserver.application.market.data.ProductListResponse;
 import com.pangapiserver.domain.market.entity.ProductEntity;
+import com.pangapiserver.domain.market.enumeration.LikeStatus;
 import com.pangapiserver.domain.market.service.MarketService;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
@@ -45,7 +46,9 @@ public class MarketUseCase {
         UUID productId = request.productId();
         ProductEntity product = service.getById(productId);
         UserEntity user = holder.current();
-        service.saveLike(user, product);
-        return Response.ok("하트 성공");
+        if (service.saveLike(user, product) == LikeStatus.LIKED) {
+            return Response.ok("하트 성공");
+        }
+        return Response.ok("언 하트 성공");
     }
 }

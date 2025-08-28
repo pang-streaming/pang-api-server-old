@@ -4,6 +4,7 @@ import com.pangapiserver.application.market.data.ProductAddRequest;
 import com.pangapiserver.domain.common.exception.BasicException;
 import com.pangapiserver.domain.market.entity.ProductEntity;
 import com.pangapiserver.domain.market.entity.ProductLikeEntity;
+import com.pangapiserver.domain.market.enumeration.LikeStatus;
 import com.pangapiserver.domain.market.exception.ProductNotFoundException;
 import com.pangapiserver.domain.market.repository.ProductLikeRepository;
 import com.pangapiserver.domain.market.repository.ProductRepository;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -42,7 +44,12 @@ public class MarketService {
             .orElseThrow(ProductNotFoundException::new);
     }
 
-    public void saveLike(UserEntity user, ProductEntity product) {
+    public LikeStatus saveLike(UserEntity user, ProductEntity product) {
+        Optional<ProductEntity> entity = productLikeRepository.findByUserAndProduct(user, product);
+        if (entity.isPresent()) {
+            productLikeRepository.deleteById(entity.get().getId());
+            return LikeStatus.UNLIKED;
+        }
         productLikeRepository.save(
             ProductLikeEntity.builder()
                 .user(user)
@@ -50,6 +57,7 @@ public class MarketService {
                 .createdAt(LocalDateTime.now())
                 .build()
         );
+        return LikeStatus.LIKED;
     }
 
     public int getLikes(UUID id) {

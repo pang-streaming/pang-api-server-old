@@ -13,7 +13,5 @@ import java.util.UUID;
 public interface ProductLikeRepository extends JpaRepository<ProductLikeEntity, UUID> {
     int countByProduct_Id(UUID productId);
 
-    boolean existsByUserAndProduct(UserEntity user, ProductEntity product);
-
-    Optional<ProductEntity> findByUserAndProduct(UserEntity user, ProductEntity product);
+    Optional<ProductLikeEntity> findByUserAndProduct(UserEntity user, ProductEntity product);
 }

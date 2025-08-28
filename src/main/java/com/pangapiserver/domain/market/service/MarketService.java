@@ -45,7 +45,7 @@ public class MarketService {
     }
 
     public LikeStatus saveLike(UserEntity user, ProductEntity product) {
-        Optional<ProductEntity> entity = productLikeRepository.findByUserAndProduct(user, product);
+        Optional<ProductLikeEntity> entity = productLikeRepository.findByUserAndProduct(user, product);
         if (entity.isPresent()) {
             productLikeRepository.deleteById(entity.get().getId());
             return LikeStatus.UNLIKED;

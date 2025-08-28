@@ -42,10 +42,10 @@ public class FollowCustomRepositoryImpl implements FollowCustomRepository {
         QUserEntity userEntity = new QUserEntity("userEntity");
 
         return jpaQueryFactory
-                .selectFrom(followEntity)
-                .join(followEntity.follower, userEntity).fetchJoin()
-                .where(followEntity.user.eq(user))
-                .fetch();
+            .selectFrom(followEntity)
+            .join(followEntity.follower, userEntity).fetchJoin()
+            .where(followEntity.user.eq(user))
+            .fetch();
     }
 
     @Override

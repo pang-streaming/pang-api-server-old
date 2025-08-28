@@ -10,5 +10,5 @@ import com.pangapiserver.domain.user.entity.UserEntity;
 public interface FollowCustomRepository {
     Map<UUID, Long> countByFollowerIds(List<UUID> ids);
 
-    List<FollowEntity> findFollowingsWithFollowerByUser(UserEntity user);
+    List<FollowEntity> findFollowingByUser(UserEntity user);
 }

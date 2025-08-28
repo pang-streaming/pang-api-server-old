@@ -37,7 +37,7 @@ public class FollowCustomRepositoryImpl implements FollowCustomRepository {
     }
 
     @Override
-    public List<FollowEntity> findFollowingsWithFollowerByUser(UserEntity user) {
+    public List<FollowEntity> findFollowingByUser(UserEntity user) {
         QFollowEntity followEntity = QFollowEntity.followEntity;
         QUserEntity userEntity = new QUserEntity("userEntity");
 

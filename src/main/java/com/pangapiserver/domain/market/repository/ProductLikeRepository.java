@@ -8,4 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface ProductLikeRepository extends JpaRepository<ProductLikeEntity, UUID> {
+    int countByProduct_Id(UUID productId);
 }

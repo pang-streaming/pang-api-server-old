@@ -2,6 +2,8 @@ package com.pangapiserver.presentation.market;
 
 import com.pangapiserver.application.market.MarketUseCase;
 import com.pangapiserver.application.market.data.ProductAddRequest;
+import com.pangapiserver.application.market.data.ProductDetailResponse;
+import com.pangapiserver.application.market.data.ProductLikeRequest;
 import com.pangapiserver.application.market.data.ProductListResponse;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.infrastructure.common.dto.Response;
@@ -10,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/market")
@@ -25,5 +28,15 @@ public class MarketController implements MarketDocuments {
     @GetMapping("/items")
     public DataResponse<List<ProductListResponse>> getItems() {
         return useCase.getItems();
+    }
+
+    @GetMapping("/{productId}")
+    public DataResponse<ProductDetailResponse> getItem(@PathVariable("productId") UUID productId) {
+        return useCase.getItem(productId);
+    }
+
+    @PostMapping("/like")
+    public Response like(@RequestBody ProductLikeRequest request) {
+        return useCase.like(request);
     }
 }

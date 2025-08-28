@@ -1,6 +1,9 @@
 package com.pangapiserver.domain.follow.repository;
 
+import com.pangapiserver.domain.follow.entity.FollowEntity;
 import com.pangapiserver.domain.follow.entity.QFollowEntity;
+import com.pangapiserver.domain.user.entity.QUserEntity;
+import com.pangapiserver.domain.user.entity.UserEntity;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -31,5 +34,17 @@ public class FollowCustomRepositoryImpl implements FollowCustomRepository {
                 tuple -> tuple.get(f.follower.id),
                 tuple -> tuple.get(1, Long.class)
             ));
+    }
+
+    @Override
+    public List<FollowEntity> findFollowingsWithFollowerByUser(UserEntity user) {
+        QFollowEntity followEntity = QFollowEntity.followEntity;
+        QUserEntity userEntity = new QUserEntity("userEntity");
+
+        return jpaQueryFactory
+                .selectFrom(followEntity)
+                .join(followEntity.follower, userEntity).fetchJoin()
+                .where(followEntity.user.eq(user))
+                .fetch();
     }
 }

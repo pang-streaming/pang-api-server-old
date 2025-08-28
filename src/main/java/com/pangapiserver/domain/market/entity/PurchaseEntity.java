@@ -19,7 +19,7 @@ import java.util.UUID;
 @Table(name = "purchases")
 public class PurchaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -31,5 +31,5 @@ public class PurchaseEntity {
     private UserEntity buyer;
 
     @CreatedDate
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
 }

@@ -16,11 +16,11 @@ import java.util.UUID;
 @AllArgsConstructor
 @Table(name = "products")
 public class ProductEntity {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(nullable = false)
-    private String image;
+    private String imageUrl;
 
     @Column(nullable = false)
     private String name;

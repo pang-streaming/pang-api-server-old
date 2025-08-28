@@ -12,7 +12,7 @@ public record ProductDetailResponse (
 ) {
     public static ProductDetailResponse of(ProductEntity entity, int likes) {
         return new ProductDetailResponse(
-            entity.getImage(),
+            entity.getImageUrl(),
             entity.getName(),
             likes,
             entity.getPrice(),

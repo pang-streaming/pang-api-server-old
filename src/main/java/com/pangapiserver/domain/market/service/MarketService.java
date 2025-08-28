@@ -20,16 +20,15 @@ public class MarketService {
     private final ProductLikeRepository productLikeRepository;
 
     public void saveProduct(UserEntity user, ProductAddRequest request) {
-        productRepository.save(
-            ProductEntity.builder()
-                .image(request.image())
-                .name(request.name())
-                .description(request.description())
-                .price(request.price())
-                .fileUrl(request.fileUrl())
-                .seller(user)
-                .build()
-        );
+        ProductEntity entity = ProductEntity.builder()
+            .imageUrl(request.image())
+            .name(request.name())
+            .description(request.description())
+            .price(request.price())
+            .fileUrl(request.fileUrl())
+            .seller(user)
+            .build();
+        productRepository.save(entity);
     }
 
     public List<ProductEntity> getItems() {
@@ -45,7 +44,7 @@ public class MarketService {
             ProductLikeEntity.builder()
                 .user(user)
                 .product(product)
-                .createAt(LocalDateTime.now())
+                .createdAt(LocalDateTime.now())
                 .build()
         );
     }

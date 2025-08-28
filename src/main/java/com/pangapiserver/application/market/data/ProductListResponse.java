@@ -9,7 +9,7 @@ public record ProductListResponse (
 ) {
     public static ProductListResponse of(ProductEntity entity) {
         return new ProductListResponse(
-            entity.getImage(),
+            entity.getImageUrl(),
             entity.getName(),
             entity.getPrice()
         );

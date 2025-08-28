@@ -1,8 +1,10 @@
 package com.pangapiserver.domain.market.service;
 
 import com.pangapiserver.application.market.data.ProductAddRequest;
+import com.pangapiserver.domain.common.exception.BasicException;
 import com.pangapiserver.domain.market.entity.ProductEntity;
 import com.pangapiserver.domain.market.entity.ProductLikeEntity;
+import com.pangapiserver.domain.market.exception.ProductNotFoundException;
 import com.pangapiserver.domain.market.repository.ProductLikeRepository;
 import com.pangapiserver.domain.market.repository.ProductRepository;
 import com.pangapiserver.domain.user.entity.UserEntity;
@@ -36,7 +38,8 @@ public class MarketService {
     }
 
     public ProductEntity getById(UUID id) {
-        return productRepository.findById(id).orElse(null);
+        return productRepository.findById(id)
+            .orElseThrow(ProductNotFoundException::new);
     }
 
     public void saveLike(UserEntity user, ProductEntity product) {

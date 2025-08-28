@@ -23,7 +23,7 @@ public class RedisCacheConfig {
     @Bean
     public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
         RedisCacheConfiguration cacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofSeconds(properties.getTimeToLive()))
+                .entryTtl(Duration.ofMillis(properties.getTimeToLive()))
                 .serializeKeysWith(fromSerializer(new StringRedisSerializer()))
                 .serializeValuesWith(fromSerializer(
                         new GenericJackson2JsonRedisSerializer(createRedisObjectMapper())

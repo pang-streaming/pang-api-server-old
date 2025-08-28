@@ -1,6 +1,11 @@
 spring:
   application:
     name: pang-api-server
+  cache:
+    type: redis
+    redis:
+      time-to-live: 600000 # 10분
+      cache-null-values: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${DB_URL}
@@ -12,6 +17,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
+    show-sql: true
   flyway:
     enabled: true
     url: ${DB_URL}

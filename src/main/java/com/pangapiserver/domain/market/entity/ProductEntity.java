@@ -32,7 +32,7 @@ public class ProductEntity {
     private int price;
 
     @Column(nullable = false)
-    private 
+    private String fileUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_user_id", nullable = false)

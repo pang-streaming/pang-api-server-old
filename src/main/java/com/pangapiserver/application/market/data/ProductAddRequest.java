@@ -4,5 +4,6 @@ public record ProductAddRequest(
     String image,
     String name,
     String description,
-    int price
+    int price,
+    String fileUrl
 ) {}

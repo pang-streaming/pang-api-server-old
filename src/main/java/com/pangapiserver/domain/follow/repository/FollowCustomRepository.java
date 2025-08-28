@@ -11,4 +11,6 @@ public interface FollowCustomRepository {
     Map<UUID, Long> countByFollowerIds(List<UUID> ids);
 
     List<FollowEntity> findFollowingByUser(UserEntity user);
+
+    List<FollowEntity> findFollowerByUser(UserEntity user);
 }

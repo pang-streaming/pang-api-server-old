@@ -33,7 +33,7 @@ public class FollowService {
 
     public List<FollowingResponse> getFollowersByUsername(String username) {
         UserEntity user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
-        List<FollowEntity> followers = followRepository.findByFollower(user);
+        List<FollowEntity> followers = followRepository.findFollowerByUser(user);
         return followConverter.mapToFollowingResponse(
                 followers,
                 FollowEntity::getUser,

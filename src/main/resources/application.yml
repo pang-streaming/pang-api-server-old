@@ -1,6 +1,11 @@
 spring:
   application:
     name: pang-api-server
+  cache:
+    type: redis
+    redis:
+      time-to-live: 600000 # 10분
+      cache-null-values: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${DB_URL}

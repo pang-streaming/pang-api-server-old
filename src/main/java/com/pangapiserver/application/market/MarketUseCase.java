@@ -1,13 +1,15 @@
 package com.pangapiserver.application.market;
 
-import com.pangapiserver.application.market.data.ProductAddRequest;
-import com.pangapiserver.application.market.data.ProductDetailResponse;
-import com.pangapiserver.application.market.data.ProductLikeRequest;
-import com.pangapiserver.application.market.data.ProductListResponse;
+import com.pangapiserver.application.market.data.*;
+import com.pangapiserver.domain.cash.exception.InsufficientBalanceException;
+import com.pangapiserver.domain.cash.service.CashService;
 import com.pangapiserver.domain.market.entity.ProductEntity;
 import com.pangapiserver.domain.market.enumeration.LikeStatus;
+import com.pangapiserver.domain.market.exception.ProductAlreadyOwnedException;
 import com.pangapiserver.domain.market.service.MarketService;
+import com.pangapiserver.domain.market.service.PurchaseService;
 import com.pangapiserver.domain.user.entity.UserEntity;
+import com.pangapiserver.domain.user.service.UserService;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.infrastructure.common.dto.Response;
 import com.pangapiserver.infrastructure.security.support.UserAuthenticationHolder;
@@ -22,6 +24,9 @@ import java.util.UUID;
 public class MarketUseCase {
     private final UserAuthenticationHolder holder;
     private final MarketService service;
+    private final PurchaseService purchaseService;
+    private final CashService cashService;
+    private final UserService userService;
 
     public Response add(ProductAddRequest request) {
         service.saveProduct(holder.current(), request);
@@ -50,5 +55,47 @@ public class MarketUseCase {
             return Response.ok("하트 성공");
         }
         return Response.ok("언 하트 성공");
+    }
+
+    public DataResponse<PurchaseResponse> purchase(ProductBuyRequest request) {
+        UserEntity user = holder.current();
+        ProductEntity product = service.getById(request.productId());
+        checkAlreadyOwned(user, product);
+        checkCash(user, product);
+        purchaseService.save(user, product);
+        PurchaseResponse response = PurchaseResponse.of(product);
+        return DataResponse.ok("구매 성공", response);
+    }
+
+    public Response gift(ProductGiftRequest request) {
+        UserEntity user = holder.current();
+        UserEntity receiver = userService.getByUsername(request.username());
+        ProductEntity product = service.getById(request.productId());
+        checkAlreadyOwned(receiver, product);
+        checkCash(user, product);
+        purchaseService.save(receiver, product);
+        return Response.ok("선물 보내기 성공");
+    }
+
+    public DataResponse<List<PurchaseResponse>> getGifts() {
+        UserEntity user = holder.current();
+        List<ProductEntity> entities = purchaseService.getByUser(user);
+        List<PurchaseResponse> responses = entities.stream().map(
+            PurchaseResponse::of
+        ).toList();
+        return DataResponse.ok("선물 조회 성공", responses);
+    }
+
+    private void checkAlreadyOwned(UserEntity user, ProductEntity product) {
+        if (purchaseService.existsByUserAndProduct(user, product)) {
+            throw new ProductAlreadyOwnedException();
+        }
+    }
+
+    private void checkCash(UserEntity user, ProductEntity product) {
+        int cash = cashService.getBalance(user);
+        if (cash < product.getPrice()) {
+            throw new InsufficientBalanceException();
+        }
     }
 }

@@ -1,10 +1,7 @@
 package com.pangapiserver.presentation.market;
 
 import com.pangapiserver.application.market.MarketUseCase;
-import com.pangapiserver.application.market.data.ProductAddRequest;
-import com.pangapiserver.application.market.data.ProductDetailResponse;
-import com.pangapiserver.application.market.data.ProductLikeRequest;
-import com.pangapiserver.application.market.data.ProductListResponse;
+import com.pangapiserver.application.market.data.*;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.infrastructure.common.dto.Response;
 import com.pangapiserver.presentation.market.document.MarketDocuments;
@@ -38,5 +35,20 @@ public class MarketController implements MarketDocuments {
     @PostMapping("/like")
     public Response like(@RequestBody ProductLikeRequest request) {
         return useCase.like(request);
+    }
+
+    @PostMapping("/buy")
+    public DataResponse<PurchaseResponse> purchase(@RequestBody ProductBuyRequest request) {
+        return useCase.purchase(request);
+    }
+
+    @PostMapping("/gift")
+    public Response gift(@RequestBody ProductGiftRequest request) {
+        return useCase.gift(request);
+    }
+
+    @GetMapping("/gifts")
+    public DataResponse<List<PurchaseResponse>> getGifts() {
+        return useCase.getGifts();
     }
 }

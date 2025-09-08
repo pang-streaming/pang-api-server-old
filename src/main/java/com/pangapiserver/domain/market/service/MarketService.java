@@ -1,13 +1,14 @@
 package com.pangapiserver.domain.market.service;
 
 import com.pangapiserver.application.market.data.ProductAddRequest;
-import com.pangapiserver.domain.common.exception.BasicException;
 import com.pangapiserver.domain.market.entity.ProductEntity;
 import com.pangapiserver.domain.market.entity.ProductLikeEntity;
+import com.pangapiserver.domain.market.entity.PurchaseEntity;
 import com.pangapiserver.domain.market.enumeration.LikeStatus;
 import com.pangapiserver.domain.market.exception.ProductNotFoundException;
 import com.pangapiserver.domain.market.repository.ProductLikeRepository;
 import com.pangapiserver.domain.market.repository.ProductRepository;
+import com.pangapiserver.domain.market.repository.PurchaseRepository;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import java.util.UUID;
 public class MarketService {
     private final ProductRepository productRepository;
     private final ProductLikeRepository productLikeRepository;
+    private final PurchaseRepository purchaseRepository;
 
     public void saveProduct(UserEntity user, ProductAddRequest request) {
         ProductEntity entity = ProductEntity.builder()

@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum MarketExceptionStatusCode implements StatusCode {
     PRODUCT_NOT_FOUND(HttpStatus.NOT_FOUND, "상품을 찾을 수 없습니다."),
+    PRODUCT_ALREADY_OWNED(HttpStatus.CONFLICT, "이미 해당 상품을 보유중입니다."),
     ;
     private final HttpStatus status;
     private final String message;

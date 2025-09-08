@@ -1,10 +1,10 @@
 package com.pangapiserver.application.market.data;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
 public record ProductLikeRequest (
-    @NotBlank
+    @NotNull
     UUID productId
 ) {}

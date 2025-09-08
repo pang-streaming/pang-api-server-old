@@ -1,7 +1,9 @@
 package com.pangapiserver.domain.market.exception;
 
-public class ProductAlreadyOwnedException extends RuntimeException {
+import com.pangapiserver.domain.common.exception.BasicException;
+
+public class ProductAlreadyOwnedException extends BasicException {
     public ProductAlreadyOwnedException() {
-        super();
+        super(MarketExceptionStatusCode.PRODUCT_ALREADY_OWNED);
     }
 }

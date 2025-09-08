@@ -19,7 +19,7 @@ public record ProductDetailResponse (
             entity.getName(),
             likes,
             entity.getPrice(),
-            entity.getId(),
+            entity.getSeller().getId(),
             entity.getSeller().getProfileImage(),
             entity.getSeller().getUsername()
         );

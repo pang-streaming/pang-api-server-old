@@ -1,7 +1,6 @@
 package com.pangapiserver.application.market;
 
 import com.pangapiserver.application.market.data.*;
-import com.pangapiserver.domain.cash.exception.InsufficientBalanceException;
 import com.pangapiserver.domain.cash.service.CashService;
 import com.pangapiserver.domain.market.entity.ProductEntity;
 import com.pangapiserver.domain.market.enumeration.LikeStatus;
@@ -61,7 +60,7 @@ public class MarketUseCase {
         UserEntity user = holder.current();
         ProductEntity product = service.getById(request.productId());
         checkAlreadyOwned(user, product);
-        checkCash(user, product);
+        withdrawBalance(user, product);
         purchaseService.save(user, product);
         PurchaseResponse response = PurchaseResponse.of(product);
         return DataResponse.ok("구매 성공", response);
@@ -72,7 +71,7 @@ public class MarketUseCase {
         UserEntity receiver = userService.getByUsername(request.username());
         ProductEntity product = service.getById(request.productId());
         checkAlreadyOwned(receiver, product);
-        checkCash(user, product);
+        withdrawBalance(user, product);
         purchaseService.save(receiver, product);
         return Response.ok("선물 보내기 성공");
     }
@@ -92,10 +91,9 @@ public class MarketUseCase {
         }
     }
 
-    private void checkCash(UserEntity user, ProductEntity product) {
-        int cash = cashService.getBalance(user);
-        if (cash < product.getPrice()) {
-            throw new InsufficientBalanceException();
-        }
+    private void withdrawBalance(UserEntity user, ProductEntity product) {
+        String description = String.format("User %s purchased %s for %d",
+            user.getId(), product.getId(), product.getPrice());
+        cashService.withdraw(user, product.getPrice(), description);
     }
 }

@@ -3,7 +3,6 @@ package com.pangapiserver.domain.market.service;
 import com.pangapiserver.application.market.data.ProductAddRequest;
 import com.pangapiserver.domain.market.entity.ProductEntity;
 import com.pangapiserver.domain.market.entity.ProductLikeEntity;
-import com.pangapiserver.domain.market.entity.PurchaseEntity;
 import com.pangapiserver.domain.market.enumeration.LikeStatus;
 import com.pangapiserver.domain.market.exception.ProductNotFoundException;
 import com.pangapiserver.domain.market.repository.ProductLikeRepository;

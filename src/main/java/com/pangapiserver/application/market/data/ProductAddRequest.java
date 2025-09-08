@@ -1,9 +1,12 @@
 package com.pangapiserver.application.market.data;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PositiveOrZero;
+
 public record ProductAddRequest(
-    String image,
-    String name,
-    String description,
-    int price,
-    String fileUrl
+    @NotBlank String image,
+    @NotBlank String name,
+    @NotBlank String description,
+    @PositiveOrZero int price,
+    @NotBlank String fileUrl
 ) {}

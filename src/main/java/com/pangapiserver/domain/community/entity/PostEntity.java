@@ -32,4 +32,7 @@ public class PostEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_communities_id", nullable = false)
     private CommunityEntity community;
+
+    @Column(nullable = false)
+    private int likes = 0;
 }

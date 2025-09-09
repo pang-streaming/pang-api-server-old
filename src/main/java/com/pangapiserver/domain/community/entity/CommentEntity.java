@@ -1,5 +1,6 @@
 package com.pangapiserver.domain.community.entity;
 
+import com.pangapiserver.domain.common.entity.BaseEntity;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "comments")
-public class CommentEntity {
+public class CommentEntity extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -25,8 +26,12 @@ public class CommentEntity {
     private String content;
 
     @Column(nullable = false)
-    private Long pkMantionId;
+    private Long pkMentionId;
 
     @Column(nullable = false)
     private Integer pkPostId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
+    private CommentEntity parent;
 }

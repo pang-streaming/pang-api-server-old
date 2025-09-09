@@ -1,0 +1,5 @@
+ALTER TABLE comments ADD COLUMN created_at DATETIME(6) NOT NULL;
+ALTER TABLE comments ADD COLUMN modified_at DATETIME(6) NOT NULL;
+ALTER TABLE comments ADD COLUMN parent_id BIGINT;
+ALTER TABLE comments ADD CONSTRAINT fk_comment_parent FOREIGN KEY (parent_id) REFERENCES comments (id);
+ALTER TABLE comments CHANGE COLUMN pk_mantion_id pk_mention_id BIGINT NOT NULL;

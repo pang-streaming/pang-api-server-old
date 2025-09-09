@@ -8,6 +8,7 @@ import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.domain.user.exception.UserNotFoundException;
 import com.pangapiserver.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,23 +22,25 @@ public class FollowService {
     private final FollowRepository followRepository;
     private final FollowConverter followConverter;
 
+    @Cacheable(value = "followings", key = "#username")
     public List<FollowingResponse> getFollowingsByUsername(String username) {
         UserEntity user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
-        List<FollowEntity> followings = followRepository.findByUser(user);
+        List<FollowEntity> followings = followRepository.findFollowingByUser(user);
         return followConverter.mapToFollowingResponse(
                 followings,
                 FollowEntity::getFollower,
-                FollowingResponse::toFollowing
+                FollowingResponse::of
         );
     }
 
+    @Cacheable(value = "followers", key = "#username")
     public List<FollowingResponse> getFollowersByUsername(String username) {
         UserEntity user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
-        List<FollowEntity> followers = followRepository.findByFollower(user);
+        List<FollowEntity> followers = followRepository.findFollowerByUser(user);
         return followConverter.mapToFollowingResponse(
                 followers,
                 FollowEntity::getUser,
-                FollowingResponse::toFollower
+                FollowingResponse::of
         );
     }
 

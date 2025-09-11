@@ -2,7 +2,7 @@ package com.pangapiserver.presentation.community;
 
 import com.pangapiserver.application.community.PostUseCase;
 import com.pangapiserver.application.community.data.AddPostRequest;
-import com.pangapiserver.application.community.data.PostResponseDto;
+import com.pangapiserver.application.community.data.PostListResponse;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.infrastructure.common.dto.Response;
 import com.pangapiserver.presentation.community.document.CommunityDocuments;
@@ -26,7 +26,7 @@ public class CommunityController implements CommunityDocuments {
 
     @GetMapping("/{communityId}")
     @Override
-    public DataResponse<Page<PostResponseDto>> getPostsByCommunity(@PathVariable Long communityId, Pageable pageable) {
+    public DataResponse<Page<PostListResponse>> getPostsByCommunity(@PathVariable Long communityId, Pageable pageable) {
         return postUseCase.getPostsByCommunity(communityId, pageable);
     }
 }

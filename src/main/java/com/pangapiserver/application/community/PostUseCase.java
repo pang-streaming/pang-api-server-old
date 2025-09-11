@@ -1,7 +1,7 @@
 package com.pangapiserver.application.community;
 
 import com.pangapiserver.application.community.data.AddPostRequest;
-import com.pangapiserver.application.community.data.PostResponseDto;
+import com.pangapiserver.application.community.data.PostListResponse;
 import com.pangapiserver.domain.community.entity.CommunityEntity;
 import com.pangapiserver.domain.community.entity.PostEntity;
 import com.pangapiserver.domain.community.service.CommunityService;
@@ -42,7 +42,7 @@ public class PostUseCase {
     }
 
     /** 커뮤니티별 게시글 조회 */
-    public DataResponse<Page<PostResponseDto>> getPostsByCommunity(Long communityId, Pageable pageable) {
+    public DataResponse<Page<PostListResponse>> getPostsByCommunity(Long communityId, Pageable pageable) {
         CommunityEntity community = communityService.findById(communityId);
         UUID communityOwnerId = community.getUser().getId(); // 커뮤니티 스트리머 ID
         System.out.println(communityOwnerId + "1");
@@ -66,12 +66,12 @@ public class PostUseCase {
         }
         finalPosts.addAll(otherPosts);
 
-        List<PostResponseDto> dtoList = finalPosts.stream()
-                .map(PostResponseDto::fromEntity)
+        List<PostListResponse> dtoList = finalPosts.stream()
+                .map(PostListResponse::fromEntity)
                 .collect(Collectors.toList());
 
         Pageable newPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
-        Page<PostResponseDto> resultPage = new PageImpl<>(dtoList, newPageable, postsPage.getTotalElements());
+        Page<PostListResponse> resultPage = new PageImpl<>(dtoList, newPageable, postsPage.getTotalElements());
 
         return DataResponse.ok("게시글 조회 성공", resultPage);
     }

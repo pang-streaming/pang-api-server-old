@@ -6,6 +6,7 @@ import com.pangapiserver.domain.community.entity.PostEntity;
 import com.pangapiserver.domain.community.service.CommunityService;
 import com.pangapiserver.domain.community.service.PostService;
 import com.pangapiserver.domain.user.entity.UserEntity;
+import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.infrastructure.common.dto.Response;
 import com.pangapiserver.infrastructure.security.support.UserAuthenticationHolder;
 import org.junit.jupiter.api.DisplayName;
@@ -60,5 +61,20 @@ class PostUseCaseTest {
         verify(postService).save(any(PostEntity.class));
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK);
         assertThat(response.getMessage()).isEqualTo("post success");
+    }
+
+    @Test
+    @DisplayName("게시글 상세보기")
+    void getPost() {
+        // given
+        PostEntity post = PostEntity.builder().id(1L).build();
+        given(postService.findById(1L)).willReturn(post);
+
+        // when
+        DataResponse<PostEntity> res = postUseCase.getPost(1L);
+
+        // then
+        assertThat(res.getStatus()).isEqualTo(HttpStatus.OK);
+        assertThat(res.getData()).isEqualTo(post);
     }
 }

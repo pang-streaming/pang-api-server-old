@@ -75,4 +75,10 @@ public class PostUseCase {
 
         return DataResponse.ok("게시글 목록 조회 성공", resultPage);
     }
+
+    /** 게시글 상세보기 */
+    public DataResponse<PostEntity> getPost(Long postId) {
+        PostEntity post = postService.findById(postId);
+        return DataResponse.ok("게시글 조회 성공", post);
+    }
 }

@@ -24,8 +24,8 @@ public class CommunityController implements CommunityDocuments {
         return postUseCase.addPost(request);
     }
 
-    @GetMapping("/{communityId}")
     @Override
+    @GetMapping("/{communityId}")
     public DataResponse<Page<PostListResponse>> getPostsByCommunity(@PathVariable Long communityId, Pageable pageable) {
         return postUseCase.getPostsByCommunity(communityId, pageable);
     }

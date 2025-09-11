@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "posts")
 public class PostEntity extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false)
     private String title;

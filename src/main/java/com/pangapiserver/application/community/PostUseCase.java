@@ -41,7 +41,7 @@ public class PostUseCase {
         return Response.ok("post success");
     }
 
-    /** 커뮤니티별 게시글 조회 */
+    /** 커뮤니티별 게시글 목록 조회 */
     public DataResponse<Page<PostListResponse>> getPostsByCommunity(Long communityId, Pageable pageable) {
         CommunityEntity community = communityService.findById(communityId);
         UUID communityOwnerId = community.getUser().getId(); // 커뮤니티 스트리머 ID
@@ -73,6 +73,6 @@ public class PostUseCase {
         Pageable newPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
         Page<PostListResponse> resultPage = new PageImpl<>(dtoList, newPageable, postsPage.getTotalElements());
 
-        return DataResponse.ok("게시글 조회 성공", resultPage);
+        return DataResponse.ok("게시글 목록 조회 성공", resultPage);
     }
 }

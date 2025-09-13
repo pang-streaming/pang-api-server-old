@@ -1,6 +1,8 @@
 package com.pangapiserver.domain.community.service;
 
 import com.pangapiserver.domain.community.entity.PostEntity;
+import com.pangapiserver.domain.community.enumeration.PostFilterType;
+import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.domain.community.exception.PostNotFoundException;
 import com.pangapiserver.domain.community.repository.PostCustomRepository;
 import com.pangapiserver.domain.community.repository.PostRepository;
@@ -19,8 +21,8 @@ public class PostService {
         return repository.save(entity);
     }
 
-    public Page<PostEntity> getPostsByCommunity(Long communityId, Pageable pageable) {
-        return customRepository.findPostsByCommunity(communityId, pageable);
+    public Page<PostEntity> getPostsByCommunity(UserEntity user, Long communityId, Pageable pageable, PostFilterType filter) {
+        return customRepository.findPostsByCommunity(user, communityId, pageable, filter);
     }
 
     public PostEntity findById(Long id) {

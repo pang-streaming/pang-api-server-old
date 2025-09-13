@@ -6,6 +6,7 @@ import com.pangapiserver.domain.community.entity.CommunityEntity;
 import com.pangapiserver.domain.community.entity.PostEntity;
 import com.pangapiserver.domain.community.service.CommunityService;
 import com.pangapiserver.domain.community.service.PostService;
+import com.pangapiserver.domain.community.enumeration.PostFilterType;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.infrastructure.common.dto.Response;
@@ -42,8 +43,9 @@ public class PostUseCase {
     }
 
     /** 커뮤니티별 게시글 목록 조회 */
-    public DataResponse<Page<PostListResponse>> getPostsByCommunity(Long communityId, Pageable pageable) {
-        Page<PostEntity> postsPage = postService.getPostsByCommunity(communityId, pageable);
+    public DataResponse<Page<PostListResponse>> getPostsByCommunity(Long communityId, Pageable pageable, PostFilterType filter) {
+        UserEntity user = userAuthHolder.current();
+        Page<PostEntity> postsPage = postService.getPostsByCommunity(user, communityId, pageable, filter);
         List<PostEntity> posts = new ArrayList<>(postsPage.getContent());
 
         List<PostListResponse> dtoList = posts.stream()

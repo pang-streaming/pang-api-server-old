@@ -14,8 +14,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import com.pangapiserver.application.community.data.PostListResponse;
+import com.pangapiserver.domain.community.enumeration.PostFilterType;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -37,14 +46,19 @@ class PostUseCaseTest {
     @Mock
     private UserAuthenticationHolder userAuthHolder;
 
+    private UserEntity user;
+    private CommunityEntity community;
+
+    @BeforeEach
+    void setUp() {
+        user = UserEntity.builder().username("testuser").build();
+        community = CommunityEntity.builder().id(1L).build();
+    }
+
     @Test
     @DisplayName("게시글 생성")
     void addPost() {
         // given
-        UserEntity user = UserEntity.builder()
-            .username("testuser")
-            .build();
-        CommunityEntity community = CommunityEntity.builder().id(1L).build();
         AddPostRequest request = new AddPostRequest("Test Title", "Test Content", 1L);
 
         given(userAuthHolder.current()).willReturn(user);
@@ -76,5 +90,30 @@ class PostUseCaseTest {
         // then
         assertThat(res.getStatus()).isEqualTo(HttpStatus.OK);
         assertThat(res.getData()).isEqualTo(post);
+    }
+
+    @Test
+    @DisplayName("커뮤니티별 게시글 목록 조회")
+    void getPostsByCommunity() {
+        // given
+        Pageable pageable = PageRequest.of(0, 10);
+        List<PostEntity> posts = List.of(
+            PostEntity.builder().id(1L).title("title1").content("content1").user(user).community(community).build(),
+            PostEntity.builder().id(2L).title("title2").content("content2").user(user).community(community).build()
+        );
+        Page<PostEntity> postPage = new PageImpl<>(posts, pageable, posts.size());
+
+        given(userAuthHolder.current()).willReturn(user);
+        given(postService.getPostsByCommunity(user, 1L, pageable, PostFilterType.ALL)).willReturn(postPage);
+
+        // when
+        DataResponse<Page<PostListResponse>> response = postUseCase.getPostsByCommunity(1L, pageable, PostFilterType.ALL);
+
+        // then
+        verify(userAuthHolder).current();
+        verify(postService).getPostsByCommunity(user, 1L, pageable, PostFilterType.ALL);
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getData().getTotalElements()).isEqualTo(2);
+        assertThat(response.getData().getContent().get(0).title()).isEqualTo("title1");
     }
 }

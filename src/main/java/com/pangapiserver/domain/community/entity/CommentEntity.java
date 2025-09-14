@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Getter
 @Entity
 @Builder
@@ -26,10 +28,10 @@ public class CommentEntity extends BaseEntity {
     private String content;
 
     @Column(nullable = false)
-    private Long pkMentionId;
+    private UUID pkMentionId;
 
     @Column(nullable = false)
-    private Integer pkPostId;
+    private Long pkPostId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")

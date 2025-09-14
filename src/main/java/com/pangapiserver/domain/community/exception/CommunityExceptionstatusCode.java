@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 public enum CommunityExceptionstatusCode implements StatusCode {
     POST_NOTFOUND_EXCEPTION(HttpStatus.NOT_FOUND, "없는 게시물입니다."),
     COMMUNITY_NOTFOUND_EXCEPTION(HttpStatus.NOT_FOUND, "없는 커뮤니티입니다."),
-
+    COMMENT_NOTFOUND_EXCEPTION(HttpStatus.NOT_FOUND, "없는 댓글입니다.")
     ;
     private final HttpStatus status;
     private final String message;

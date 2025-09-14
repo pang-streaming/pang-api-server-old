@@ -27,7 +27,6 @@ public class CommentEntity extends BaseEntity {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
-    @Column(nullable = false)
     private UUID pkMentionId;
 
     @Column(nullable = false)

@@ -1,7 +1,10 @@
 package com.pangapiserver.presentation.community;
 
+import com.pangapiserver.application.community.CommentUseCase;
 import com.pangapiserver.application.community.PostUseCase;
+import com.pangapiserver.application.community.data.AddCommentRequest;
 import com.pangapiserver.application.community.data.AddPostRequest;
+import com.pangapiserver.application.community.data.CommentResponse;
 import com.pangapiserver.application.community.data.PostDetailResponse;
 import com.pangapiserver.application.community.data.PostListResponse;
 import com.pangapiserver.domain.community.enumeration.PostFilterType;
@@ -14,11 +17,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/post")
 @RequiredArgsConstructor
 public class CommunityController implements CommunityDocuments {
     private final PostUseCase postUseCase;
+    private final CommentUseCase commentUseCase;
 
     @Override
     @PostMapping
@@ -42,5 +48,17 @@ public class CommunityController implements CommunityDocuments {
     @PostMapping("/like/{postId}")
     public Response togglePostLike(@PathVariable Long postId) {
         return postUseCase.togglePostLike(postId);
+    }
+
+    @Override
+    @PostMapping("/comment")
+    public Response addComment(@Valid @RequestBody AddCommentRequest request) {
+        return commentUseCase.addComment(request);
+    }
+
+    @Override
+    @GetMapping("/comment/{postId}")
+    public DataResponse<List<CommentResponse>> getComments(@PathVariable Long postId) {
+        return commentUseCase.getComments(postId);
     }
 }

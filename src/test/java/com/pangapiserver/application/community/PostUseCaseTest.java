@@ -1,6 +1,7 @@
 package com.pangapiserver.application.community;
 
 import com.pangapiserver.application.community.data.AddPostRequest;
+import com.pangapiserver.application.community.data.PostDetailResponse;
 import com.pangapiserver.domain.community.entity.CommunityEntity;
 import com.pangapiserver.domain.community.entity.PostEntity;
 import com.pangapiserver.domain.community.service.CommunityService;
@@ -24,6 +25,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -81,15 +83,18 @@ class PostUseCaseTest {
     @DisplayName("게시글 상세보기")
     void getPost() {
         // given
-        PostEntity post = PostEntity.builder().id(1L).build();
+        Object ArrayList;
+        PostEntity post = PostEntity.builder().id(1L).user(user).postLikes(new ArrayList<>()).build();
+        given(userAuthHolder.current()).willReturn(user);
         given(postService.findById(1L)).willReturn(post);
+        PostDetailResponse postDetail = PostDetailResponse.fromEntity(post, false);
 
         // when
-        DataResponse<PostEntity> res = postUseCase.getPost(1L);
+        DataResponse<PostDetailResponse> res = postUseCase.getPost(1L);
 
         // then
         assertThat(res.getStatus()).isEqualTo(HttpStatus.OK);
-        assertThat(res.getData()).isEqualTo(post);
+        assertThat(res.getData()).isEqualTo(postDetail);
     }
 
     @Test
@@ -115,5 +120,20 @@ class PostUseCaseTest {
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK);
         assertThat(response.getData().getTotalElements()).isEqualTo(2);
         assertThat(response.getData().getContent().get(0).title()).isEqualTo("title1");
+    }
+
+    @Test
+    @DisplayName("게시글 좋아요 토글")
+    void togglePostLike() {
+        // given
+        given(userAuthHolder.current()).willReturn(user);
+
+        // when
+        Response response = postUseCase.togglePostLike(1L);
+
+        // then
+        verify(postService).togglePostLike(1L, user.getId());
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getMessage()).isEqualTo("게시글 좋아요 토글 성공");
     }
 }

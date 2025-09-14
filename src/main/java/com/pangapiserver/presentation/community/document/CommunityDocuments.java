@@ -1,6 +1,7 @@
 package com.pangapiserver.presentation.community.document;
 
 import com.pangapiserver.application.community.data.AddPostRequest;
+import com.pangapiserver.application.community.data.PostDetailResponse;
 import com.pangapiserver.application.community.data.PostListResponse;
 import com.pangapiserver.domain.community.entity.PostEntity;
 import com.pangapiserver.domain.community.enumeration.PostFilterType;
@@ -25,5 +26,5 @@ public interface CommunityDocuments {
 
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "게시글 상세보기", description = "게시글을 상세보기합니다")
-    DataResponse<PostEntity> getPost(Long postId);
+    DataResponse<PostDetailResponse> getPost(Long postId);
 }

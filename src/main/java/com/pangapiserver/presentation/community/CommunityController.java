@@ -2,8 +2,8 @@ package com.pangapiserver.presentation.community;
 
 import com.pangapiserver.application.community.PostUseCase;
 import com.pangapiserver.application.community.data.AddPostRequest;
+import com.pangapiserver.application.community.data.PostDetailResponse;
 import com.pangapiserver.application.community.data.PostListResponse;
-import com.pangapiserver.domain.community.entity.PostEntity;
 import com.pangapiserver.domain.community.enumeration.PostFilterType;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.infrastructure.common.dto.Response;
@@ -34,7 +34,12 @@ public class CommunityController implements CommunityDocuments {
 
     @Override
     @GetMapping
-    public DataResponse<PostEntity> getPost(@RequestParam Long postId) {
+    public DataResponse<PostDetailResponse> getPost(@RequestParam Long postId) {
         return postUseCase.getPost(postId);
+    }
+
+    @PostMapping("/like/{postId}")
+    public Response togglePostLike(@PathVariable Long postId) {
+        return postUseCase.togglePostLike(postId);
     }
 }

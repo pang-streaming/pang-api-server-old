@@ -1,6 +1,7 @@
 package com.pangapiserver.application.community;
 
 import com.pangapiserver.application.community.data.AddPostRequest;
+import com.pangapiserver.application.community.data.PostDetailResponse;
 import com.pangapiserver.application.community.data.PostListResponse;
 import com.pangapiserver.domain.community.entity.CommunityEntity;
 import com.pangapiserver.domain.community.entity.PostEntity;
@@ -22,7 +23,6 @@ import org.springframework.data.domain.PageRequest;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -59,8 +59,17 @@ public class PostUseCase {
     }
 
     /** 게시글 상세보기 */
-    public DataResponse<PostEntity> getPost(Long postId) {
+    public DataResponse<PostDetailResponse> getPost(Long postId) {
+        UserEntity user = userAuthHolder.current();
         PostEntity post = postService.findById(postId);
-        return DataResponse.ok("게시글 조회 성공", post);
+        boolean isLiked = postService.isPostLikedByUser(postId, user.getId());
+        return DataResponse.ok("게시글 조회 성공", PostDetailResponse.fromEntity(post, isLiked));
+    }
+
+    /** 게시글 좋아요 토글 */
+    public Response togglePostLike(Long postId) {
+        UserEntity user = userAuthHolder.current();
+        postService.togglePostLike(postId, user.getId());
+        return Response.ok("게시글 좋아요 토글 성공");
     }
 }

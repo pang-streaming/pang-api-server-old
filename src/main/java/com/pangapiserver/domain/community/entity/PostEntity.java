@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -33,6 +35,6 @@ public class PostEntity extends BaseEntity {
     @JoinColumn(name = "fk_communities_id", nullable = false)
     private CommunityEntity community;
 
-    @Column(nullable = false)
-    private int likes = 0;
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PostLikeEntity> postLikes = new ArrayList<>();
 }

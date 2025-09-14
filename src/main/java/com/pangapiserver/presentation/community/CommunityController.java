@@ -38,6 +38,7 @@ public class CommunityController implements CommunityDocuments {
         return postUseCase.getPost(postId);
     }
 
+    @Override
     @PostMapping("/like/{postId}")
     public Response togglePostLike(@PathVariable Long postId) {
         return postUseCase.togglePostLike(postId);

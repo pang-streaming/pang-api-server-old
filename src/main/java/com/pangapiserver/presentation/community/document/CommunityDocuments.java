@@ -3,7 +3,6 @@ package com.pangapiserver.presentation.community.document;
 import com.pangapiserver.application.community.data.AddPostRequest;
 import com.pangapiserver.application.community.data.PostDetailResponse;
 import com.pangapiserver.application.community.data.PostListResponse;
-import com.pangapiserver.domain.community.entity.PostEntity;
 import com.pangapiserver.domain.community.enumeration.PostFilterType;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.infrastructure.common.dto.Response;
@@ -12,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Tag(name = "Community Api", description = "커뮤니티 api")
@@ -27,4 +27,8 @@ public interface CommunityDocuments {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "게시글 상세보기", description = "게시글을 상세보기합니다")
     DataResponse<PostDetailResponse> getPost(Long postId);
+
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "게시글 좋아요", description = "게시글을 업로드합니다.")
+    Response togglePostLike(@PathVariable Long postId);
 }

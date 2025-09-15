@@ -51,9 +51,8 @@ public class PostUseCase {
     public DataResponse<Page<PostListResponse>> getPostsByCommunity(Long communityId, Pageable pageable, PostFilterType filter) {
         UserEntity user = userAuthHolder.current();
         Page<PostEntity> postsPage = postService.getPostsByCommunity(user, communityId, pageable, filter);
-        List<PostEntity> posts = new ArrayList<>(postsPage.getContent());
 
-        List<PostListResponse> dtoList = posts.stream()
+        List<PostListResponse> dtoList = postsPage.getContent().stream()
             .map(PostListResponse::fromEntity)
             .collect(Collectors.toList());
 

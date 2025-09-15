@@ -41,7 +41,7 @@ public class StreamUseCase {
         List<FollowEntity> follows = followService.getFollowingEntitiesByUsername(holder.current().getUsername());
 
         Set<String> followingUsernames = follows.stream()
-                .map(f -> f.getFollower().getUsername()) // 여기 주의
+                .map(f -> f.getFollower().getUsername())
                 .collect(Collectors.toSet());
 
         List<StreamResponse> response = streams.stream()

@@ -83,7 +83,6 @@ class PostUseCaseTest {
     @DisplayName("게시글 상세보기")
     void getPost() {
         // given
-        Object ArrayList;
         PostEntity post = PostEntity.builder().id(1L).user(user).postLikes(new ArrayList<>()).build();
         given(userAuthHolder.current()).willReturn(user);
         given(postService.findById(1L)).willReturn(post);
@@ -103,8 +102,8 @@ class PostUseCaseTest {
         // given
         Pageable pageable = PageRequest.of(0, 10);
         List<PostEntity> posts = List.of(
-            PostEntity.builder().id(1L).title("title1").content("content1").user(user).community(community).build(),
-            PostEntity.builder().id(2L).title("title2").content("content2").user(user).community(community).build()
+            PostEntity.builder().id(1L).title("title1").content("content1").user(user).community(community).postLikes(new ArrayList<>()).build(),
+            PostEntity.builder().id(2L).title("title2").content("content2").user(user).community(community).postLikes(new ArrayList<>()).build()
         );
         Page<PostEntity> postPage = new PageImpl<>(posts, pageable, posts.size());
 

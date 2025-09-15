@@ -24,6 +24,10 @@ public interface StreamDocuments {
     DataResponse<StreamInfoResponse> getStream(UUID streamId);
 
     @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "팔로우하고 있는 스트리밍 조회 API", description = "자신이 팔로우 중인 스트리머들의 방송들을 조회합니다.")
+    DataResponse<List<StreamResponse>> getFollowingLiveStreams();
+
+    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "스트리밍 키 조회 API", description = "자신의 스트리밍 키를 조회합니다.")
     DataResponse<StreamKeyResponse> getKey();
 

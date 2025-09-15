@@ -33,6 +33,12 @@ public class StreamController implements StreamDocuments {
     }
 
     @Override
+    @GetMapping("/following")
+    public DataResponse<List<StreamResponse>> getFollowingLiveStreams() {
+        return streamUseCase.getFollowingLiveStreams();
+    }
+
+    @Override
     @GetMapping("/key")
     public DataResponse<StreamKeyResponse> getKey() {
         return streamKeyUseCase.getKey();

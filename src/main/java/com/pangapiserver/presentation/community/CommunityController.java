@@ -15,7 +15,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -60,5 +62,11 @@ public class CommunityController implements CommunityDocuments {
     @GetMapping("/comment/{postId}")
     public DataResponse<List<CommentResponse>> getComments(@PathVariable Long postId) {
         return commentUseCase.getComments(postId);
+    }
+
+    @Override
+    @PostMapping(value = "/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public DataResponse<String> uploadImage(@RequestPart MultipartFile image) {
+        return postUseCase.uploadImage(image);
     }
 }

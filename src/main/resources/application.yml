@@ -29,6 +29,21 @@ spring:
       port: 6379
       host: ${REDIS_HOST}
       database: 0
+  servlet:
+    multipart:
+      maxFileSize: 150MB
+      maxRequestSize: 150MB
+  cloud:
+    aws:
+      region:
+        static: ap-northeast-2
+      stack:
+        auto: false
+      credentials:
+        access-key: ${AWS_ACCESS_KEY}
+        secret-key: ${AWS_SECRET_KEY}
+      s3:
+        bucket: ${AWS_BUCKET}
 
 springdoc:
   swagger-ui:

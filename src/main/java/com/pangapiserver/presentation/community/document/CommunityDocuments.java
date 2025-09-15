@@ -10,7 +10,9 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -39,4 +41,8 @@ public interface CommunityDocuments {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "댓글 조회", description = "댓글을 조회합니다.")
     DataResponse<List<CommentResponse>> getComments(Long postId);
+
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "이미지 업로드")
+    DataResponse<String> uploadImage(MultipartFile image);
 }

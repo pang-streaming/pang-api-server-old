@@ -1,17 +1,22 @@
 package com.pangapiserver.application.stream;
 
+import com.pangapiserver.application.follow.data.FollowingResponse;
 import com.pangapiserver.application.stream.data.response.StreamInfoResponse;
 import com.pangapiserver.application.stream.data.response.StreamResponse;
+import com.pangapiserver.domain.follow.entity.FollowEntity;
 import com.pangapiserver.domain.follow.service.FollowService;
 import com.pangapiserver.domain.stream.entity.StreamEntity;
 import com.pangapiserver.domain.stream.service.StreamService;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
+import com.pangapiserver.infrastructure.security.support.UserAuthenticationHolder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 @Transactional
@@ -19,6 +24,7 @@ import java.util.UUID;
 public class StreamUseCase {
     private final StreamService service;
     private final FollowService followService;
+    private final UserAuthenticationHolder holder;
 
     public DataResponse<StreamInfoResponse> getStreamById(UUID streamId) {
         StreamEntity stream = service.getByStreamId(streamId);
@@ -28,5 +34,19 @@ public class StreamUseCase {
 
     public DataResponse<List<StreamResponse>> getLiveStreams() {
         return DataResponse.ok("생방송중 목록 조회 성공", service.getLiveStreams().stream().map(StreamResponse::of).toList());
+    }
+
+    public DataResponse<List<StreamResponse>> getFollowingLiveStreams() {
+        List<StreamResponse> streams = service.getLiveStreams().stream().map(StreamResponse::of).toList();
+        List<FollowEntity> follows = followService.getFollowingEntitiesByUsername(holder.current().getUsername());
+
+        Set<String> followingUsernames = follows.stream()
+                .map(f -> f.getFollower().getUsername()) // 여기 주의
+                .collect(Collectors.toSet());
+
+        List<StreamResponse> response = streams.stream()
+                .filter(stream -> followingUsernames.contains(stream.username()))
+                .toList();
+        return DataResponse.ok("생방송중 목록 조회 성공", response);
     }
 }

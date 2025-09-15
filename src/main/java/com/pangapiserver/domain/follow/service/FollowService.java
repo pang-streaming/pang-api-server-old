@@ -33,6 +33,12 @@ public class FollowService {
         );
     }
 
+    @Cacheable(value = "followings", key = "#username")
+    public List<FollowEntity> getFollowingEntitiesByUsername(String username) {
+        UserEntity user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
+        return followRepository.findFollowingByUser(user);
+    }
+
     @Cacheable(value = "followers", key = "#username")
     public List<FollowingResponse> getFollowersByUsername(String username) {
         UserEntity user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);

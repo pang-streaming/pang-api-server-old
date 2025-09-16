@@ -4,14 +4,19 @@ import com.pangapiserver.application.cash.data.CashChargeRequest;
 import com.pangapiserver.application.cash.data.CashResponse;
 import com.pangapiserver.domain.card.entity.CardEntity;
 import com.pangapiserver.domain.card.service.CardService;
+import com.pangapiserver.domain.cash.exception.PaymentGatewayException;
 import com.pangapiserver.domain.cash.service.CashService;
+import com.pangapiserver.domain.common.exception.BasicException;
+import com.pangapiserver.domain.common.exception.StatusCode;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.infrastructure.common.dto.Response;
+import com.pangapiserver.infrastructure.payment.dto.PaymentCardResponse;
 import com.pangapiserver.infrastructure.payment.service.PayappService;
 import com.pangapiserver.infrastructure.security.support.UserAuthenticationHolder;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -28,12 +33,17 @@ public class CashUseCase {
         CardEntity card = cardService.getCard(request.cardId());
         String description = "펑 "+ request.amount() +"개 충전";
 
-        payappService.paymentCard(
+        PaymentCardResponse response = payappService.paymentCard(
             card.getEncryptionKey(),
             description,
             String.valueOf(request.amount()+ request.amount()/10),
             card.getPhone()
         );
+
+        if (response.state().equals("0")) {
+            throw new BasicException(new PaymentGatewayException().getStatusCode(), response.errorMessage());
+        }
+
         service.deposit(user, request.amount(), description);
         return Response.ok("충전을 완료하였습니다.");
     }

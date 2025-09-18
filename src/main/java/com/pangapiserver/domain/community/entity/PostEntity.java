@@ -1,5 +1,6 @@
 package com.pangapiserver.domain.community.entity;
 
+import com.pangapiserver.domain.common.entity.BaseEntity;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -7,6 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -14,9 +17,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "posts")
-public class PostEntity {
+public class PostEntity extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(nullable = false)
     private String title;
@@ -31,4 +34,7 @@ public class PostEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_communities_id", nullable = false)
     private CommunityEntity community;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PostLikeEntity> postLikes = new ArrayList<>();
 }

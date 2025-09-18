@@ -1,0 +1,9 @@
+CREATE TABLE post_likes (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    fk_user_id BINARY(16) NOT NULL,
+    fk_post_id BIGINT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_post_likes_user FOREIGN KEY (fk_user_id) REFERENCES users(id),
+    CONSTRAINT fk_post_likes_post FOREIGN KEY (fk_post_id) REFERENCES posts(id)
+);

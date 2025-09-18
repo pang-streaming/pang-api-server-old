@@ -55,4 +55,8 @@ public class UserService {
                 )
             ).collect(Collectors.toList());
     }
+
+    public void deleteByUser(UserEntity user) {
+        repository.delete(user);
+    }
 }

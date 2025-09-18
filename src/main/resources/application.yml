@@ -44,6 +44,10 @@ spring:
         secret-key: ${AWS_SECRET_KEY}
       s3:
         bucket: ${AWS_BUCKET}
+  security:
+    user:
+      name: ${SWAGGER_USER}
+      password: ${SWAGGER_PASSWORD}
 
 springdoc:
   swagger-ui:

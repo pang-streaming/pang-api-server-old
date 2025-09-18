@@ -1,6 +1,7 @@
 package com.pangapiserver.domain.stream.entity;
 
 
+import com.pangapiserver.domain.common.entity.BaseEntity;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "streams_keys")
-public class StreamKeyEntity {
+public class StreamKeyEntity extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 

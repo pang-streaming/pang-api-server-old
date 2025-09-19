@@ -3,6 +3,7 @@ package com.pangapiserver.presentation.stream.document;
 import com.pangapiserver.application.stream.data.response.StreamInfoResponse;
 import com.pangapiserver.application.stream.data.response.StreamKeyResponse;
 import com.pangapiserver.application.stream.data.response.StreamResponse;
+import com.pangapiserver.application.stream.data.response.StreamUserResponse;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -34,4 +35,8 @@ public interface StreamDocuments {
     @Operation(summary = "스트리밍 키 생성 API", description = "자신의 스트리밍 키를 생성합니다.")
     @ResponseStatus(HttpStatus.CREATED)
     DataResponse<StreamKeyResponse> createKey();
+
+    @Operation(summary = "스트리밍 키로 스트리밍 생성", description = "암호화 되지 않은 스트리밍 스트리밍을 생성합니다.")
+    @ResponseStatus(HttpStatus.OK)
+    DataResponse<StreamUserResponse> createStreamByKey(String key);
 }

@@ -7,8 +7,10 @@ import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.infrastructure.security.support.UserAuthenticationHolder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@Transactional
 @RequiredArgsConstructor
 public class StreamKeyUseCase {
     private final StreamKeyService service;

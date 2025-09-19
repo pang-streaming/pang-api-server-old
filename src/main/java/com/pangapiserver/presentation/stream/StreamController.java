@@ -5,6 +5,7 @@ import com.pangapiserver.application.stream.StreamUseCase;
 import com.pangapiserver.application.stream.data.response.StreamInfoResponse;
 import com.pangapiserver.application.stream.data.response.StreamKeyResponse;
 import com.pangapiserver.application.stream.data.response.StreamResponse;
+import com.pangapiserver.application.stream.data.response.StreamUserResponse;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.presentation.stream.document.StreamDocuments;
 import lombok.RequiredArgsConstructor;
@@ -48,5 +49,11 @@ public class StreamController implements StreamDocuments {
     @PostMapping("/key")
     public DataResponse<StreamKeyResponse> createKey() {
         return streamKeyUseCase.createKey();
+    }
+
+    @Override
+    @PostMapping
+    public DataResponse<StreamUserResponse> createStreamByKey(@RequestHeader("X-Stream-Key") String key) {
+        return streamUseCase.createStreamByKey(key);
     }
 }

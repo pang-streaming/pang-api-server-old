@@ -54,6 +54,8 @@ springdoc:
     display-request-duration: true
 
 app:
+  stream:
+    url: ${STREAM_URL}
   video:
     key: ${VIDEO_KEY}
   token:

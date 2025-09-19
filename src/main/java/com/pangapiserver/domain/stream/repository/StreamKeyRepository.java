@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface StreamKeyRepository extends JpaRepository<StreamKeyEntity, Integer> {
     Optional<StreamKeyEntity> findByUser(UserEntity user);
+    Optional<StreamKeyEntity> findByKey(String streamKey);
 }

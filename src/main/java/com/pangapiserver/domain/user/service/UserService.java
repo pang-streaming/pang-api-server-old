@@ -8,12 +8,14 @@ import com.pangapiserver.domain.user.exception.UserNotFoundException;
 import com.pangapiserver.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository repository;
@@ -57,6 +59,7 @@ public class UserService {
     }
 
     public void deleteByUser(UserEntity user) {
+        followCustomRepository.deleteByUserOrFollower(user);
         repository.delete(user);
     }
 }

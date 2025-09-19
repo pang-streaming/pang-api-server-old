@@ -12,10 +12,12 @@ import com.pangapiserver.infrastructure.common.dto.Response;
 import com.pangapiserver.infrastructure.security.support.UserAuthenticationHolder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Component
+@Transactional
 @RequiredArgsConstructor
 public class UserUseCase {
     private final UserAuthenticationHolder holder;

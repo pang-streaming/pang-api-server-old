@@ -36,7 +36,7 @@ public interface StreamDocuments {
     @ResponseStatus(HttpStatus.CREATED)
     DataResponse<StreamKeyResponse> createKey();
 
-    @Operation(summary = "스트리밍 키로 스트리밍 생성", description = "암호화 되지 않은 스트리밍 스트리밍을 생성합니다.")
+    @Operation(summary = "스트리밍 키로 스트리밍 생성", description = "암호화 되지 않은 스트리밍 키로 스트림을 생성합니다.")
     @ResponseStatus(HttpStatus.OK)
     DataResponse<StreamUserResponse> createStreamByKey(String key);
 }

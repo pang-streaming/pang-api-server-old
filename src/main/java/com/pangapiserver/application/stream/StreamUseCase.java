@@ -65,6 +65,6 @@ public class StreamUseCase {
                 .url(properties.getUrl() + byStreamKey.getUser().getNickname())
                 .build();
         service.save(stream);
-        return DataResponse.ok("스트리밍 키 조회 성공", StreamUserResponse.of(byStreamKey));
+        return DataResponse.ok("스트림 생성 성공", StreamUserResponse.of(byStreamKey));
     }
 }

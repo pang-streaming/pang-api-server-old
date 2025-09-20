@@ -66,7 +66,7 @@ public class FollowCustomRepositoryImpl implements FollowCustomRepository {
         jpaQueryFactory
                 .delete(followEntity)
                 .where(followEntity.user.eq(user)
-                        .or(followEntity.follower.eq(user)))
+                .or(followEntity.follower.eq(user)))
                 .execute();
     }
 }

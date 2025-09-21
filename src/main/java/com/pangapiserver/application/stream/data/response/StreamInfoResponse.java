@@ -12,9 +12,10 @@ public record StreamInfoResponse(
         String username,
         String nickname,
         String profileImage,
-        int followers
+        int followers,
+        boolean isFollowed
 ) {
-    public static StreamInfoResponse of(StreamEntity stream, int followers) {
+    public static StreamInfoResponse of(StreamEntity stream, int followers, boolean isFollowed) {
         return new StreamInfoResponse(
             stream.getId(),
             stream.getTitle(),
@@ -23,7 +24,8 @@ public record StreamInfoResponse(
             stream.getUser().getUsername(),
             stream.getUser().getNickname(),
             stream.getUser().getProfileImage(),
-            followers
+            followers,
+            isFollowed
         );
     }
 }

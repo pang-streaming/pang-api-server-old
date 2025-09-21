@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
@@ -60,5 +61,11 @@ public class FollowService {
                     .follower(follower)
                     .build());
         }
+    }
+
+    public boolean isFollowing(UUID followingId, UUID followerId) {
+        UserEntity following = userRepository.findById(followingId).orElseThrow(UserNotFoundException::new);
+        UserEntity follower = userRepository.findById(followerId).orElseThrow(UserNotFoundException::new);
+        return followRepository.findByUserAndFollower(following, follower).isPresent();
     }
 }

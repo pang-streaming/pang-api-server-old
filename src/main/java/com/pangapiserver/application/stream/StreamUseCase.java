@@ -35,7 +35,8 @@ public class StreamUseCase {
     public DataResponse<StreamInfoResponse> getStreamById(UUID streamId) {
         StreamEntity stream = service.getByStreamId(streamId);
         int followers = followService.getFollowersByUsername(stream.getUser().getUsername()).size();
-        return DataResponse.ok("스트리밍 정보 조회 성공", StreamInfoResponse.of(stream, followers));
+        boolean isFollowed = followService.isFollowing(holder.current(), stream.getUser());
+        return DataResponse.ok("스트리밍 정보 조회 성공", StreamInfoResponse.of(stream, followers, isFollowed));
     }
 
     public DataResponse<List<StreamResponse>> getLiveStreams() {

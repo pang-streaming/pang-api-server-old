@@ -61,4 +61,8 @@ public class FollowService {
                     .build());
         }
     }
+
+    public boolean isFollowing(UserEntity following, UserEntity follower) {
+        return followRepository.findByUserAndFollower(following, follower).isPresent();
+    }
 }

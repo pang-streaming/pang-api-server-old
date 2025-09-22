@@ -63,9 +63,7 @@ public class FollowService {
         }
     }
 
-    public boolean isFollowing(UUID followingId, UUID followerId) {
-        UserEntity following = userRepository.findById(followingId).orElseThrow(UserNotFoundException::new);
-        UserEntity follower = userRepository.findById(followerId).orElseThrow(UserNotFoundException::new);
+    public boolean isFollowing(UserEntity following, UserEntity follower) {
         return followRepository.findByUserAndFollower(following, follower).isPresent();
     }
 }

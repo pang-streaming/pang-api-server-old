@@ -1,3 +1,6 @@
+ALTER TABLE streams ADD created_at datetime NULL;
+ALTER TABLE streams ADD modified_at datetime NULL;
+
 UPDATE streams_keys
 SET created_at = NOW(), modified_at = NOW()
 WHERE created_at IS NULL OR modified_at IS NULL;

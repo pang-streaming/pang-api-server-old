@@ -1,5 +1,6 @@
 package com.pangapiserver.domain.user.entity;
 
+import com.pangapiserver.domain.common.entity.BaseEntity;
 import com.pangapiserver.domain.user.enumeration.Gender;
 import com.pangapiserver.domain.user.enumeration.Role;
 import jakarta.persistence.*;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
-public class UserEntity {
+public class UserEntity extends BaseEntity {
     @Id
     @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.UUID)

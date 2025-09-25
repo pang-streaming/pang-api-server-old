@@ -1,0 +1,3 @@
+ALTER TABLE users
+    ADD created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    ADD modified_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP;

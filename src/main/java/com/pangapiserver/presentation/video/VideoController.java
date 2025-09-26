@@ -16,8 +16,8 @@ import java.util.List;
 public class VideoController {
     private final VideoUseCase useCase;
 
-    @GetMapping("/recent")
-    public DataResponse<List<StreamResponse>> getRecentVideos() {
-        return useCase.getRecentVideos();
+    @GetMapping("/watched")
+    public DataResponse<List<StreamResponse>> getWatchedVideos() {
+        return useCase.getWatchedVideos();
     }
 }

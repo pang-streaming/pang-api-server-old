@@ -16,7 +16,7 @@ public class VideoService {
     private final StreamRepository repository;
     private final RedisRepository redisRepository;
 
-    public List<StreamEntity> getRecentVideos(UUID userId) {
+    public List<StreamEntity> getWatchedVideos(UUID userId) {
         List<String> videoIds = redisRepository.getHistory(SaveType.WATCH_HISTORY, userId.toString());
 
         return videoIds.stream()

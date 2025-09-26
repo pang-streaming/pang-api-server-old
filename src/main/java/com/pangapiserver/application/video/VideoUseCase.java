@@ -16,9 +16,9 @@ public class VideoUseCase {
     private final VideoService service;
     private final UserAuthenticationHolder holder;
 
-    public DataResponse<List<StreamResponse>> getRecentVideos() {
+    public DataResponse<List<StreamResponse>> getWatchedVideos() {
         UserEntity user = holder.current();
-        List<StreamResponse> videos = service.getRecentVideos(user.getId()).stream()
+        List<StreamResponse> videos = service.getWatchedVideos(user.getId()).stream()
                 .map(StreamResponse::of)
                 .toList();
         return DataResponse.ok("최근 본 동영상 조회 성공", videos);

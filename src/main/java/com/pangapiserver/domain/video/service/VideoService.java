@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -20,8 +21,8 @@ public class VideoService {
         List<String> videoIds = redisRepository.getHistory(SaveType.WATCH_HISTORY, userId.toString());
 
         return videoIds.stream()
-                .map(id -> repository.findById(UUID.fromString(id))
-                        .orElse(null))
+                .map(id -> repository.findById(UUID.fromString(id)))
+                .flatMap(Optional::stream)
                 .toList();
     }
 }

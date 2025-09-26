@@ -1,7 +1,6 @@
 package com.pangapiserver.presentation.video.document;
 
 import com.pangapiserver.application.stream.data.response.StreamResponse;
-import com.pangapiserver.application.user.data.UserInfoResponse;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

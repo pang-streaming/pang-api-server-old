@@ -6,7 +6,6 @@ import com.pangapiserver.domain.stream.repository.StreamRepository;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.infrastructure.redis.support.RedisRepository;
 import com.pangapiserver.infrastructure.redis.support.SaveType;
-import com.pangapiserver.infrastructure.security.support.UserAuthenticationHolder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

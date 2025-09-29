@@ -1,5 +1,6 @@
 package com.pangapiserver.domain.watchHistory.entity;
 
+import com.pangapiserver.domain.common.entity.BaseEntity;
 import com.pangapiserver.domain.stream.entity.StreamEntity;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import jakarta.persistence.*;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "watch_histories")
 @NoArgsConstructor
-public class WatchHistoryEntity {
+public class WatchHistoryEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -28,13 +29,9 @@ public class WatchHistoryEntity {
     @JoinColumn(name = "fk_stream_id", nullable = false)
     private StreamEntity stream;
 
-    @CreatedDate
-    private LocalDateTime createdAt;
-
     @Builder
-    public WatchHistoryEntity(UserEntity user, StreamEntity stream, LocalDateTime createdAt) {
+    public WatchHistoryEntity(UserEntity user, StreamEntity stream) {
         this.user = user;
         this.stream = stream;
-        this.createdAt = createdAt;
     }
 }

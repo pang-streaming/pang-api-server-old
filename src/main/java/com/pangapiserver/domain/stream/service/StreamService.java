@@ -30,7 +30,6 @@ public class StreamService {
             WatchHistoryEntity entity = WatchHistoryEntity.builder()
                     .user(user)
                     .stream(stream)
-                    .createdAt(LocalDateTime.now())
                     .build();
             if (watchHistoryRepository.existsByStreamAndUser(stream, user)) {
                 watchHistoryRepository.deleteByStreamAndUser(stream, user);

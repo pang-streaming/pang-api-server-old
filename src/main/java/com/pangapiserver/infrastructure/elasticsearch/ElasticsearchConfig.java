@@ -1,26 +1,31 @@
 package com.pangapiserver.infrastructure.elasticsearch;
 
-import lombok.Value;
+import com.pangapiserver.infrastructure.common.exception.PangInternalServerException;
+import com.pangapiserver.infrastructure.elasticsearch.properties.ElasticsearchProperties;
+import lombok.RequiredArgsConstructor;
+import org.apache.hc.client5.http.ssl.TrustAllStrategy;
+import org.apache.hc.core5.ssl.SSLContextBuilder;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.client.ClientConfiguration;
 import org.springframework.data.elasticsearch.client.elc.ElasticsearchConfiguration;
 
 @Configuration
+@RequiredArgsConstructor
 public class ElasticsearchConfig extends ElasticsearchConfiguration {
-    @Value("${spring.elasticsearch.username}")
-    private String username;
-
-    @Value("${spring.elasticsearch.password}")
-    private String password;
-
-    @Value("${spring.elasticsearch.uris}")
-    private String host;
+    private final ElasticsearchProperties properties;
 
     @Override
     public ClientConfiguration clientConfiguration() {
-        return ClientConfiguration.builder()
-                .connectedTo(host)
-                .withBasicAuth(username, password)
-                .build();
+        try {
+            return ClientConfiguration.builder()
+                    .connectedTo(properties.getUris())
+                    .usingSsl(SSLContextBuilder.create()
+                            .loadTrustMaterial(new TrustAllStrategy())
+                            .build())
+                    .withBasicAuth(properties.getUsername(), properties.getPassword())
+                    .build();
+        } catch (Exception e) {
+            throw new PangInternalServerException();
+        }
     }
 }

@@ -18,8 +18,8 @@ public class VideoController implements VideoDocuments {
     private final VideoUseCase useCase;
 
     @Override
-    @GetMapping("/watched")
-    public DataResponse<List<StreamResponse>> getWatchedVideos() {
-        return useCase.getWatchedVideos();
+    @GetMapping("/recent")
+    public DataResponse<List<StreamResponse>> getRecent() {
+        return useCase.getRecent();
     }
 }

@@ -13,5 +13,5 @@ import java.util.List;
 public interface VideoDocuments {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "최근 시청한 동영상 조회 API", description = "최근 시청했던 동영상을 10개까지 조회합니다.")
-    DataResponse<List<StreamResponse>> getWatchedVideos();
+    DataResponse<List<StreamResponse>> getRecent();
 }

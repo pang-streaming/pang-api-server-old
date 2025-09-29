@@ -1,6 +1,7 @@
 package com.pangapiserver.application.video;
 
 import com.pangapiserver.application.stream.data.response.StreamResponse;
+import com.pangapiserver.domain.stream.entity.StreamEntity;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.domain.video.service.VideoService;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
@@ -16,11 +17,11 @@ public class VideoUseCase {
     private final VideoService service;
     private final UserAuthenticationHolder holder;
 
-    public DataResponse<List<StreamResponse>> getWatchedVideos() {
-        UserEntity user = holder.current();
-        List<StreamResponse> videos = service.getWatchedVideos(user.getId()).stream()
+    public DataResponse<List<StreamResponse>> getRecent() {
+        List<StreamEntity> entities = service.getRecent(holder.current());
+        List<StreamResponse> data = entities.stream()
                 .map(StreamResponse::of)
                 .toList();
-        return DataResponse.ok("최근 본 동영상 조회 성공", videos);
+        return DataResponse.ok("최근 시청한 동영상 조회 성공", data);
     }
 }

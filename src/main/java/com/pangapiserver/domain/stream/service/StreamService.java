@@ -4,11 +4,12 @@ import com.pangapiserver.domain.stream.entity.StreamEntity;
 import com.pangapiserver.domain.stream.exception.StreamNotFoundException;
 import com.pangapiserver.domain.stream.repository.StreamRepository;
 import com.pangapiserver.domain.user.entity.UserEntity;
-import com.pangapiserver.infrastructure.redis.support.RedisRepository;
-import com.pangapiserver.infrastructure.redis.support.SaveType;
+import com.pangapiserver.domain.watchHistory.entity.WatchHistoryEntity;
+import com.pangapiserver.domain.watchHistory.repository.WatchHistoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,7 +17,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class StreamService {
     private final StreamRepository repository;
-    private final RedisRepository redisRepository;
+    private final WatchHistoryRepository watchHistoryRepository;
 
     public List<StreamEntity> getAll() {
         return repository.findAllByOrderByIdDesc();
@@ -26,7 +27,16 @@ public class StreamService {
         StreamEntity stream = repository.findById(streamId)
             .orElseThrow(StreamNotFoundException::new);
         if (stream.getEndAt() != null) {
-            redisRepository.saveHistory(SaveType.WATCH_HISTORY, user.getId().toString(), streamId.toString());
+            WatchHistoryEntity entity = WatchHistoryEntity.builder()
+                    .user(user)
+                    .stream(stream)
+                    .createdAt(LocalDateTime.now())
+                    .build();
+            if (watchHistoryRepository.existsByStreamAndUser(stream, user)) {
+                watchHistoryRepository.deleteByStreamAndUser(stream, user);
+            }
+
+            watchHistoryRepository.save(entity);
         }
         return stream;
     }

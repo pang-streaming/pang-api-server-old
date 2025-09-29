@@ -68,6 +68,12 @@ dependencies {
     // s3
     implementation platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.0.2")
     implementation 'io.awspring.cloud:spring-cloud-aws-starter-s3'
+
+    // elasticsearch
+    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+    implementation 'org.springframework.data:spring-data-elasticsearch:5.4.4' // Spring Data EL 5.4.x
+    implementation 'co.elastic.clients:elasticsearch-java:8.11.1' // Elasticsearch Java 8.x
+
 }
 
 tasks.named('test') {

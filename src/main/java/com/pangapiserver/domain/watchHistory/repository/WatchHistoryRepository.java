@@ -10,9 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface WatchHistoryRepository extends JpaRepository<WatchHistoryEntity, UUID> {
-    List<WatchHistoryEntity> findTop10ByUserOrderByCreatedAtDesc(UserEntity user);
-
+public interface WatchHistoryRepository extends JpaRepository<WatchHistoryEntity, UUID>, WatchHistoryCustomRepository {
     boolean existsByStreamAndUser(StreamEntity stream, UserEntity user);
 
     void deleteByStreamAndUser(StreamEntity stream, UserEntity user);

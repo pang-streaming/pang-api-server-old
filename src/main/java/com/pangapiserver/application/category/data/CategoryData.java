@@ -5,14 +5,14 @@ import com.pangapiserver.domain.category.enumeration.Chip;
 import lombok.Builder;
 
 @Builder
-public record CategoryDto (
+public record CategoryData(
         Long id,
         String name,
         Chip chip,
         String postImage
 ) {
-    public static CategoryDto of(CategoryEntity categoryEntity) {
-        return CategoryDto.builder()
+    public static CategoryData of(CategoryEntity categoryEntity) {
+        return CategoryData.builder()
             .id(categoryEntity.getId())
             .name(categoryEntity.getName())
             .chip(categoryEntity.getChip())

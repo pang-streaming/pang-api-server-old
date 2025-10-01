@@ -1,6 +1,6 @@
 package com.pangapiserver.application.category;
 
-import com.pangapiserver.application.category.data.CategoryDto;
+import com.pangapiserver.application.category.data.CategoryData;
 import com.pangapiserver.domain.category.entity.CategoryEntity;
 import com.pangapiserver.domain.category.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,16 +17,16 @@ public class CategoryUseCase {
 
     private final CategoryRepository categoryRepository;
 
-    public List<CategoryDto> getCategoryList() {
-        return categoryRepository.findAll().stream().map(CategoryDto::of).collect(Collectors.toList());
+    public List<CategoryData> getCategoryList() {
+        return categoryRepository.findAll().stream().map(CategoryData::of).collect(Collectors.toList());
     }
 
-    public CategoryDto createCategory(CategoryDto categoryDto) {
+    public CategoryData createCategory(CategoryData categoryData) {
         CategoryEntity categoryEntity = CategoryEntity.builder()
-            .name(categoryDto.name())
-            .chip(categoryDto.chip())
-            .postImage(categoryDto.postImage())
+            .name(categoryData.name())
+            .chip(categoryData.chip())
+            .postImage(categoryData.postImage())
             .build();
-        return CategoryDto.of(categoryRepository.save(categoryEntity));
+        return CategoryData.of(categoryRepository.save(categoryEntity));
     }
 }

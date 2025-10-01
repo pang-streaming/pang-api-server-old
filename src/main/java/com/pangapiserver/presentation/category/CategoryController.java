@@ -1,7 +1,7 @@
 package com.pangapiserver.presentation.category;
 
 import com.pangapiserver.application.category.CategoryUseCase;
-import com.pangapiserver.application.category.data.CategoryDto;
+import com.pangapiserver.application.category.data.CategoryData;
 import com.pangapiserver.presentation.category.document.CategoryDocument;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -17,13 +17,13 @@ public class CategoryController implements CategoryDocument {
 
     @Override
     @GetMapping
-    public List<CategoryDto> getCategoryList() {
+    public List<CategoryData> getCategoryList() {
         return categoryUseCase.getCategoryList();
     }
 
     @Override
     @PostMapping
-    public CategoryDto createCategory(@RequestBody CategoryDto categoryDto) {
-        return categoryUseCase.createCategory(categoryDto);
+    public CategoryData createCategory(@RequestBody CategoryData categoryData) {
+        return categoryUseCase.createCategory(categoryData);
     }
 }

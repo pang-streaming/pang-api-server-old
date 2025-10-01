@@ -19,7 +19,7 @@ public class CategoryUseCase {
     private final CategoryRepository categoryRepository;
 
     public List<CategoryData> getCategoryList() {
-        return categoryRepository.findAll().stream().map(CategoryData::of).collect(Collectors.toList());
+        return categoryRepository.findAll().stream().map(CategoryData::of).toList();
     }
 
     public CategoryData createCategory(CategoryData categoryData) {

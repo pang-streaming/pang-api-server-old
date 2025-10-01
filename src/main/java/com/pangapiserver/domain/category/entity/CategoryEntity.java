@@ -1,5 +1,7 @@
 package com.pangapiserver.domain.category.entity;
 
+import com.pangapiserver.domain.category.enumeration.Chip;
+import com.pangapiserver.domain.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,16 +13,17 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "sub_category")
-public class SubCategory {
+@Table(name = "category")
+public class CategoryEntity extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_main_category", nullable = false)
-    private MainCategory mainCategory;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Chip chip;
 
     @Column(columnDefinition = "TEXT")
     private String postImage;

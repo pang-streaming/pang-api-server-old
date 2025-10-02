@@ -1,5 +1,6 @@
 package com.pangapiserver.domain.stream.entity;
 
+import com.pangapiserver.domain.category.entity.CategoryEntity;
 import com.pangapiserver.domain.common.entity.BaseEntity;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import jakarta.persistence.*;
@@ -24,6 +25,10 @@ public class StreamEntity extends BaseEntity {
     @JoinColumn(name = "fk_user_id", nullable = false)
     private UserEntity user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fk_category_id", nullable = false)
+    private CategoryEntity category;
+
     @Column(nullable = false)
     private String title;
 
@@ -33,8 +38,9 @@ public class StreamEntity extends BaseEntity {
     private LocalDateTime endAt;
 
     @Builder
-    public StreamEntity(UserEntity user, String title, String url) {
+    public StreamEntity(UserEntity user, CategoryEntity category, String title, String url) {
         this.user = user;
+        this.category = category;
         this.title = title;
         this.url = url;
     }

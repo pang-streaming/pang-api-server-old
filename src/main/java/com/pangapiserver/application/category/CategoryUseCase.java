@@ -5,11 +5,9 @@ import com.pangapiserver.domain.category.entity.CategoryEntity;
 import com.pangapiserver.domain.category.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @Transactional
@@ -19,7 +17,7 @@ public class CategoryUseCase {
     private final CategoryRepository categoryRepository;
 
     public List<CategoryData> getCategoryList() {
-        return categoryRepository.findAll().stream().map(CategoryData::of).toList();
+        return categoryRepository.findAllWithStreamCount();
     }
 
     public CategoryData createCategory(CategoryData categoryData) {

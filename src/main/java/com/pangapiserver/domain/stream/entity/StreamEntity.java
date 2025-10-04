@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -26,7 +28,7 @@ public class StreamEntity extends BaseEntity {
     private UserEntity user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_category_id", nullable = false)
+    @JoinColumn(name = "fk_category_id")
     private CategoryEntity category;
 
     @Column(nullable = false)
@@ -37,12 +39,18 @@ public class StreamEntity extends BaseEntity {
 
     private LocalDateTime endAt;
 
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "stream_tags", joinColumns = @JoinColumn(name = "stream_id"))
+    @Column(name = "tag")
+    private List<String> tags = new ArrayList<>();
+
     @Builder
-    public StreamEntity(UserEntity user, CategoryEntity category, String title, String url) {
+    public StreamEntity(UserEntity user, CategoryEntity category, String title, String url, List<String> tags) {
         this.user = user;
         this.category = category;
         this.title = title;
         this.url = url;
+        this.tags = tags;
     }
 
     public void updateEndAt() {

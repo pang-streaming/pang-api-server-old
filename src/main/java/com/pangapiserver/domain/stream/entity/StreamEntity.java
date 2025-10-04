@@ -56,4 +56,10 @@ public class StreamEntity extends BaseEntity {
     public void updateEndAt() {
         this.endAt = LocalDateTime.now();
     }
+
+    public void updateStream(CategoryEntity category, String title, List<String> tags) {
+        this.category = category;
+        this.title = title;
+        this.tags = tags;
+    }
 }

@@ -1,5 +1,6 @@
 package com.pangapiserver.application.stream;
 
+import com.pangapiserver.application.stream.data.request.UpdateStreamRequest;
 import com.pangapiserver.application.stream.data.response.StreamInfoResponse;
 import com.pangapiserver.application.stream.data.response.StreamResponse;
 import com.pangapiserver.application.stream.data.response.StreamUserResponse;
@@ -71,5 +72,13 @@ public class StreamUseCase {
                 .build();
         service.save(stream);
         return DataResponse.ok("스트림 생성 성공", StreamUserResponse.of(byStreamKey));
+    }
+
+    public DataResponse<StreamInfoResponse> updateStream(UUID streamId, UpdateStreamRequest request) {
+        StreamEntity stream = service.getByStreamId(streamId, holder.current());
+        service.updateStream(streamId, holder.current(), request);
+        int followers = followService.getFollowersByUsername(stream.getUser().getUsername()).size();
+
+        return DataResponse.ok("스트리밍 정보 수정 성공", StreamInfoResponse.of(stream, followers, false));
     }
 }

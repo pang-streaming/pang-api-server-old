@@ -43,4 +43,8 @@ public interface StreamDocuments {
     @Operation(summary = "스트리밍 키로 스트리밍 생성", description = "암호화 되지 않은 스트리밍 키로 스트림을 생성합니다.")
     @ResponseStatus(HttpStatus.OK)
     DataResponse<StreamUserResponse> createStreamByKey(String key);
+
+    @Operation(summary = "스트리밍 정보 수정", description = "스트리밍 정보를 수정합니다.")
+    @ResponseStatus(HttpStatus.OK)
+    DataResponse<StreamInfoResponse> updateStream(UUID streamId, com.pangapiserver.application.stream.data.request.UpdateStreamRequest request);
 }

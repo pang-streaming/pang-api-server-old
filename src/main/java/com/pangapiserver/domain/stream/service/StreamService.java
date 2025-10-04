@@ -1,5 +1,6 @@
 package com.pangapiserver.domain.stream.service;
 
+import com.pangapiserver.application.stream.data.request.UpdateStreamRequest;
 import com.pangapiserver.domain.category.entity.CategoryEntity;
 import com.pangapiserver.domain.category.exception.CategoryNotFoundException;
 import com.pangapiserver.domain.category.repository.CategoryRepository;
@@ -64,6 +65,16 @@ public class StreamService {
 
     public void update(StreamEntity stream) {
         stream.updateEndAt();
+        repository.save(stream);
+    }
+
+    public void updateStream(UUID streamId, UserEntity user, UpdateStreamRequest request) {
+        StreamEntity stream = repository.findById(streamId).orElseThrow(StreamNotFoundException::new);
+        if (!stream.getUser().equals(user)) {
+            throw new StreamNotFoundException();
+        }
+        CategoryEntity category = categoryRepository.findById(request.categoryId()).orElseThrow(CategoryNotFoundException::new);
+        stream.updateStream(category, request.title(), request.tags());
         repository.save(stream);
     }
 }

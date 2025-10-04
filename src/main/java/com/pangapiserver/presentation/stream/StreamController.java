@@ -34,6 +34,12 @@ public class StreamController implements StreamDocuments {
     }
 
     @Override
+    @GetMapping("/category/{categoryId}")
+    public DataResponse<List<StreamResponse>> getStreamsByCategory(@PathVariable("categoryId") Long categoryId) {
+        return streamUseCase.getStreamsByCategory(categoryId);
+    }
+
+    @Override
     @GetMapping("/following")
     public DataResponse<List<StreamResponse>> getFollowingLiveStreams() {
         return streamUseCase.getFollowingLiveStreams();

@@ -43,6 +43,10 @@ public class StreamUseCase {
         return DataResponse.ok("생방송중 목록 조회 성공", service.getLiveStreams().stream().map(StreamResponse::of).toList());
     }
 
+    public DataResponse<List<StreamResponse>> getStreamsByCategory(Long categoryId) {
+        return DataResponse.ok("카테고리별 스트림 조회 성공", service.getStreamsByCategory(categoryId).stream().map(StreamResponse::of).toList());
+    }
+
     public DataResponse<List<StreamResponse>> getFollowingLiveStreams() {
         List<StreamResponse> streams = service.getLiveStreams().stream().map(StreamResponse::of).toList();
         List<FollowEntity> follows = followService.getFollowingEntitiesByUsername(holder.current().getUsername());

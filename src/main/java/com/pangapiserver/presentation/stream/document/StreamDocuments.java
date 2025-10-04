@@ -21,6 +21,10 @@ public interface StreamDocuments {
     DataResponse<List<StreamResponse>> getLiveStreams();
 
     @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "카테고리별 스트리밍 조회 API", description = "카테고리에 따라 스트리밍을 조회합니다.")
+    DataResponse<List<StreamResponse>> getStreamsByCategory(Long categoryId);
+
+    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "특정 스트리밍 조회 API", description = "아이디에 따라 스트리밍을 조회합니다.")
     DataResponse<StreamInfoResponse> getStream(UUID streamId);
 

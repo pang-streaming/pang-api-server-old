@@ -1,5 +1,8 @@
 package com.pangapiserver.domain.stream.service;
 
+import com.pangapiserver.domain.category.entity.CategoryEntity;
+import com.pangapiserver.domain.category.exception.CategoryNotFoundException;
+import com.pangapiserver.domain.category.repository.CategoryRepository;
 import com.pangapiserver.domain.stream.entity.StreamEntity;
 import com.pangapiserver.domain.stream.exception.StreamNotFoundException;
 import com.pangapiserver.domain.stream.repository.StreamRepository;
@@ -17,6 +20,7 @@ import java.util.UUID;
 public class StreamService {
     private final StreamRepository repository;
     private final WatchHistoryRepository watchHistoryRepository;
+    private final CategoryRepository categoryRepository;
 
     public List<StreamEntity> getAll() {
         return repository.findAllByOrderByIdDesc();
@@ -42,6 +46,11 @@ public class StreamService {
 
     public List<StreamEntity> getLiveStreams() {
         return repository.findByEndAtIsNull();
+    }
+
+    public List<StreamEntity> getStreamsByCategory(Long categoryId) {
+        CategoryEntity category = categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new);
+        return repository.findAllByCategory(category);
     }
 
     public StreamEntity getLiveStreamByUserId(UserEntity user) {

@@ -9,7 +9,8 @@ public record CategoryData(
         Long id,
         String name,
         Chip chip,
-        String postImage
+        String postImage,
+        Long streamCount
 ) {
     public static CategoryData of(CategoryEntity categoryEntity) {
         return CategoryData.builder()
@@ -17,6 +18,7 @@ public record CategoryData(
             .name(categoryEntity.getName())
             .chip(categoryEntity.getChip())
             .postImage(categoryEntity.getPostImage())
+            .streamCount((long) (categoryEntity.getStreams() == null ? 0 : categoryEntity.getStreams().size()))
             .build();
     }
 }

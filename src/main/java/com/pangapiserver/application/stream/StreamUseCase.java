@@ -1,5 +1,6 @@
 package com.pangapiserver.application.stream;
 
+import com.pangapiserver.application.stream.data.request.UpdateStreamRequest;
 import com.pangapiserver.application.stream.data.response.StreamInfoResponse;
 import com.pangapiserver.application.stream.data.response.StreamResponse;
 import com.pangapiserver.application.stream.data.response.StreamUserResponse;
@@ -43,6 +44,10 @@ public class StreamUseCase {
         return DataResponse.ok("생방송중 목록 조회 성공", service.getLiveStreams().stream().map(StreamResponse::of).toList());
     }
 
+    public DataResponse<List<StreamResponse>> getStreamsByCategory(Long categoryId) {
+        return DataResponse.ok("카테고리별 스트림 조회 성공", service.getStreamsByCategory(categoryId).stream().map(StreamResponse::of).toList());
+    }
+
     public DataResponse<List<StreamResponse>> getFollowingLiveStreams() {
         List<StreamResponse> streams = service.getLiveStreams().stream().map(StreamResponse::of).toList();
         List<FollowEntity> follows = followService.getFollowingEntitiesByUsername(holder.current().getUsername());
@@ -67,5 +72,13 @@ public class StreamUseCase {
                 .build();
         service.save(stream);
         return DataResponse.ok("스트림 생성 성공", StreamUserResponse.of(byStreamKey));
+    }
+
+    public DataResponse<StreamInfoResponse> updateStream(UUID streamId, UpdateStreamRequest request) {
+        service.updateStream(streamId, holder.current(), request);
+        StreamEntity updatedStream = service.getByStreamId(streamId, holder.current());
+        int followers = followService.getFollowersByUsername(updatedStream.getUser().getUsername()).size();
+
+        return DataResponse.ok("스트리밍 정보 수정 성공", StreamInfoResponse.of(updatedStream, followers, false));
     }
 }

@@ -1,5 +1,6 @@
 package com.pangapiserver.domain.stream.repository;
 
+import com.pangapiserver.domain.category.entity.CategoryEntity;
 import com.pangapiserver.domain.stream.entity.StreamEntity;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,4 +17,6 @@ public interface StreamRepository extends JpaRepository<StreamEntity, UUID> {
     List<StreamEntity> findByEndAtIsNull();
 
     Optional<StreamEntity> findByUserAndEndAtNull(UserEntity user);
+
+    List<StreamEntity> findAllByCategory(CategoryEntity category);
 }

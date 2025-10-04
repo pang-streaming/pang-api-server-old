@@ -1,5 +1,9 @@
 package com.pangapiserver.domain.stream.service;
 
+import com.pangapiserver.application.stream.data.request.UpdateStreamRequest;
+import com.pangapiserver.domain.category.entity.CategoryEntity;
+import com.pangapiserver.domain.category.exception.CategoryNotFoundException;
+import com.pangapiserver.domain.category.repository.CategoryRepository;
 import com.pangapiserver.domain.stream.entity.StreamEntity;
 import com.pangapiserver.domain.stream.exception.StreamNotFoundException;
 import com.pangapiserver.domain.stream.repository.StreamRepository;
@@ -17,6 +21,7 @@ import java.util.UUID;
 public class StreamService {
     private final StreamRepository repository;
     private final WatchHistoryRepository watchHistoryRepository;
+    private final CategoryRepository categoryRepository;
 
     public List<StreamEntity> getAll() {
         return repository.findAllByOrderByIdDesc();
@@ -44,6 +49,11 @@ public class StreamService {
         return repository.findByEndAtIsNull();
     }
 
+    public List<StreamEntity> getStreamsByCategory(Long categoryId) {
+        CategoryEntity category = categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new);
+        return repository.findAllByCategory(category);
+    }
+
     public StreamEntity getLiveStreamByUserId(UserEntity user) {
         return repository.findByUserAndEndAtNull(user)
                 .orElseThrow(StreamNotFoundException::new);
@@ -55,6 +65,16 @@ public class StreamService {
 
     public void update(StreamEntity stream) {
         stream.updateEndAt();
+        repository.save(stream);
+    }
+
+    public void updateStream(UUID streamId, UserEntity user, UpdateStreamRequest request) {
+        StreamEntity stream = repository.findById(streamId).orElseThrow(StreamNotFoundException::new);
+        if (!stream.getUser().equals(user)) {
+            throw new StreamNotFoundException();
+        }
+        CategoryEntity category = categoryRepository.findById(request.categoryId()).orElseThrow(CategoryNotFoundException::new);
+        stream.updateStream(category, request.title(), request.tags());
         repository.save(stream);
     }
 }

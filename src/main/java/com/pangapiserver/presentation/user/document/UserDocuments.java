@@ -15,7 +15,7 @@ import java.util.List;
 @Tag(name = "유저 Api", description = "유저 api")
 public interface UserDocuments {
     @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "유저 목록 조회 API", description = "유저 목록을 조회합니다.")
+    @Operation(summary = "내 정보 조회", description = "내 정보를 조회합니다")
     DataResponse<UserInfoResponse> getMyInfo();
 
     @ResponseStatus(HttpStatus.OK)

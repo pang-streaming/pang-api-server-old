@@ -48,7 +48,7 @@ public interface StreamDocuments {
     @ResponseStatus(HttpStatus.OK)
     DataResponse<StreamInfoResponse> updateStream(UUID streamId, com.pangapiserver.application.stream.data.request.UpdateStreamRequest request);
 
-    @Operation(summary = "제목으로 검색", description = "제목으로 검색해 방송을 조회합니다.")
+    @Operation(summary = "스트리밍 검색 API", description = "방송 제목을 검색해 방송 목록을 조회합니다.")
     @ResponseStatus(HttpStatus.OK)
     DataResponse<List<StreamResponse>> search(String keyword);
 }

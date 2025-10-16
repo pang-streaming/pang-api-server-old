@@ -1,9 +1,7 @@
 package com.pangapiserver.application.user.data;
 
 import com.pangapiserver.domain.user.entity.UserEntity;
-import lombok.Builder;
 
-@Builder
 public record UserDetailResponse (
         String nickname,
         String profileImage,

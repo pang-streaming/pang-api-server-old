@@ -62,15 +62,15 @@ public class UserUseCase {
         UserEntity user = service.getByUsername(username);
         UserEntity currentUser = holder.current();
 
-        CommunityEntity community;
+        Long communityId;
         try {
-            community = communityService.findByUser(user);
+            communityId = communityService.findByUser(user).getId();
         } catch (CommunityNotfoundException e) {
-            community = null;
+            communityId = null;
         }
 
         int followers = followService.getFollowersByUsername(user.getUsername()).size();
         boolean isFollowed = followService.isFollowing(user, currentUser);
-        return DataResponse.ok("유저 정보 조회 성공", UserDetailResponse.of(user, community.getId(), (long) followers, isFollowed));
+        return DataResponse.ok("유저 정보 조회 성공", UserDetailResponse.of(user, communityId, (long) followers, isFollowed));
     }
 }

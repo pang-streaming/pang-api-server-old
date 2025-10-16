@@ -88,7 +88,7 @@ public class StreamUseCase {
         return DataResponse.ok("스트리밍 정보 수정 성공", StreamInfoResponse.of(updatedStream, followers, false));
     }
 
-    public DataResponse<List<String>> search(String keyword) {
+    public DataResponse<List<StreamResponse>> search(String keyword) {
         UserEntity user = holder.current();
         List<String> chips = interestRepository.getChipsWithUser(user);
         return DataResponse.ok("방송 검색 성공", service.searchByTitle(keyword, chips));

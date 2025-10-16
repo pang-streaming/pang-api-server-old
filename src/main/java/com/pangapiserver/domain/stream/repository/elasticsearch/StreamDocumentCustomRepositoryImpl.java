@@ -6,6 +6,7 @@ import co.elastic.clients.elasticsearch._types.query_dsl.FunctionScoreMode;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
+import com.pangapiserver.application.stream.data.response.StreamResponse;
 import com.pangapiserver.domain.stream.document.StreamDocument;
 import com.pangapiserver.infrastructure.elasticsearch.exception.ElasticsearchConnectionException;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class StreamDocumentCustomRepositoryImpl implements StreamDocumentCustomR
     private final ElasticsearchClient client;
 
     @Override
-    public List<String> searchByTitle(String keyword, List<String> chips) {
+    public List<StreamResponse> searchByTitle(String keyword, List<String> chips) {
         List<FunctionScore> functions = new ArrayList<>();
 
         functions.add(FunctionScore.of(fn -> fn
@@ -68,7 +69,7 @@ public class StreamDocumentCustomRepositoryImpl implements StreamDocumentCustomR
             return response.hits().hits().stream()
                     .map(Hit::source)
                     .filter(Objects::nonNull)
-                    .map(StreamDocument::getTitle)
+                    .map(StreamResponse::of)
                     .toList();
         } catch (Exception e) {
             throw new ElasticsearchConnectionException();

@@ -71,8 +71,9 @@ public class StreamController implements StreamDocuments {
         return streamUseCase.updateStream(streamId, request);
     }
 
+    @Override
     @PostMapping("/search/{keyword}")
-    public DataResponse<List<String>> search(@PathVariable("keyword") String keyword) {
+    public DataResponse<List<StreamResponse>> search(@PathVariable("keyword") String keyword) {
         return streamUseCase.search(keyword);
     }
 }

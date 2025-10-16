@@ -1,6 +1,7 @@
 package com.pangapiserver.domain.stream.service;
 
 import com.pangapiserver.application.stream.data.request.UpdateStreamRequest;
+import com.pangapiserver.application.stream.data.response.StreamResponse;
 import com.pangapiserver.domain.category.entity.CategoryEntity;
 import com.pangapiserver.domain.category.exception.CategoryNotFoundException;
 import com.pangapiserver.domain.category.repository.CategoryRepository;
@@ -88,15 +89,17 @@ public class StreamService {
     public void saveDocument(StreamEntity stream) {
         StreamDocument document = StreamDocument.builder()
                 .username(stream.getUser().getUsername())
+                .nickname(stream.getUser().getNickname())
                 .profileImage(stream.getUser().getProfileImage())
                 .streamId(stream.getId())
+                .streamUrl(stream.getUrl())
                 .title(stream.getTitle())
                 .chip(stream.getCategory().getChip().toString())
                 .build();
         streamDocumentRepository.save(document);
     }
 
-    public List<String> searchByTitle(String keyword, List<String> chips) {
+    public List<StreamResponse> searchByTitle(String keyword, List<String> chips) {
         return streamDocumentRepository.searchByTitle(keyword, chips);
     }
 }

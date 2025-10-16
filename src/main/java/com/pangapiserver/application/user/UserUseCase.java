@@ -2,9 +2,15 @@ package com.pangapiserver.application.user;
 
 import com.pangapiserver.application.follow.data.FollowerCountResponse;
 import com.pangapiserver.application.user.data.UpdateInfoRequest;
+import com.pangapiserver.application.user.data.UserDetailResponse;
 import com.pangapiserver.application.user.data.UserInfoResponse;
 import com.pangapiserver.application.user.data.UserListResponse;
 import com.pangapiserver.domain.cash.service.CashService;
+import com.pangapiserver.domain.community.entity.CommunityEntity;
+import com.pangapiserver.domain.community.exception.CommunityNotfoundException;
+import com.pangapiserver.domain.community.repository.CommunityRepository;
+import com.pangapiserver.domain.community.service.CommunityService;
+import com.pangapiserver.domain.follow.service.FollowService;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.domain.user.service.UserService;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
@@ -15,6 +21,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @Transactional
@@ -23,6 +30,8 @@ public class UserUseCase {
     private final UserAuthenticationHolder holder;
     private final UserService service;
     private final CashService cashService;
+    private final CommunityService communityService;
+    private final FollowService followService;
 
     public DataResponse<UserInfoResponse> getMyInfo() {
         UserEntity user = holder.current();
@@ -47,5 +56,21 @@ public class UserUseCase {
         UserEntity user = holder.current();
         service.deleteByUser(user);
         return Response.ok("회원 탈퇴 성공");
+    }
+
+    public DataResponse<UserDetailResponse> getUserDetailByUsername(String username) {
+        UserEntity user = service.getByUsername(username);
+        UserEntity currentUser = holder.current();
+
+        CommunityEntity community;
+        try {
+            community = communityService.findByUser(user);
+        } catch (CommunityNotfoundException e) {
+            community = null;
+        }
+
+        int followers = followService.getFollowersByUsername(user.getUsername()).size();
+        boolean isFollowed = followService.isFollowing(user, currentUser);
+        return DataResponse.ok("유저 정보 조회 성공", UserDetailResponse.of(user, community.getId(), (long) followers, isFollowed));
     }
 }

@@ -4,12 +4,17 @@ import com.pangapiserver.application.stream.data.request.UpdateStreamRequest;
 import com.pangapiserver.application.stream.data.response.StreamInfoResponse;
 import com.pangapiserver.application.stream.data.response.StreamResponse;
 import com.pangapiserver.application.stream.data.response.StreamUserResponse;
+import com.pangapiserver.domain.category.entity.CategoryEntity;
+import com.pangapiserver.domain.category.enumeration.Chip;
+import com.pangapiserver.domain.category.repository.CategoryRepository;
 import com.pangapiserver.domain.follow.entity.FollowEntity;
 import com.pangapiserver.domain.follow.service.FollowService;
+import com.pangapiserver.domain.interest.repository.InterestRepository;
 import com.pangapiserver.domain.stream.entity.StreamEntity;
 import com.pangapiserver.domain.stream.entity.StreamKeyEntity;
 import com.pangapiserver.domain.stream.service.StreamKeyService;
 import com.pangapiserver.domain.stream.service.StreamService;
+import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.infrastructure.encode.Sha512Encoder;
 import com.pangapiserver.infrastructure.security.support.UserAuthenticationHolder;
@@ -32,6 +37,8 @@ public class StreamUseCase {
     private final FollowService followService;
     private final UserAuthenticationHolder holder;
     private final StreamProperties properties;
+    private final InterestRepository interestRepository;
+    private final CategoryRepository categoryRepository;
 
     public DataResponse<StreamInfoResponse> getStreamById(UUID streamId) {
         StreamEntity stream = service.getByStreamId(streamId, holder.current());
@@ -71,6 +78,7 @@ public class StreamUseCase {
                 .url(properties.getUrl() + byStreamKey.getUser().getNickname())
                 .build();
         service.save(stream);
+        service.saveDocument(stream);
         return DataResponse.ok("스트림 생성 성공", StreamUserResponse.of(byStreamKey));
     }
 
@@ -80,5 +88,28 @@ public class StreamUseCase {
         int followers = followService.getFollowersByUsername(updatedStream.getUser().getUsername()).size();
 
         return DataResponse.ok("스트리밍 정보 수정 성공", StreamInfoResponse.of(updatedStream, followers, false));
+    }
+
+    public void createStreamDocument(String title) {
+        CategoryEntity category = CategoryEntity.builder()
+                .chip(Chip.GAME)
+                .name(title)
+                .build();
+        categoryRepository.save(category);
+
+        StreamEntity stream = StreamEntity.builder()
+                .user(holder.current())
+                .title(title)
+                .url(properties.getUrl())
+                .category(category)
+                .build();
+        service.save(stream);
+        service.saveDocument(stream);
+    }
+
+    public DataResponse<List<String>> search(String keyword) {
+        UserEntity user = holder.current();
+        List<String> chips = interestRepository.getChipsWithUser(user);
+        return DataResponse.ok("방송 검색 성공", service.searchByTitle(keyword, chips));
     }
 }

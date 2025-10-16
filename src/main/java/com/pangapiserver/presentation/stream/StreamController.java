@@ -8,6 +8,7 @@ import com.pangapiserver.application.stream.data.response.StreamKeyResponse;
 import com.pangapiserver.application.stream.data.response.StreamResponse;
 import com.pangapiserver.application.stream.data.response.StreamUserResponse;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
+import com.pangapiserver.infrastructure.common.dto.Response;
 import com.pangapiserver.presentation.stream.document.StreamDocuments;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -69,5 +70,16 @@ public class StreamController implements StreamDocuments {
     @PatchMapping("/{streamId}")
     public DataResponse<StreamInfoResponse> updateStream(@PathVariable("streamId") UUID streamId, @RequestBody UpdateStreamRequest request) {
         return streamUseCase.updateStream(streamId, request);
+    }
+
+    @PostMapping("/test")
+    public Response createDocument(@RequestParam String title) {
+        streamUseCase.createStreamDocument(title);
+        return Response.ok("yeah");
+    }
+
+    @PostMapping("/search")
+    public DataResponse<List<String>> search(@RequestParam String keyword) {
+        return streamUseCase.search(keyword);
     }
 }

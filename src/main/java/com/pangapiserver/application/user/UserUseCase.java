@@ -7,7 +7,9 @@ import com.pangapiserver.application.user.data.UserInfoResponse;
 import com.pangapiserver.application.user.data.UserListResponse;
 import com.pangapiserver.domain.cash.service.CashService;
 import com.pangapiserver.domain.community.entity.CommunityEntity;
+import com.pangapiserver.domain.community.exception.CommunityNotfoundException;
 import com.pangapiserver.domain.community.repository.CommunityRepository;
+import com.pangapiserver.domain.community.service.CommunityService;
 import com.pangapiserver.domain.follow.service.FollowService;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.domain.user.service.UserService;
@@ -28,7 +30,7 @@ public class UserUseCase {
     private final UserAuthenticationHolder holder;
     private final UserService service;
     private final CashService cashService;
-    private final CommunityRepository communityRepository;
+    private final CommunityService communityService;
     private final FollowService followService;
 
     public DataResponse<UserInfoResponse> getMyInfo() {
@@ -59,10 +61,16 @@ public class UserUseCase {
     public DataResponse<UserDetailResponse> getUserDetailByUsername(String username) {
         UserEntity user = service.getByUsername(username);
         UserEntity currentUser = holder.current();
-        Optional<CommunityEntity> community = communityRepository.findByUser(user);
-        Long communityId = community.map(CommunityEntity::getId).orElse(null);
+
+        CommunityEntity community;
+        try {
+            community = communityService.findByUser(user);
+        } catch (CommunityNotfoundException e) {
+            community = null;
+        }
+
         int followers = followService.getFollowersByUsername(user.getUsername()).size();
         boolean isFollowed = followService.isFollowing(user, currentUser);
-        return DataResponse.ok("유저 정보 조회 성공", UserDetailResponse.of(user, communityId, (long) followers, isFollowed));
+        return DataResponse.ok("유저 정보 조회 성공", UserDetailResponse.of(user, community.getId(), (long) followers, isFollowed));
     }
 }

@@ -1,6 +1,7 @@
 package com.pangapiserver.presentation.user.document;
 
 import com.pangapiserver.application.user.data.UpdateInfoRequest;
+import com.pangapiserver.application.user.data.UserDetailResponse;
 import com.pangapiserver.application.user.data.UserInfoResponse;
 import com.pangapiserver.application.user.data.UserListResponse;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
@@ -29,4 +30,8 @@ public interface UserDocuments {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "회원 탈퇴 API", description = "회원 탈퇴를 합니다.")
     Response deleteUser();
+
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "유저 정보 조회 API", description = "다른 유저 정보를 조회합니다.")
+    DataResponse<UserDetailResponse> getUserDetailByUsername(String username);
 }

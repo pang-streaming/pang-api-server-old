@@ -2,6 +2,7 @@ package com.pangapiserver.presentation.user;
 
 import com.pangapiserver.application.user.UserUseCase;
 import com.pangapiserver.application.user.data.UpdateInfoRequest;
+import com.pangapiserver.application.user.data.UserDetailResponse;
 import com.pangapiserver.application.user.data.UserInfoResponse;
 import com.pangapiserver.application.user.data.UserListResponse;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
@@ -40,5 +41,11 @@ public class UserController implements UserDocuments {
     @DeleteMapping
     public Response deleteUser() {
         return useCase.deleteUser();
+    }
+
+    @Override
+    @GetMapping("/{username}")
+    public DataResponse<UserDetailResponse> getUserDetailByUsername(@PathVariable String username) {
+        return useCase.getUserDetailByUsername(username);
     }
 }

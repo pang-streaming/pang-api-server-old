@@ -1,10 +1,6 @@
 package com.pangapiserver.domain.stream.document;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.pangapiserver.domain.category.enumeration.Chip;
-import jakarta.persistence.EnumType;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +10,6 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import java.util.List;
 import java.util.UUID;
 
 @Getter

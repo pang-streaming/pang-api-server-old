@@ -2,7 +2,6 @@ package com.pangapiserver.domain.stream.service;
 
 import com.pangapiserver.application.stream.data.request.UpdateStreamRequest;
 import com.pangapiserver.domain.category.entity.CategoryEntity;
-import com.pangapiserver.domain.category.enumeration.Chip;
 import com.pangapiserver.domain.category.exception.CategoryNotFoundException;
 import com.pangapiserver.domain.category.repository.CategoryRepository;
 import com.pangapiserver.domain.stream.document.StreamDocument;

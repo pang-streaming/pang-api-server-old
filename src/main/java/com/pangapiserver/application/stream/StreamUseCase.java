@@ -4,8 +4,6 @@ import com.pangapiserver.application.stream.data.request.UpdateStreamRequest;
 import com.pangapiserver.application.stream.data.response.StreamInfoResponse;
 import com.pangapiserver.application.stream.data.response.StreamResponse;
 import com.pangapiserver.application.stream.data.response.StreamUserResponse;
-import com.pangapiserver.domain.category.entity.CategoryEntity;
-import com.pangapiserver.domain.category.enumeration.Chip;
 import com.pangapiserver.domain.category.repository.CategoryRepository;
 import com.pangapiserver.domain.follow.entity.FollowEntity;
 import com.pangapiserver.domain.follow.service.FollowService;

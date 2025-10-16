@@ -1,6 +1,5 @@
 package com.pangapiserver.infrastructure.elasticsearch;
 
-import com.pangapiserver.infrastructure.common.exception.PangInternalServerException;
 import com.pangapiserver.infrastructure.elasticsearch.exception.ElasticsearchConnectionException;
 import com.pangapiserver.infrastructure.elasticsearch.properties.ElasticsearchProperties;
 import lombok.RequiredArgsConstructor;

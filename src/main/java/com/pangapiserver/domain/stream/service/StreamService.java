@@ -98,10 +98,6 @@ public class StreamService {
     }
 
     public List<String> searchByTitle(String keyword, List<String> chips) {
-        try {
-            return streamDocumentRepository.searchByTitle(keyword, chips);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return streamDocumentRepository.searchByTitle(keyword, chips);
     }
 }

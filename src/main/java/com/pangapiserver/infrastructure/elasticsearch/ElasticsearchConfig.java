@@ -1,6 +1,7 @@
 package com.pangapiserver.infrastructure.elasticsearch;
 
 import com.pangapiserver.infrastructure.common.exception.PangInternalServerException;
+import com.pangapiserver.infrastructure.elasticsearch.exception.ElasticsearchConnectionException;
 import com.pangapiserver.infrastructure.elasticsearch.properties.ElasticsearchProperties;
 import lombok.RequiredArgsConstructor;
 import org.apache.hc.client5.http.ssl.TrustAllStrategy;
@@ -25,7 +26,7 @@ public class ElasticsearchConfig extends ElasticsearchConfiguration {
                     .withBasicAuth(properties.getUsername(), properties.getPassword())
                     .build();
         } catch (Exception e) {
-            throw new PangInternalServerException();
+            throw new ElasticsearchConnectionException();
         }
     }
 }

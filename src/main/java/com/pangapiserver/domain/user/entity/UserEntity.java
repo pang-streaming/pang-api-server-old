@@ -1,6 +1,7 @@
 package com.pangapiserver.domain.user.entity;
 
 import com.pangapiserver.domain.common.entity.BaseEntity;
+import com.pangapiserver.domain.interest.entity.InterestEntity;
 import com.pangapiserver.domain.user.enumeration.Gender;
 import com.pangapiserver.domain.user.enumeration.Role;
 import jakarta.persistence.*;
@@ -9,7 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.UUID;
+import java.util.*;
 
 //TODO: 생성자로 빌더 분리
 @Getter
@@ -55,6 +56,9 @@ public class UserEntity extends BaseEntity {
 
     @Column(columnDefinition = "TEXT")
     private String description;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<InterestEntity> interestEntities = new ArrayList<>();
 
     public void updateInfo(String nickname, LocalDate age, Gender gender, String profileImage, String bannerImage, String description) {
         if (nickname != null) {

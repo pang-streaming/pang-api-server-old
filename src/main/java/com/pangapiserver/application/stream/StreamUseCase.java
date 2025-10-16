@@ -90,23 +90,6 @@ public class StreamUseCase {
         return DataResponse.ok("스트리밍 정보 수정 성공", StreamInfoResponse.of(updatedStream, followers, false));
     }
 
-    public void createStreamDocument(String title) {
-        CategoryEntity category = CategoryEntity.builder()
-                .chip(Chip.GAME)
-                .name(title)
-                .build();
-        categoryRepository.save(category);
-
-        StreamEntity stream = StreamEntity.builder()
-                .user(holder.current())
-                .title(title)
-                .url(properties.getUrl())
-                .category(category)
-                .build();
-        service.save(stream);
-        service.saveDocument(stream);
-    }
-
     public DataResponse<List<String>> search(String keyword) {
         UserEntity user = holder.current();
         List<String> chips = interestRepository.getChipsWithUser(user);

@@ -35,7 +35,7 @@ public class StreamDocumentCustomRepositoryImpl implements StreamDocumentCustomR
                         .value("*" + keyword + "*")
                         .caseInsensitive(true)
                 ))
-                .weight(1.0)
+                .weight(1.2)
         ));
 
         if (!chips.isEmpty()) {

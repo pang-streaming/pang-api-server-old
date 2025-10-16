@@ -72,14 +72,8 @@ public class StreamController implements StreamDocuments {
         return streamUseCase.updateStream(streamId, request);
     }
 
-    @PostMapping("/test")
-    public Response createDocument(@RequestParam String title) {
-        streamUseCase.createStreamDocument(title);
-        return Response.ok("yeah");
-    }
-
-    @PostMapping("/search")
-    public DataResponse<List<String>> search(@RequestParam String keyword) {
+    @PostMapping("/search/{keyword}")
+    public DataResponse<List<String>> search(@PathVariable("keyword") String keyword) {
         return streamUseCase.search(keyword);
     }
 }

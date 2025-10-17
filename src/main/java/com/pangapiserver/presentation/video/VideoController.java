@@ -4,8 +4,6 @@ import com.pangapiserver.application.stream.data.response.StreamResponse;
 import com.pangapiserver.application.video.VideoUseCase;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.presentation.video.document.VideoDocuments;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,8 +31,8 @@ public class VideoController implements VideoDocuments {
     }
 
     @Override
-    @GetMapping("/streamer/recoded")
+    @GetMapping("/streamer/recorded")
     public DataResponse<List<StreamResponse>> getVideoByUsername(@RequestParam(name = "username") String username) {
-        return useCase.getRecodedVideoByUsername(username);
+        return useCase.getRecordedVideoByUsername(username);
     }
 }

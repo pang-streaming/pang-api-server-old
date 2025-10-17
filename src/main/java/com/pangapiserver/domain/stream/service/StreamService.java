@@ -59,7 +59,7 @@ public class StreamService {
                 .orElseThrow(StreamNotFoundException::new);
     }
 
-    public List<StreamEntity> getRecodedStreamByUser(UserEntity user) {
+    public List<StreamEntity> getRecordedStreamByUser(UserEntity user) {
         return repository.findByEndAtIsNotNullAndUser(user);
     }
 

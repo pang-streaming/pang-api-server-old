@@ -34,9 +34,9 @@ public class VideoUseCase {
         return DataResponse.ok("유저의 라이브 영상 조회 성공", StreamResponse.of(streamService.getLiveStreamByUser(streamer)));
     }
 
-    public DataResponse<List<StreamResponse>> getRecodedVideoByUsername(String username) {
+    public DataResponse<List<StreamResponse>> getRecordedVideoByUsername(String username) {
         UserEntity streamer = userService.getByUsername(username);
-        List<StreamResponse> data = streamService.getRecodedStreamByUser(streamer).stream()
+        List<StreamResponse> data = streamService.getRecordedStreamByUser(streamer).stream()
                 .map(StreamResponse::of).toList();
         return DataResponse.ok("유저의 동영상 조회 성공", data);
     }

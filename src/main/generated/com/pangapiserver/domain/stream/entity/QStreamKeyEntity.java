@@ -22,9 +22,17 @@ public class QStreamKeyEntity extends EntityPathBase<StreamKeyEntity> {
 
     public static final QStreamKeyEntity streamKeyEntity = new QStreamKeyEntity("streamKeyEntity");
 
+    public final com.pangapiserver.domain.common.entity.QBaseEntity _super = new com.pangapiserver.domain.common.entity.QBaseEntity(this);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
+
     public final NumberPath<Integer> id = createNumber("id", Integer.class);
 
     public final StringPath key = createString("key");
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
     public final com.pangapiserver.domain.user.entity.QUserEntity user;
 

@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -19,9 +20,14 @@ public class QUserEntity extends EntityPathBase<UserEntity> {
 
     public static final QUserEntity userEntity = new QUserEntity("userEntity");
 
+    public final com.pangapiserver.domain.common.entity.QBaseEntity _super = new com.pangapiserver.domain.common.entity.QBaseEntity(this);
+
     public final DatePath<java.time.LocalDate> age = createDate("age", java.time.LocalDate.class);
 
     public final StringPath bannerImage = createString("bannerImage");
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
     public final StringPath description = createString("description");
 
@@ -31,9 +37,14 @@ public class QUserEntity extends EntityPathBase<UserEntity> {
 
     public final ComparablePath<java.util.UUID> id = createComparable("id", java.util.UUID.class);
 
+    public final ListPath<com.pangapiserver.domain.interest.entity.InterestEntity, com.pangapiserver.domain.interest.entity.QInterestEntity> interestEntities = this.<com.pangapiserver.domain.interest.entity.InterestEntity, com.pangapiserver.domain.interest.entity.QInterestEntity>createList("interestEntities", com.pangapiserver.domain.interest.entity.InterestEntity.class, com.pangapiserver.domain.interest.entity.QInterestEntity.class, PathInits.DIRECT2);
+
     public final BooleanPath isAdult = createBoolean("isAdult");
 
     public final BooleanPath isAlarm = createBoolean("isAlarm");
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
     public final StringPath nickname = createString("nickname");
 

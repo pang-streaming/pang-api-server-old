@@ -54,9 +54,13 @@ public class StreamService {
         return repository.findAllByCategory(category);
     }
 
-    public StreamEntity getLiveStreamByUserId(UserEntity user) {
+    public StreamEntity getLiveStreamByUser(UserEntity user) {
         return repository.findByUserAndEndAtNull(user)
                 .orElseThrow(StreamNotFoundException::new);
+    }
+
+    public List<StreamEntity> getRecodedStreamByUser(UserEntity user) {
+        return repository.findByEndAtIsNotNullAndUser(user);
     }
 
     public void save(StreamEntity stream) {

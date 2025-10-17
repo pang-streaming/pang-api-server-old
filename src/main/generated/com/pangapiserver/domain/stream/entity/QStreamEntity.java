@@ -22,11 +22,21 @@ public class QStreamEntity extends EntityPathBase<StreamEntity> {
 
     public static final QStreamEntity streamEntity = new QStreamEntity("streamEntity");
 
+    public final com.pangapiserver.domain.common.entity.QBaseEntity _super = new com.pangapiserver.domain.common.entity.QBaseEntity(this);
+
+    public final com.pangapiserver.domain.category.entity.QCategoryEntity category;
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
+
     public final DateTimePath<java.time.LocalDateTime> endAt = createDateTime("endAt", java.time.LocalDateTime.class);
 
     public final ComparablePath<java.util.UUID> id = createComparable("id", java.util.UUID.class);
 
-    public final DateTimePath<java.time.LocalDateTime> startedAt = createDateTime("startedAt", java.time.LocalDateTime.class);
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
+
+    public final ListPath<String, StringPath> tags = this.<String, StringPath>createList("tags", String.class, StringPath.class, PathInits.DIRECT2);
 
     public final StringPath title = createString("title");
 
@@ -52,6 +62,7 @@ public class QStreamEntity extends EntityPathBase<StreamEntity> {
 
     public QStreamEntity(Class<? extends StreamEntity> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
+        this.category = inits.isInitialized("category") ? new com.pangapiserver.domain.category.entity.QCategoryEntity(forProperty("category")) : null;
         this.user = inits.isInitialized("user") ? new com.pangapiserver.domain.user.entity.QUserEntity(forProperty("user")) : null;
     }
 

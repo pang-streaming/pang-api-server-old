@@ -22,7 +22,7 @@ public class DonationUseCase {
         UserEntity current = holder.current();
         UserEntity streamer = userService.getByUsername(request.username());
 
-        cashService.withdraw(current, request.amount(), streamer.getNickname() + "님에게 후원");
+        cashService.withdraw(current, request.amount(), String.format("%s님에게 후원", streamer.getNickname()));
         cashService.deposit(streamer, request.amount(), "후원");
         return Response.ok("도네이션 생성을 완료하였습니다.");
     }

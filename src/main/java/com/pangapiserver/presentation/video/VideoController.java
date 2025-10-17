@@ -34,7 +34,7 @@ public class VideoController implements VideoDocuments {
 
     @Override
     @GetMapping("/streamer/recoded")
-    public DataResponse<List<StreamResponse>> getVideoByUsername(String username) {
+    public DataResponse<List<StreamResponse>> getVideoByUsername(@RequestParam(name = "username") String username) {
         return useCase.getRecodedVideoByUsername(username);
     }
 }

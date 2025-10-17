@@ -30,7 +30,8 @@ public class CategoryCustomRepositoryImpl implements CategoryCustomRepository {
                 stream.id.count()
             ))
             .from(category)
-            .leftJoin(category.streams, stream).on(stream.status.eq(StreamStatus.LIVE))
+            .leftJoin(category.streams, stream)
+            .where(stream.status.eq(StreamStatus.LIVE).or(stream.id.isNull()))
             .groupBy(category.id)
             .fetch();
     }

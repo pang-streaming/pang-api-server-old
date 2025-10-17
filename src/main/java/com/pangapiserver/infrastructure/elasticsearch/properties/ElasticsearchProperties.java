@@ -11,4 +11,6 @@ public class ElasticsearchProperties {
     private String username;
     private String password;
     private String uris;
+    private String truststorePath;
+    private String truststorePassword;
 }

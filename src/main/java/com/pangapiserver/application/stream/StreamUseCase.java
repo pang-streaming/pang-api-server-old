@@ -36,7 +36,6 @@ public class StreamUseCase {
     private final UserAuthenticationHolder holder;
     private final StreamProperties properties;
     private final InterestRepository interestRepository;
-    private final CategoryRepository categoryRepository;
 
     public DataResponse<StreamInfoResponse> getStreamById(UUID streamId) {
         StreamEntity stream = service.getByStreamId(streamId, holder.current());

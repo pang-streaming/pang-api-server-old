@@ -22,13 +22,23 @@ public class QCommentEntity extends EntityPathBase<CommentEntity> {
 
     public static final QCommentEntity commentEntity = new QCommentEntity("commentEntity");
 
+    public final com.pangapiserver.domain.common.entity.QBaseEntity _super = new com.pangapiserver.domain.common.entity.QBaseEntity(this);
+
     public final StringPath content = createString("content");
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final NumberPath<Long> pkMantionId = createNumber("pkMantionId", Long.class);
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
-    public final NumberPath<Integer> pkPostId = createNumber("pkPostId", Integer.class);
+    public final QCommentEntity parent;
+
+    public final ComparablePath<java.util.UUID> pkMentionId = createComparable("pkMentionId", java.util.UUID.class);
+
+    public final NumberPath<Long> pkPostId = createNumber("pkPostId", Long.class);
 
     public final com.pangapiserver.domain.user.entity.QUserEntity user;
 
@@ -50,6 +60,7 @@ public class QCommentEntity extends EntityPathBase<CommentEntity> {
 
     public QCommentEntity(Class<? extends CommentEntity> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
+        this.parent = inits.isInitialized("parent") ? new QCommentEntity(forProperty("parent"), inits.get("parent")) : null;
         this.user = inits.isInitialized("user") ? new com.pangapiserver.domain.user.entity.QUserEntity(forProperty("user")) : null;
     }
 

@@ -1,4 +1,4 @@
-package com.pangapiserver.domain.community.entity;
+package com.pangapiserver.domain.interest.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -11,22 +11,20 @@ import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
- * QPostEntity is a Querydsl query type for PostEntity
+ * QInterestEntity is a Querydsl query type for InterestEntity
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QPostEntity extends EntityPathBase<PostEntity> {
+public class QInterestEntity extends EntityPathBase<InterestEntity> {
 
-    private static final long serialVersionUID = -2061652569L;
+    private static final long serialVersionUID = 951609334L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
-    public static final QPostEntity postEntity = new QPostEntity("postEntity");
+    public static final QInterestEntity interestEntity = new QInterestEntity("interestEntity");
 
     public final com.pangapiserver.domain.common.entity.QBaseEntity _super = new com.pangapiserver.domain.common.entity.QBaseEntity(this);
 
-    public final QCommunityEntity community;
-
-    public final StringPath content = createString("content");
+    public final EnumPath<com.pangapiserver.domain.category.enumeration.Chip> chip = createEnum("chip", com.pangapiserver.domain.category.enumeration.Chip.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
@@ -36,31 +34,26 @@ public class QPostEntity extends EntityPathBase<PostEntity> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
-    public final ListPath<PostLikeEntity, QPostLikeEntity> postLikes = this.<PostLikeEntity, QPostLikeEntity>createList("postLikes", PostLikeEntity.class, QPostLikeEntity.class, PathInits.DIRECT2);
-
-    public final StringPath title = createString("title");
-
     public final com.pangapiserver.domain.user.entity.QUserEntity user;
 
-    public QPostEntity(String variable) {
-        this(PostEntity.class, forVariable(variable), INITS);
+    public QInterestEntity(String variable) {
+        this(InterestEntity.class, forVariable(variable), INITS);
     }
 
-    public QPostEntity(Path<? extends PostEntity> path) {
+    public QInterestEntity(Path<? extends InterestEntity> path) {
         this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
-    public QPostEntity(PathMetadata metadata) {
+    public QInterestEntity(PathMetadata metadata) {
         this(metadata, PathInits.getFor(metadata, INITS));
     }
 
-    public QPostEntity(PathMetadata metadata, PathInits inits) {
-        this(PostEntity.class, metadata, inits);
+    public QInterestEntity(PathMetadata metadata, PathInits inits) {
+        this(InterestEntity.class, metadata, inits);
     }
 
-    public QPostEntity(Class<? extends PostEntity> type, PathMetadata metadata, PathInits inits) {
+    public QInterestEntity(Class<? extends InterestEntity> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.community = inits.isInitialized("community") ? new QCommunityEntity(forProperty("community"), inits.get("community")) : null;
         this.user = inits.isInitialized("user") ? new com.pangapiserver.domain.user.entity.QUserEntity(forProperty("user")) : null;
     }
 

@@ -85,6 +85,13 @@ public class MarketUseCase {
         return DataResponse.ok("선물 조회 성공", responses);
     }
 
+    public DataResponse<List<ProductListResponse>> getTop5Products() {
+        List<ProductEntity> items = service.getTop5LikedProducts();
+        List<ProductListResponse> responses = items.stream()
+            .map(ProductListResponse::of).toList();
+        return DataResponse.ok("좋아요 많은 상품 TOP 5 조회 성공", responses);
+    }
+
     private void checkAlreadyOwned(UserEntity user, ProductEntity product) {
         if (purchaseService.existsByUserAndProduct(user, product)) {
             throw new ProductAlreadyOwnedException();

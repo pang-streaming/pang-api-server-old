@@ -26,7 +26,7 @@ public record StreamResponse(
 
     public static StreamResponse of(StreamDocument document) {
         return new StreamResponse(
-                document.getId(),
+                document.getStreamId(),
                 document.getTitle(),
                 document.getStreamUrl(),
                 document.getUsername(),

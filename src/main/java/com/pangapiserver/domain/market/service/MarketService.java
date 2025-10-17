@@ -64,4 +64,8 @@ public class MarketService {
     public int getLikes(UUID id) {
         return productLikeRepository.countByProduct_Id(id);
     }
+
+    public List<ProductEntity> getTop5LikedProducts() {
+        return productRepository.findTop5ByOrderByLikesDesc();
+    }
 }

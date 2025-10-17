@@ -40,4 +40,8 @@ public interface MarketDocuments {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "선물 목록 조회 API", description = "자신이 받은 선물 목록을 조회합니다.")
     DataResponse<List<PurchaseResponse>> getGifts();
+
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "인기 상품 API", description = "인기 상품 목록을 조회합니다.")
+    DataResponse<List<ProductListResponse>> getTop5Products();
 }

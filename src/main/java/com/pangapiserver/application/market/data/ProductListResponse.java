@@ -8,14 +8,16 @@ public record ProductListResponse (
     UUID id,
     String image,
     String name,
-    int price
+    int price,
+    boolean isLiked
 ) {
-    public static ProductListResponse of(ProductEntity entity) {
+    public static ProductListResponse of(ProductEntity entity, boolean isLiked) {
         return new ProductListResponse(
             entity.getId(),
             entity.getImageUrl(),
             entity.getName(),
-            entity.getPrice()
+            entity.getPrice(),
+            isLiked
         );
     }
 }

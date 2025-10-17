@@ -33,9 +33,11 @@ public class MarketUseCase {
     }
 
     public DataResponse<List<ProductListResponse>> getItems() {
-        List<ProductEntity> items = service.getItems();
+        UserEntity user = holder.current();
+        List<ProductWithLikeStatusDto> items = service.getItemsWithLikeStatus(user);
         List<ProductListResponse> responses = items.stream()
-            .map(ProductListResponse::of).toList();
+            .map(item -> ProductListResponse.of(item.getProduct(), item.isLiked()))
+            .toList();
         return DataResponse.ok("상품 목록 조회 성공", responses);
     }
 
@@ -86,9 +88,11 @@ public class MarketUseCase {
     }
 
     public DataResponse<List<ProductListResponse>> getTop5Products() {
+        UserEntity user = holder.current();
         List<ProductEntity> items = service.getTop5LikedProducts();
         List<ProductListResponse> responses = items.stream()
-            .map(ProductListResponse::of).toList();
+            .map(item -> ProductListResponse.of(item, service.isProductLikedByUser(user, item)))
+            .toList();
         return DataResponse.ok("좋아요 많은 상품 TOP 5 조회 성공", responses);
     }
 

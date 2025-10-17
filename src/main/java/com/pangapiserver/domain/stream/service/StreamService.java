@@ -14,6 +14,8 @@ import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.domain.watchHistory.entity.WatchHistoryEntity;
 import com.pangapiserver.domain.watchHistory.repository.WatchHistoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -99,7 +101,7 @@ public class StreamService {
         streamDocumentRepository.save(document);
     }
 
-    public List<StreamResponse> searchByTitle(String keyword, List<String> chips) {
-        return streamDocumentRepository.searchByTitle(keyword, chips);
+    public Page<StreamResponse> searchByTitle(String keyword, List<String> chips, Pageable pageable) {
+        return streamDocumentRepository.searchByTitle(keyword, chips, pageable);
     }
 }

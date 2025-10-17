@@ -18,6 +18,8 @@ import com.pangapiserver.infrastructure.encode.Sha512Encoder;
 import com.pangapiserver.infrastructure.security.support.UserAuthenticationHolder;
 import com.pangapiserver.infrastructure.stream.properties.StreamProperties;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -87,9 +89,9 @@ public class StreamUseCase {
         return DataResponse.ok("스트리밍 정보 수정 성공", StreamInfoResponse.of(updatedStream, followers, false));
     }
 
-    public DataResponse<List<StreamResponse>> search(String keyword) {
+    public DataResponse<Page<StreamResponse>> search(String keyword, Pageable pageable) {
         UserEntity user = holder.current();
         List<String> chips = interestRepository.getChipsWithUser(user);
-        return DataResponse.ok("방송 검색 성공", service.searchByTitle(keyword, chips));
+        return DataResponse.ok("방송 검색 성공", service.searchByTitle(keyword, chips, pageable));
     }
 }

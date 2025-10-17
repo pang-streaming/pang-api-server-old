@@ -15,6 +15,7 @@ public class ElasticsearchConfig extends ElasticsearchConfiguration {
 
     @Override
     public ClientConfiguration clientConfiguration() {
+        System.out.println(properties.getUris());
         return ClientConfiguration.builder()
                 .connectedTo(properties.getUris())
                 .withBasicAuth(properties.getUsername(), properties.getPassword())

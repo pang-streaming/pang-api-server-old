@@ -73,7 +73,7 @@ public class StreamService {
     }
 
     public void closeStream(StreamEntity stream) {
-        if (stream.getEndAt() == null)
+        if (stream.getStatus() == StreamStatus.ENDED)
             throw new StreamAlreadyEndedException();
         stream.updateEndAt();
         repository.save(stream);

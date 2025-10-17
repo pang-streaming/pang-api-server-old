@@ -44,6 +44,10 @@ public class StreamEntity extends BaseEntity {
     @Column(name = "tag")
     private List<String> tags = new ArrayList<>();
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private StreamStatus status;
+
     @Builder
     public StreamEntity(UserEntity user, CategoryEntity category, String title, String url, List<String> tags) {
         this.user = user;
@@ -51,10 +55,12 @@ public class StreamEntity extends BaseEntity {
         this.title = title;
         this.url = url;
         this.tags = tags;
+        this.status = StreamStatus.LIVE;
     }
 
     public void updateEndAt() {
         this.endAt = LocalDateTime.now();
+        this.status = StreamStatus.ENDED;
     }
 
     public void updateStream(CategoryEntity category, String title, List<String> tags) {

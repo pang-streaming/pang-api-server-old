@@ -7,6 +7,8 @@ import com.pangapiserver.domain.category.exception.CategoryNotFoundException;
 import com.pangapiserver.domain.category.repository.CategoryRepository;
 import com.pangapiserver.domain.stream.document.StreamDocument;
 import com.pangapiserver.domain.stream.entity.StreamEntity;
+import com.pangapiserver.domain.stream.entity.StreamStatus;
+import com.pangapiserver.domain.stream.exception.StreamAlreadyEndedException;
 import com.pangapiserver.domain.stream.exception.StreamNotFoundException;
 import com.pangapiserver.domain.stream.repository.StreamRepository;
 import com.pangapiserver.domain.stream.repository.elasticsearch.StreamDocumentRepository;
@@ -51,6 +53,11 @@ public class StreamService {
         return stream;
     }
 
+    public StreamEntity getById(UUID streamId) {
+        return repository.findById(streamId)
+                .orElseThrow(StreamNotFoundException::new);
+    }
+
     public List<StreamEntity> getLiveStreams() {
         return repository.findByEndAtIsNull();
     }
@@ -61,8 +68,15 @@ public class StreamService {
     }
 
     public StreamEntity getLiveStreamByUser(UserEntity user) {
-        return repository.findByUserAndEndAtNull(user)
+        return repository.findByUserAndStatus(user, StreamStatus.LIVE)
                 .orElseThrow(StreamNotFoundException::new);
+    }
+
+    public void closeStream(StreamEntity stream) {
+        if (stream.getStatus() == StreamStatus.ENDED)
+            throw new StreamAlreadyEndedException();
+        stream.updateEndAt();
+        repository.save(stream);
     }
 
     public List<StreamEntity> getRecordedStreamByUser(UserEntity user) {

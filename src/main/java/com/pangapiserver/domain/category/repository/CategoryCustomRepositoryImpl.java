@@ -4,6 +4,7 @@ import com.pangapiserver.application.category.data.CategoryData;
 import com.pangapiserver.domain.category.entity.QCategoryEntity;
 import com.pangapiserver.domain.stream.entity.QStreamEntity;
 import com.querydsl.core.types.Projections;
+import com.pangapiserver.domain.stream.entity.StreamStatus;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -30,6 +31,7 @@ public class CategoryCustomRepositoryImpl implements CategoryCustomRepository {
             ))
             .from(category)
             .leftJoin(category.streams, stream)
+            .where(stream.status.eq(StreamStatus.LIVE).or(stream.id.isNull()))
             .groupBy(category.id)
             .fetch();
     }

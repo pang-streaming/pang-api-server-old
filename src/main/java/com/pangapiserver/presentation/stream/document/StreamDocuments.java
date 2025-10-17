@@ -7,6 +7,8 @@ import com.pangapiserver.application.stream.data.response.StreamUserResponse;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -47,4 +49,8 @@ public interface StreamDocuments {
     @Operation(summary = "스트리밍 정보 수정", description = "스트리밍 정보를 수정합니다.")
     @ResponseStatus(HttpStatus.OK)
     DataResponse<StreamInfoResponse> updateStream(UUID streamId, com.pangapiserver.application.stream.data.request.UpdateStreamRequest request);
+
+    @Operation(summary = "스트리밍 검색 API", description = "방송 제목을 검색해 방송 목록을 조회합니다.")
+    @ResponseStatus(HttpStatus.OK)
+    DataResponse<Page<StreamResponse>> search(String keyword, Pageable pageable);
 }

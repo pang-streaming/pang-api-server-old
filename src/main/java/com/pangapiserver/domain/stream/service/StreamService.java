@@ -1,16 +1,21 @@
 package com.pangapiserver.domain.stream.service;
 
 import com.pangapiserver.application.stream.data.request.UpdateStreamRequest;
+import com.pangapiserver.application.stream.data.response.StreamResponse;
 import com.pangapiserver.domain.category.entity.CategoryEntity;
 import com.pangapiserver.domain.category.exception.CategoryNotFoundException;
 import com.pangapiserver.domain.category.repository.CategoryRepository;
+import com.pangapiserver.domain.stream.document.StreamDocument;
 import com.pangapiserver.domain.stream.entity.StreamEntity;
 import com.pangapiserver.domain.stream.exception.StreamNotFoundException;
 import com.pangapiserver.domain.stream.repository.StreamRepository;
+import com.pangapiserver.domain.stream.repository.elasticsearch.StreamDocumentRepository;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.domain.watchHistory.entity.WatchHistoryEntity;
 import com.pangapiserver.domain.watchHistory.repository.WatchHistoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +27,7 @@ public class StreamService {
     private final StreamRepository repository;
     private final WatchHistoryRepository watchHistoryRepository;
     private final CategoryRepository categoryRepository;
+    private final StreamDocumentRepository streamDocumentRepository;
 
     public List<StreamEntity> getAll() {
         return repository.findAllByOrderByIdDesc();
@@ -80,5 +86,22 @@ public class StreamService {
         CategoryEntity category = categoryRepository.findById(request.categoryId()).orElseThrow(CategoryNotFoundException::new);
         stream.updateStream(category, request.title(), request.tags());
         repository.save(stream);
+    }
+
+    public void saveDocument(StreamEntity stream) {
+        StreamDocument document = StreamDocument.builder()
+                .username(stream.getUser().getUsername())
+                .nickname(stream.getUser().getNickname())
+                .profileImage(stream.getUser().getProfileImage())
+                .streamId(stream.getId())
+                .streamUrl(stream.getUrl())
+                .title(stream.getTitle())
+                .chip(stream.getCategory().getChip().toString())
+                .build();
+        streamDocumentRepository.save(document);
+    }
+
+    public Page<StreamResponse> searchByTitle(String keyword, List<String> chips, Pageable pageable) {
+        return streamDocumentRepository.searchByTitle(keyword, chips, pageable);
     }
 }

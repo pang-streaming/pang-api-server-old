@@ -10,6 +10,8 @@ import com.pangapiserver.application.stream.data.response.StreamUserResponse;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.presentation.stream.document.StreamDocuments;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.*;
 
@@ -69,5 +71,11 @@ public class StreamController implements StreamDocuments {
     @PatchMapping("/{streamId}")
     public DataResponse<StreamInfoResponse> updateStream(@PathVariable("streamId") UUID streamId, @RequestBody UpdateStreamRequest request) {
         return streamUseCase.updateStream(streamId, request);
+    }
+
+    @Override
+    @PostMapping("/search/{keyword}")
+    public DataResponse<Page<StreamResponse>> search(@PathVariable("keyword") String keyword, Pageable pageable) {
+        return streamUseCase.search(keyword, pageable);
     }
 }

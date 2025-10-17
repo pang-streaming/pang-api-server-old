@@ -71,8 +71,7 @@ dependencies {
 
     // elasticsearch
     implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
-    implementation 'org.springframework.data:spring-data-elasticsearch:5.4.4' // Spring Data EL 5.4.x
-    implementation 'co.elastic.clients:elasticsearch-java:8.11.1' // Elasticsearch Java 8.x
+    implementation 'co.elastic.clients:elasticsearch-java:8.15.5'
 
 }
 

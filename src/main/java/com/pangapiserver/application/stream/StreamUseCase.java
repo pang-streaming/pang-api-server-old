@@ -4,17 +4,22 @@ import com.pangapiserver.application.stream.data.request.UpdateStreamRequest;
 import com.pangapiserver.application.stream.data.response.StreamInfoResponse;
 import com.pangapiserver.application.stream.data.response.StreamResponse;
 import com.pangapiserver.application.stream.data.response.StreamUserResponse;
+import com.pangapiserver.domain.category.repository.CategoryRepository;
 import com.pangapiserver.domain.follow.entity.FollowEntity;
 import com.pangapiserver.domain.follow.service.FollowService;
+import com.pangapiserver.domain.interest.repository.InterestRepository;
 import com.pangapiserver.domain.stream.entity.StreamEntity;
 import com.pangapiserver.domain.stream.entity.StreamKeyEntity;
 import com.pangapiserver.domain.stream.service.StreamKeyService;
 import com.pangapiserver.domain.stream.service.StreamService;
+import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.infrastructure.encode.Sha512Encoder;
 import com.pangapiserver.infrastructure.security.support.UserAuthenticationHolder;
 import com.pangapiserver.infrastructure.stream.properties.StreamProperties;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +37,7 @@ public class StreamUseCase {
     private final FollowService followService;
     private final UserAuthenticationHolder holder;
     private final StreamProperties properties;
+    private final InterestRepository interestRepository;
 
     public DataResponse<StreamInfoResponse> getStreamById(UUID streamId) {
         StreamEntity stream = service.getByStreamId(streamId, holder.current());
@@ -71,6 +77,7 @@ public class StreamUseCase {
                 .url(properties.getUrl() + byStreamKey.getUser().getNickname())
                 .build();
         service.save(stream);
+        service.saveDocument(stream);
         return DataResponse.ok("스트림 생성 성공", StreamUserResponse.of(byStreamKey));
     }
 
@@ -80,5 +87,11 @@ public class StreamUseCase {
         int followers = followService.getFollowersByUsername(updatedStream.getUser().getUsername()).size();
 
         return DataResponse.ok("스트리밍 정보 수정 성공", StreamInfoResponse.of(updatedStream, followers, false));
+    }
+
+    public DataResponse<Page<StreamResponse>> search(String keyword, Pageable pageable) {
+        UserEntity user = holder.current();
+        List<String> chips = interestRepository.getChipsWithUser(user);
+        return DataResponse.ok("방송 검색 성공", service.searchByTitle(keyword, chips, pageable));
     }
 }

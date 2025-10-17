@@ -59,7 +59,7 @@ public class StreamService {
     }
 
     public List<StreamEntity> getLiveStreams() {
-        return repository.findByEndAtIsNull();
+        return repository.findAllByStatus(StreamStatus.LIVE);
     }
 
     public List<StreamEntity> getStreamsByCategory(Long categoryId) {

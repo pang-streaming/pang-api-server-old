@@ -9,6 +9,7 @@ import co.elastic.clients.elasticsearch.core.search.Hit;
 import com.pangapiserver.application.stream.data.response.StreamResponse;
 import com.pangapiserver.domain.stream.document.StreamDocument;
 import com.pangapiserver.infrastructure.elasticsearch.exception.ElasticsearchConnectionException;
+import com.pangapiserver.infrastructure.redis.service.RedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -23,6 +24,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class StreamDocumentCustomRepositoryImpl implements StreamDocumentCustomRepository {
     private final ElasticsearchClient client;
+    private final RedisService redisService;
 
     @Override
     public Page<StreamResponse> searchByTitle(String keyword, List<String> chips, Pageable pageable) {
@@ -73,7 +75,7 @@ public class StreamDocumentCustomRepositoryImpl implements StreamDocumentCustomR
             List<StreamResponse> content =  response.hits().hits().stream()
                     .map(Hit::source)
                     .filter(Objects::nonNull)
-                    .map(StreamResponse::of)
+                    .map(s -> StreamResponse.of(s, redisService.getViewCount(s.getUsername())))
                     .toList();
 
             long total;

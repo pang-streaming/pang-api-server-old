@@ -22,7 +22,6 @@ public class FollowService {
     private final FollowRepository followRepository;
     private final FollowConverter followConverter;
 
-    @Cacheable(value = "followings", key = "#username")
     public List<FollowingResponse> getFollowingsByUsername(String username) {
         UserEntity user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
         List<FollowEntity> followings = followRepository.findFollowingByUser(user);
@@ -38,7 +37,6 @@ public class FollowService {
         return followRepository.findFollowingByUser(user);
     }
 
-    @Cacheable(value = "followers", key = "#username")
     public List<FollowingResponse> getFollowersByUsername(String username) {
         UserEntity user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
         List<FollowEntity> followers = followRepository.findFollowerByUser(user);

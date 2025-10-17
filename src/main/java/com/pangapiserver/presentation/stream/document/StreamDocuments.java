@@ -5,6 +5,7 @@ import com.pangapiserver.application.stream.data.response.StreamKeyResponse;
 import com.pangapiserver.application.stream.data.response.StreamResponse;
 import com.pangapiserver.application.stream.data.response.StreamUserResponse;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
+import com.pangapiserver.infrastructure.common.dto.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
@@ -53,4 +54,8 @@ public interface StreamDocuments {
     @Operation(summary = "스트리밍 검색 API", description = "방송 제목을 검색해 방송 목록을 조회합니다.")
     @ResponseStatus(HttpStatus.OK)
     DataResponse<Page<StreamResponse>> search(String keyword, Pageable pageable);
+
+    @Operation(summary = "스트리밍 종료 API", description = "스트리밍을 종료합니다.")
+    @ResponseStatus(HttpStatus.OK)
+    Response closeStream(UUID streamId);
 }

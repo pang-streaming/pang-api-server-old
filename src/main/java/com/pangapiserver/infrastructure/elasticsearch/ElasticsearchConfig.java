@@ -28,7 +28,6 @@ public class ElasticsearchConfig extends ElasticsearchConfiguration {
                     .withBasicAuth(properties.getUsername(), properties.getPassword())
                     .build();
         } catch (Exception e) {
-            System.out.println("Elasticsearch Client init failed" + e);
             throw new ElasticsearchConnectionException();
         }
     }

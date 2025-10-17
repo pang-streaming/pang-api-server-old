@@ -17,6 +17,7 @@ import java.util.List;
 public class CashService {
     private final CashRepository repository;
 
+    /** 입금 */
     public void deposit(UserEntity user, int amount, String description) {
         CashEntity cash = CashEntity.builder()
             .user(user)
@@ -29,6 +30,7 @@ public class CashService {
         repository.save(cash);
     }
 
+    /** 출금 */
     public void withdraw(UserEntity user, int amount, String description) {
         int balance = getBalance(user);
         if (balance < amount) {

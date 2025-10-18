@@ -6,6 +6,7 @@ import com.pangapiserver.domain.market.repository.ProductLikeRepository;
 import com.pangapiserver.domain.market.repository.ProductRepository;
 import com.pangapiserver.domain.store.entity.StoreEntity;
 import com.pangapiserver.domain.store.entity.StoreUserEntity;
+import com.pangapiserver.domain.store.exception.StoreAlreadyJoinedException;
 import com.pangapiserver.domain.store.exception.StoreNotFoundException;
 import com.pangapiserver.domain.store.repository.StoreRepository;
 import com.pangapiserver.domain.store.repository.StoreUserRepository;
@@ -47,6 +48,8 @@ public class StoreService {
     public void saveStore(UUID storeId, UserEntity user) {
         StoreEntity store = repository.findById(storeId)
                 .orElseThrow(StoreNotFoundException::new);
+        if (storeUserRepository.existsByUserIdAndStoreId(user.getId(), storeId))
+            throw new StoreAlreadyJoinedException();
         StoreUserEntity entity = StoreUserEntity.builder()
                 .user(user)
                 .store(store)

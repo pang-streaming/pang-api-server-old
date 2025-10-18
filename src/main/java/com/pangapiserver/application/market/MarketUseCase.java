@@ -63,7 +63,7 @@ public class MarketUseCase {
         ProductEntity product = service.getById(request.productId());
         checkAlreadyOwned(user, product);
         withdrawBalance(user, product);
-        purchaseService.save(user, product);
+        purchaseService.save(user, product, request.address(), user.getEmail());
         PurchaseResponse response = PurchaseResponse.of(product);
         return DataResponse.ok("구매 성공", response);
     }
@@ -74,7 +74,7 @@ public class MarketUseCase {
         ProductEntity product = service.getById(request.productId());
         checkAlreadyOwned(receiver, product);
         withdrawBalance(user, product);
-        purchaseService.save(receiver, product);
+        purchaseService.save(receiver, product, null, receiver.getEmail());
         return Response.ok("선물 보내기 성공");
     }
 

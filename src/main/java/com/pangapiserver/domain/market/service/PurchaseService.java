@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -38,5 +39,18 @@ public class PurchaseService {
 
     public List<PurchaseEntity> getPurchasesByUser(UserEntity user) {
         return repository.findByBuyer(user);
+    }
+
+    public List<PurchaseEntity> getReceivedGiftsByUser(UserEntity user) {
+        return repository.findByReceiver(user);
+    }
+
+    public PurchaseEntity getById(UUID purchaseId) {
+        return repository.findById(purchaseId)
+            .orElseThrow(() -> new RuntimeException("Purchase not found"));
+    }
+
+    public void updatePurchase(PurchaseEntity purchase) {
+        repository.save(purchase);
     }
 }

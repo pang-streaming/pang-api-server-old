@@ -31,6 +31,10 @@ public class PurchaseEntity {
     @JoinColumn(name = "fk_user_id", nullable = false)
     private UserEntity buyer;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fk_receiver_id")
+    private UserEntity receiver;
+
     private String address;
 
     private String email;

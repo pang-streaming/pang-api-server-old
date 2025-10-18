@@ -74,7 +74,17 @@ public class MarketUseCase {
         ProductEntity product = service.getById(request.productId());
         checkAlreadyOwned(receiver, product);
         withdrawBalance(user, product);
-        purchaseService.save(receiver, product, null, receiver.getEmail());
+        // buyer는 결제한 사람(user), receiver는 받은 사람
+        com.pangapiserver.domain.market.entity.PurchaseEntity purchase = com.pangapiserver.domain.market.entity.PurchaseEntity.builder()
+            .product(product)
+            .buyer(user)
+            .receiver(receiver)
+            .address(null)
+            .email(receiver.getEmail())
+            .deliveryStatus(com.pangapiserver.domain.market.enumeration.DeliveryStatus.PREPARING)
+            .createdAt(java.time.LocalDateTime.now())
+            .build();
+        purchaseService.updatePurchase(purchase);
         return Response.ok("선물 보내기 성공");
     }
 
@@ -94,6 +104,53 @@ public class MarketUseCase {
             .map(PurchaseDetailResponse::of)
             .toList();
         return DataResponse.ok("구매 목록 조회 성공", responses);
+    }
+
+    public DataResponse<List<ReceivedGiftResponse>> getReceivedGifts() {
+        UserEntity user = holder.current();
+        List<com.pangapiserver.domain.market.entity.PurchaseEntity> gifts = purchaseService.getReceivedGiftsByUser(user);
+        List<ReceivedGiftResponse> responses = gifts.stream()
+            .map(ReceivedGiftResponse::of)
+            .toList();
+        return DataResponse.ok("받은 선물 조회 성공", responses);
+    }
+
+    public Response updateGift(GiftUpdateRequest request) {
+        UserEntity user = holder.current();
+        com.pangapiserver.domain.market.entity.PurchaseEntity purchase = purchaseService.getById(request.purchaseId());
+        
+        // 권한 확인: 받은 선물만 수정 가능
+        if (purchase.getReceiver() == null || !purchase.getReceiver().getId().equals(user.getId())) {
+            throw new RuntimeException("수정 권한이 없습니다.");
+        }
+        
+        // 주소와 배송 상태 업데이트
+        if (request.address() != null) {
+            purchase = com.pangapiserver.domain.market.entity.PurchaseEntity.builder()
+                .id(purchase.getId())
+                .product(purchase.getProduct())
+                .buyer(purchase.getBuyer())
+                .receiver(purchase.getReceiver())
+                .address(request.address())
+                .email(purchase.getEmail())
+                .deliveryStatus(request.deliveryStatus() != null ? request.deliveryStatus() : purchase.getDeliveryStatus())
+                .createdAt(purchase.getCreatedAt())
+                .build();
+        } else if (request.deliveryStatus() != null) {
+            purchase = com.pangapiserver.domain.market.entity.PurchaseEntity.builder()
+                .id(purchase.getId())
+                .product(purchase.getProduct())
+                .buyer(purchase.getBuyer())
+                .receiver(purchase.getReceiver())
+                .address(purchase.getAddress())
+                .email(purchase.getEmail())
+                .deliveryStatus(request.deliveryStatus())
+                .createdAt(purchase.getCreatedAt())
+                .build();
+        }
+        
+        purchaseService.updatePurchase(purchase);
+        return Response.ok("선물 정보 수정 성공");
     }
 
     public DataResponse<List<ProductListResponse>> getTop5Products() {

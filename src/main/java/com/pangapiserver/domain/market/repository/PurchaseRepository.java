@@ -12,4 +12,6 @@ public interface PurchaseRepository extends JpaRepository<PurchaseEntity, UUID>,
     boolean existsByBuyerAndProduct(UserEntity buyer, ProductEntity product);
     
     List<PurchaseEntity> findByBuyer(UserEntity buyer);
+    
+    List<PurchaseEntity> findByReceiver(UserEntity receiver);
 }

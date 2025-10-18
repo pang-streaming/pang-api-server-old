@@ -77,6 +77,7 @@ public class MarketService {
     }
 
     public int getLikes(UUID id) {
+        System.out.println("MarketService#######################productId: " + id);
         return productLikeRepository.countByProduct_Id(id);
     }
 

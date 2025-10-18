@@ -4,18 +4,25 @@ import com.pangapiserver.application.market.data.*;
 import com.pangapiserver.domain.cash.service.CashService;
 import com.pangapiserver.domain.market.entity.ProductEntity;
 import com.pangapiserver.domain.market.enumeration.LikeStatus;
+import com.pangapiserver.domain.market.enumeration.ProductCategory;
 import com.pangapiserver.domain.market.exception.ProductAlreadyOwnedException;
 import com.pangapiserver.domain.market.service.MarketService;
 import com.pangapiserver.domain.market.service.PurchaseService;
+import com.pangapiserver.domain.store.service.StoreService;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.domain.user.service.UserService;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.infrastructure.common.dto.Response;
 import com.pangapiserver.infrastructure.security.support.UserAuthenticationHolder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Component
@@ -26,19 +33,21 @@ public class MarketUseCase {
     private final PurchaseService purchaseService;
     private final CashService cashService;
     private final UserService userService;
+    private final StoreService storeService;
 
     public Response add(ProductAddRequest request) {
         service.saveProduct(request, holder.current().getId());
         return Response.ok("상품 추가 성공");
     }
 
-    public DataResponse<List<ProductListResponse>> getItems() {
+    public DataResponse<Page<ProductListResponse>> getItems(Pageable pageable) {
         UserEntity user = holder.current();
-        List<ProductWithLikeStatusDto> items = service.getItemsWithLikeStatus(user);
+        Page<ProductWithLikeStatusDto> items = service.getItemsWithLikeStatus(user, pageable);
         List<ProductListResponse> responses = items.stream()
             .map(item -> ProductListResponse.of(item.getProduct(), item.isLiked()))
             .toList();
-        return DataResponse.ok("상품 목록 조회 성공", responses);
+        Page<ProductListResponse> data = new PageImpl<>(responses);
+        return DataResponse.ok("상품 목록 조회 성공", data);
     }
 
     public DataResponse<ProductDetailResponse> getItem(UUID productId) {
@@ -160,6 +169,18 @@ public class MarketUseCase {
             .map(item -> ProductListResponse.of(item, service.isProductLikedByUser(user, item)))
             .toList();
         return DataResponse.ok("좋아요 많은 상품 TOP 5 조회 성공", responses);
+    }
+
+    public DataResponse<List<ProductListResponse>> getItemsByCategory(ProductCategory category) {
+        List<ProductEntity> products = service.getItemsByCategory(category);
+        List<UUID> likedProductIds = storeService.findLikedProductIdsByUserId(holder.current().getId());
+        Set<UUID> likedSet = new HashSet<>(likedProductIds);
+
+        List<ProductListResponse> data = products.stream()
+                .map(p -> ProductListResponse.of(p, likedSet.contains(p.getId())))
+                .toList();
+
+        return DataResponse.ok("카테고리 별 상품 조회 성공", data);
     }
 
     private void checkAlreadyOwned(UserEntity user, ProductEntity product) {

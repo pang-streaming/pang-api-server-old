@@ -42,6 +42,10 @@ public interface MarketDocuments {
     DataResponse<List<PurchaseResponse>> getGifts();
 
     @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "구매 목록 조회 API", description = "자신의 구매 목록을 조회합니다. 배송 상태, 주소 등 상세 정보를 포함합니다.")
+    DataResponse<List<PurchaseDetailResponse>> getPurchases();
+
+    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "인기 상품 API", description = "인기 상품 목록을 조회합니다.")
     DataResponse<List<ProductListResponse>> getTop5Products();
 }

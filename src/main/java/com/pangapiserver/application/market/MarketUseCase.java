@@ -87,6 +87,15 @@ public class MarketUseCase {
         return DataResponse.ok("선물 조회 성공", responses);
     }
 
+    public DataResponse<List<PurchaseDetailResponse>> getPurchases() {
+        UserEntity user = holder.current();
+        List<com.pangapiserver.domain.market.entity.PurchaseEntity> purchases = purchaseService.getPurchasesByUser(user);
+        List<PurchaseDetailResponse> responses = purchases.stream()
+            .map(PurchaseDetailResponse::of)
+            .toList();
+        return DataResponse.ok("구매 목록 조회 성공", responses);
+    }
+
     public DataResponse<List<ProductListResponse>> getTop5Products() {
         UserEntity user = holder.current();
         List<ProductEntity> items = service.getTop5LikedProducts();

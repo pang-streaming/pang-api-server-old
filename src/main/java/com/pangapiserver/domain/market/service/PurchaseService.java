@@ -35,4 +35,8 @@ public class PurchaseService {
     public boolean existsByUserAndProduct(UserEntity user, ProductEntity product) {
         return repository.existsByBuyerAndProduct(user, product);
     }
+
+    public List<PurchaseEntity> getPurchasesByUser(UserEntity user) {
+        return repository.findByBuyer(user);
+    }
 }

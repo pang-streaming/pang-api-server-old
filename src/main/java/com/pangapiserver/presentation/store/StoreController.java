@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@RestController("/store")
+@RestController
+@RequestMapping("/store")
 @RequiredArgsConstructor
 public class StoreController implements StoreDocuments {
     private final StoreUseCase useCase;

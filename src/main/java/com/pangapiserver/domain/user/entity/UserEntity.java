@@ -62,9 +62,6 @@ public class UserEntity extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<InterestEntity> interestEntities = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<StoreUserEntity> stores = new ArrayList<>();
-
     public void updateInfo(String nickname, LocalDate age, Gender gender, String profileImage, String bannerImage, String description) {
         if (nickname != null) {
             this.nickname = nickname;

@@ -36,9 +36,6 @@ public class StoreEntity extends BaseEntity {
     @Column(nullable = false)
     private String bannerImage;
 
-    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductEntity> products = new ArrayList<>();
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_user_id")
     private UserEntity user;

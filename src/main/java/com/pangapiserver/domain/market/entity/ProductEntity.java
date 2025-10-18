@@ -1,6 +1,7 @@
 package com.pangapiserver.domain.market.entity;
 
 import com.pangapiserver.domain.common.entity.BaseEntity;
+import com.pangapiserver.domain.market.enumeration.ProductCategory;
 import com.pangapiserver.domain.store.entity.StoreEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -34,6 +35,9 @@ public class ProductEntity extends BaseEntity {
 
     @Column(nullable = false)
     private String fileUrl;
+
+    @Enumerated(EnumType.STRING)
+    private ProductCategory category;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_store_id", nullable = false)

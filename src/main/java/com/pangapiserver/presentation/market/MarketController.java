@@ -2,10 +2,13 @@ package com.pangapiserver.presentation.market;
 
 import com.pangapiserver.application.market.MarketUseCase;
 import com.pangapiserver.application.market.data.*;
+import com.pangapiserver.domain.market.enumeration.ProductCategory;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.infrastructure.common.dto.Response;
 import com.pangapiserver.presentation.market.document.MarketDocuments;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,8 +28,8 @@ public class MarketController implements MarketDocuments {
 
     @Override
     @GetMapping("/items")
-    public DataResponse<List<ProductListResponse>> getItems() {
-        return useCase.getItems();
+    public DataResponse<Page<ProductListResponse>> getItems(Pageable pageable) {
+        return useCase.getItems(pageable);
     }
 
     @Override
@@ -81,5 +84,11 @@ public class MarketController implements MarketDocuments {
     @GetMapping("/top5")
     public DataResponse<List<ProductListResponse>> getTop5Products() {
         return useCase.getTop5Products();
+    }
+
+    @Override
+    @GetMapping
+    public DataResponse<List<ProductListResponse>> getItemsByCategory(@RequestParam ProductCategory category) {
+        return useCase.getItemsByCategory(category);
     }
 }

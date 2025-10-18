@@ -1,10 +1,13 @@
 package com.pangapiserver.presentation.market.document;
 
 import com.pangapiserver.application.market.data.*;
+import com.pangapiserver.domain.market.enumeration.ProductCategory;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.infrastructure.common.dto.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -19,7 +22,7 @@ public interface MarketDocuments {
 
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "상품 목록 조회 API", description = "상품을 목록을 조회합니다.")
-    DataResponse<List<ProductListResponse>> getItems();
+    DataResponse<Page<ProductListResponse>> getItems(Pageable pageable);
 
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "상품 상세 조회 API", description = "상품의 상세 정보를 조회합니다.")
@@ -56,4 +59,8 @@ public interface MarketDocuments {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "인기 상품 API", description = "인기 상품 목록을 조회합니다.")
     DataResponse<List<ProductListResponse>> getTop5Products();
+
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "카테고리별 상품 목록 조회 API", description = "카테고리 별로 상품 목록을 조회합니다.")
+    DataResponse<List<ProductListResponse>> getItemsByCategory(ProductCategory category);
 }

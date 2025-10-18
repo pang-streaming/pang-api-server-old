@@ -5,6 +5,7 @@ import com.pangapiserver.application.market.data.ProductWithLikeStatusDto;
 import com.pangapiserver.domain.market.entity.ProductEntity;
 import com.pangapiserver.domain.market.entity.ProductLikeEntity;
 import com.pangapiserver.domain.market.enumeration.LikeStatus;
+import com.pangapiserver.domain.market.enumeration.ProductCategory;
 import com.pangapiserver.domain.market.exception.ProductNotFoundException;
 import com.pangapiserver.domain.market.repository.ProductLikeRepository;
 import com.pangapiserver.domain.market.repository.ProductRepository;
@@ -15,6 +16,8 @@ import com.pangapiserver.domain.store.repository.StoreRepository;
 import com.pangapiserver.domain.store.repository.StoreUserRepository;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -41,14 +44,15 @@ public class MarketService {
                     .description(request.description())
                     .price(request.price())
                     .fileUrl(request.fileUrl())
+                    .category(request.category())
                     .store(store)
                     .build();
             productRepository.save(entity);
         }
     }
 
-    public List<ProductWithLikeStatusDto> getItemsWithLikeStatus(UserEntity user) {
-        return productRepository.findAllWithLikeStatus(user);
+    public Page<ProductWithLikeStatusDto> getItemsWithLikeStatus(UserEntity user, Pageable pageable) {
+        return productRepository.findAllWithLikeStatus(user, pageable);
     }
 
     public ProductEntity getById(UUID id) {
@@ -82,5 +86,9 @@ public class MarketService {
 
     public boolean isProductLikedByUser(UserEntity user, ProductEntity product) {
         return productLikeRepository.findByUserAndProduct(user, product).isPresent();
+    }
+
+    public List<ProductEntity> getItemsByCategory(ProductCategory category) {
+        return productRepository.findByCategory(category);
     }
 }

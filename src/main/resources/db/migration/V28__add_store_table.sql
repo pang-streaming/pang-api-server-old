@@ -27,8 +27,8 @@ ALTER TABLE products
 CREATE TABLE stores_users
 (
     id          BIGINT PRIMARY KEY AUTO_INCREMENT,
-    fk_store_id BINARY(16) NULL,
-    fk_user_id  BINARY(16) NULL,
+    fk_store_id BINARY(16) NOT NULL,
+    fk_user_id  BINARY(16) NOT NULL,
     created_at  TIMESTAMP  NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_at TIMESTAMP  NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_stores_users_store_id FOREIGN KEY (fk_store_id)

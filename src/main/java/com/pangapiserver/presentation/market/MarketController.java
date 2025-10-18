@@ -60,6 +60,24 @@ public class MarketController implements MarketDocuments {
     }
 
     @Override
+    @GetMapping("/purchases")
+    public DataResponse<List<PurchaseDetailResponse>> getPurchases() {
+        return useCase.getPurchases();
+    }
+
+    @Override
+    @GetMapping("/received-gifts")
+    public DataResponse<List<ReceivedGiftResponse>> getReceivedGifts() {
+        return useCase.getReceivedGifts();
+    }
+
+    @Override
+    @PutMapping("/gift")
+    public Response updateGift(@RequestBody GiftUpdateRequest request) {
+        return useCase.updateGift(request);
+    }
+
+    @Override
     @GetMapping("/top5")
     public DataResponse<List<ProductListResponse>> getTop5Products() {
         return useCase.getTop5Products();

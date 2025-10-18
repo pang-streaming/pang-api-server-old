@@ -42,6 +42,7 @@ public class MarketUseCase {
     }
 
     public DataResponse<ProductDetailResponse> getItem(UUID productId) {
+        System.out.println("MarketUseCase#######################productId: " + productId);
         ProductEntity entity = service.getById(productId);
         int likes = service.getLikes(productId);
         ProductDetailResponse response = ProductDetailResponse.of(entity, likes);

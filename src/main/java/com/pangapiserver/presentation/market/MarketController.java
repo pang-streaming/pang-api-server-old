@@ -32,6 +32,7 @@ public class MarketController implements MarketDocuments {
     @Override
     @GetMapping("/{productId}")
     public DataResponse<ProductDetailResponse> getItem(@PathVariable("productId") UUID productId) {
+        System.out.println("MarketController#######################productId: " + productId);
         return useCase.getItem(productId);
     }
 

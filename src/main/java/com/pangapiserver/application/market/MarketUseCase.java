@@ -28,7 +28,7 @@ public class MarketUseCase {
     private final UserService userService;
 
     public Response add(ProductAddRequest request) {
-        service.saveProduct(holder.current(), request);
+        service.saveProduct(request, holder.current().getId());
         return Response.ok("상품 추가 성공");
     }
 

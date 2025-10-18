@@ -1,6 +1,7 @@
 package com.pangapiserver.domain.market.entity;
 
-import com.pangapiserver.domain.user.entity.UserEntity;
+import com.pangapiserver.domain.common.entity.BaseEntity;
+import com.pangapiserver.domain.store.entity.StoreEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "products")
-public class ProductEntity {
+public class ProductEntity extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
@@ -35,6 +36,6 @@ public class ProductEntity {
     private String fileUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_user_id", nullable = false)
-    private UserEntity seller;
+    @JoinColumn(name = "fk_store_id", nullable = false)
+    private StoreEntity store;
 }

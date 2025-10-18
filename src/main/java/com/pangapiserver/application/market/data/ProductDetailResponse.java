@@ -19,9 +19,9 @@ public record ProductDetailResponse (
             entity.getName(),
             likes,
             entity.getPrice(),
-            entity.getSeller().getId(),
-            entity.getSeller().getProfileImage(),
-            entity.getSeller().getUsername()
+            entity.getStore().getId(),
+            entity.getStore().getProfileImage(),
+            entity.getStore().getName()
         );
     }
 }

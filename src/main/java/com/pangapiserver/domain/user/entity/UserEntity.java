@@ -2,6 +2,8 @@ package com.pangapiserver.domain.user.entity;
 
 import com.pangapiserver.domain.common.entity.BaseEntity;
 import com.pangapiserver.domain.interest.entity.InterestEntity;
+import com.pangapiserver.domain.store.entity.StoreEntity;
+import com.pangapiserver.domain.store.entity.StoreUserEntity;
 import com.pangapiserver.domain.user.enumeration.Gender;
 import com.pangapiserver.domain.user.enumeration.Role;
 import jakarta.persistence.*;

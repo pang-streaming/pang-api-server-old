@@ -1,13 +1,16 @@
-package com.pangapiserver.domain.market.entity;
+package com.pangapiserver.domain.store.entity;
 
 import com.pangapiserver.domain.common.entity.BaseEntity;
-import com.pangapiserver.domain.store.entity.StoreEntity;
+import com.pangapiserver.domain.market.entity.ProductEntity;
+import com.pangapiserver.domain.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -15,13 +18,11 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "products")
-public class ProductEntity extends BaseEntity {
-    @Id @GeneratedValue(strategy = GenerationType.UUID)
+@Table(name = "stores")
+public class StoreEntity extends BaseEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-
-    @Column(nullable = false)
-    private String imageUrl;
 
     @Column(nullable = false)
     private String name;
@@ -30,12 +31,12 @@ public class ProductEntity extends BaseEntity {
     private String description;
 
     @Column(nullable = false)
-    private int price;
+    private String profileImage;
 
     @Column(nullable = false)
-    private String fileUrl;
+    private String bannerImage;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_store_id", nullable = false)
-    private StoreEntity store;
+    @JoinColumn(name = "fk_user_id")
+    private UserEntity user;
 }

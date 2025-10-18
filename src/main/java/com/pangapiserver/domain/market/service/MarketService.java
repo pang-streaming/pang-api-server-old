@@ -9,6 +9,10 @@ import com.pangapiserver.domain.market.exception.ProductNotFoundException;
 import com.pangapiserver.domain.market.repository.ProductLikeRepository;
 import com.pangapiserver.domain.market.repository.ProductRepository;
 import com.pangapiserver.domain.market.repository.PurchaseRepository;
+import com.pangapiserver.domain.store.entity.StoreEntity;
+import com.pangapiserver.domain.store.exception.StoreNotFoundException;
+import com.pangapiserver.domain.store.repository.StoreRepository;
+import com.pangapiserver.domain.store.repository.StoreUserRepository;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,17 +28,23 @@ public class MarketService {
     private final ProductRepository productRepository;
     private final ProductLikeRepository productLikeRepository;
     private final PurchaseRepository purchaseRepository;
+    private final StoreUserRepository storeUserRepository;
+    private final StoreRepository storeRepository;
 
-    public void saveProduct(UserEntity user, ProductAddRequest request) {
-        ProductEntity entity = ProductEntity.builder()
-            .imageUrl(request.image())
-            .name(request.name())
-            .description(request.description())
-            .price(request.price())
-            .fileUrl(request.fileUrl())
-            .seller(user)
-            .build();
-        productRepository.save(entity);
+    public void saveProduct(ProductAddRequest request, UUID userId) {
+        if (storeUserRepository.existsByUserIdAndStoreId(userId, request.storeId())) {
+            StoreEntity store = storeRepository.findById(request.storeId())
+                    .orElseThrow(StoreNotFoundException::new);
+            ProductEntity entity = ProductEntity.builder()
+                    .imageUrl(request.image())
+                    .name(request.name())
+                    .description(request.description())
+                    .price(request.price())
+                    .fileUrl(request.fileUrl())
+                    .store(store)
+                    .build();
+            productRepository.save(entity);
+        }
     }
 
     public List<ProductWithLikeStatusDto> getItemsWithLikeStatus(UserEntity user) {

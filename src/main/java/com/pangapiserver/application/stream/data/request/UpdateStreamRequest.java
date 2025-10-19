@@ -5,6 +5,7 @@ import java.util.List;
 public record UpdateStreamRequest (
         String title,
         Long categoryId,
-        List<String> tags
+        List<String> tags,
+        String thumbnail
 ) {
 }

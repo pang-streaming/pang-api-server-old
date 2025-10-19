@@ -38,8 +38,10 @@ public class StreamDocument {
     @Field(type = FieldType.Keyword)
     private String chip;
 
+    private String thumbnail;
+
     @Builder
-    public StreamDocument(String username, String nickname, String profileImage, UUID streamId, String streamUrl, String title, String chip) {
+    public StreamDocument(String username, String nickname, String profileImage, UUID streamId, String streamUrl, String title, String chip, String thumbnail) {
         this.username = username;
         this.nickname = nickname;
         this.profileImage = profileImage;
@@ -47,5 +49,6 @@ public class StreamDocument {
         this.streamUrl = streamUrl;
         this.title = title;
         this.chip = chip;
+        this.thumbnail = thumbnail;
     }
 }

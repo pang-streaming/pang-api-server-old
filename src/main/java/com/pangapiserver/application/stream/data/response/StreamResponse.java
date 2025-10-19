@@ -9,6 +9,7 @@ public record StreamResponse(
         UUID streamId,
         String title,
         String url,
+        String thumbnail,
         String username,
         String nickname,
         // TODO: StreamStatus 추가
@@ -20,6 +21,7 @@ public record StreamResponse(
                 stream.getId(),
                 stream.getTitle(),
                 stream.getUrl(),
+                stream.getThumbnail(),
                 stream.getUser().getUsername(),
                 stream.getUser().getNickname(),
                 stream.getUser().getProfileImage(),
@@ -32,6 +34,7 @@ public record StreamResponse(
                 document.getStreamId(),
                 document.getTitle(),
                 document.getStreamUrl(),
+                document.getThumbnail(),
                 document.getUsername(),
                 document.getNickname(),
                 document.getProfileImage(),

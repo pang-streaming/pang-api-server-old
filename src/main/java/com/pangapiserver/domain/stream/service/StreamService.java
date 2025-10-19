@@ -92,13 +92,13 @@ public class StreamService {
         repository.save(stream);
     }
 
-    public void updateStream(UUID streamId, UserEntity user, UpdateStreamRequest request) {
+    public void updateStream(UUID streamId, UserEntity user, String title, Long categoryId, List<String> tags, String thumbnail) {
         StreamEntity stream = repository.findById(streamId).orElseThrow(StreamNotFoundException::new);
         if (!stream.getUser().equals(user)) {
             throw new StreamNotFoundException();
         }
-        CategoryEntity category = categoryRepository.findById(request.categoryId()).orElseThrow(CategoryNotFoundException::new);
-        stream.updateStream(category, request.title(), request.tags());
+        CategoryEntity category = categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new);
+        stream.updateStream(category, title, tags, thumbnail);
         repository.save(stream);
     }
 
@@ -110,6 +110,7 @@ public class StreamService {
                 .streamId(stream.getId())
                 .streamUrl(stream.getUrl())
                 .title(stream.getTitle())
+                .thumbnail(stream.getThumbnail())
                 .chip(stream.getCategory().getChip().toString())
                 .build();
         streamDocumentRepository.save(document);

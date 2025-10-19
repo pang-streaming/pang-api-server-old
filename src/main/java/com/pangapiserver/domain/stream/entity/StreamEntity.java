@@ -48,14 +48,17 @@ public class StreamEntity extends BaseEntity {
     @Column(nullable = false)
     private StreamStatus status;
 
+    private String thumbnail;
+
     @Builder
-    public StreamEntity(UserEntity user, CategoryEntity category, String title, String url, List<String> tags) {
+    public StreamEntity(UserEntity user, CategoryEntity category, String title, String url, List<String> tags, String thumbnail) {
         this.user = user;
         this.category = category;
         this.title = title;
         this.url = url;
         this.tags = tags;
         this.status = StreamStatus.LIVE;
+        this.thumbnail = thumbnail;
     }
 
     public void updateEndAt() {
@@ -63,9 +66,10 @@ public class StreamEntity extends BaseEntity {
         this.status = StreamStatus.ENDED;
     }
 
-    public void updateStream(CategoryEntity category, String title, List<String> tags) {
+    public void updateStream(CategoryEntity category, String title, List<String> tags, String thumbnail) {
         this.category = category;
         this.title = title;
         this.tags = tags;
+        this.thumbnail = thumbnail;
     }
 }

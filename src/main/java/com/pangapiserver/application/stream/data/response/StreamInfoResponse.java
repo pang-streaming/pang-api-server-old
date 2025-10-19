@@ -8,6 +8,7 @@ public record StreamInfoResponse(
         UUID streamId,
         String title,
         String url,
+        String thumbnail,
         UUID userId,
         String username,
         String nickname,

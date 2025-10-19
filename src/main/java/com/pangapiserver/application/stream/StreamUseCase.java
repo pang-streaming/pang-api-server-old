@@ -78,6 +78,7 @@ public class StreamUseCase {
                 .user(byStreamKey.getUser())
                 .title(byStreamKey.getUser().getNickname() + "님의 방송")
                 .url(properties.getUrl() + byStreamKey.getUser().getNickname())
+                .thumbnail(byStreamKey.getUser().getProfileImage())
                 .build();
         service.save(stream);
         service.saveDocument(stream);
@@ -85,7 +86,7 @@ public class StreamUseCase {
     }
 
     public DataResponse<StreamInfoResponse> updateStream(UUID streamId, UpdateStreamRequest request) {
-        service.updateStream(streamId, holder.current(), request);
+        service.updateStream(streamId, holder.current(), request.title(), request.categoryId(), request.tags(), request.thumbnail());
         StreamEntity updatedStream = service.getByStreamId(streamId, holder.current());
         int followers = followService.getFollowersByUsername(updatedStream.getUser().getUsername()).size();
         int viewCount = redisService.getViewCount(updatedStream.getUser().getUsername());

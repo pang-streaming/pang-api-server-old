@@ -3,6 +3,7 @@ package com.pangapiserver.application.community.data;
 import com.pangapiserver.domain.community.entity.PostEntity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public record PostDetailResponse(
         long id,
@@ -12,7 +13,8 @@ public record PostDetailResponse(
         String nickname,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
-        boolean liked
+        boolean liked,
+        List<String> images
 ) {
         public static PostDetailResponse fromEntity(PostEntity postEntity, boolean liked) {
         return new PostDetailResponse(
@@ -23,7 +25,8 @@ public record PostDetailResponse(
                 postEntity.getUser().getNickname(),
                 postEntity.getCreatedAt(),
                 postEntity.getModifiedAt(),
-                liked
+                liked,
+                postEntity.getImages()
         );
     }
 }

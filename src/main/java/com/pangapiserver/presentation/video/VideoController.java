@@ -38,4 +38,10 @@ public class VideoController implements VideoDocuments {
     public DataResponse<List<StreamResponse>> getEndedVideosByCategory(@PathVariable("categoryId") Long categoryId) {
         return useCase.getEndedVideosByCategory(categoryId);
     }
+
+    @Override
+    @GetMapping()
+    public DataResponse<List<StreamResponse>> getEndedStreams() {
+        return useCase.getEndedStreams();
+    }
 }

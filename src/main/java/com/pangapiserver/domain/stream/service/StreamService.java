@@ -118,4 +118,8 @@ public class StreamService {
     public Page<StreamResponse> searchByTitle(String keyword, List<String> chips, Pageable pageable) {
         return streamDocumentRepository.searchByTitle(keyword, chips, pageable);
     }
+
+    public List<StreamEntity> getEndedStreams() {
+        return repository.findAllByStatusOrderByIdDesc(StreamStatus.ENDED);
+    }
 }

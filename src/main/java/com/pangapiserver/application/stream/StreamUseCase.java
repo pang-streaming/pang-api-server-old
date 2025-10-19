@@ -77,8 +77,8 @@ public class StreamUseCase {
         StreamEntity stream = StreamEntity.builder()
                 .user(byStreamKey.getUser())
                 .title(byStreamKey.getUser().getNickname() + "님의 방송")
-                .url(properties.getUrl() + byStreamKey.getUser().getNickname())
-                .thumbnail(byStreamKey.getUser().getProfileImage())
+                .url(properties.getUrl() + byStreamKey.getUser().getUsername() + "/" + byStreamKey.getCreatedAt() + "/playlist.m3u8")
+                .thumbnail(properties.getUrl() + byStreamKey.getUser().getUsername() + "/" + byStreamKey.getCreatedAt() + "/thumbnail.jpg")
                 .build();
         service.save(stream);
         service.saveDocument(stream);

@@ -5,7 +5,7 @@ import com.pangapiserver.domain.stream.entity.StreamKeyEntity;
 import java.time.LocalDateTime;
 
 public record StreamUserResponse(
-        String nickname,
+        String username,
         LocalDateTime createdAt
 ) {
     public static StreamUserResponse of(StreamKeyEntity entity) {

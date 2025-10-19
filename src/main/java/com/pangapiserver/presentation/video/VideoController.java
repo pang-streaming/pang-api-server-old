@@ -5,10 +5,7 @@ import com.pangapiserver.application.video.VideoUseCase;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.presentation.video.document.VideoDocuments;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,5 +31,11 @@ public class VideoController implements VideoDocuments {
     @GetMapping("/streamer/recorded")
     public DataResponse<List<StreamResponse>> getVideoByUsername(@RequestParam(name = "username") String username) {
         return useCase.getRecordedVideoByUsername(username);
+    }
+
+    @Override
+    @GetMapping("/category/{categoryId}")
+    public DataResponse<List<StreamResponse>> getEndedVideosByCategory(@PathVariable("categoryId") Long categoryId) {
+        return useCase.getEndedVideosByCategory(categoryId);
     }
 }

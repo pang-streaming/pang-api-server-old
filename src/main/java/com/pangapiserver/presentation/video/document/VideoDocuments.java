@@ -20,4 +20,7 @@ public interface VideoDocuments {
 
     @Operation(summary = "카테고리별 동영상 조회", description = "카테고리별로 종료된 동영상 목록을 조회합니다.")
     DataResponse<List<StreamResponse>> getEndedVideosByCategory(Long categoryId);
+
+    @Operation(summary = "종료된 동영상 조회", description = "종료된 동영상 목록을 조회합니다.")
+    DataResponse<List<StreamResponse>> getEndedStreams();
 }

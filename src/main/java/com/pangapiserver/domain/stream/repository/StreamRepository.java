@@ -28,4 +28,6 @@ public interface StreamRepository extends JpaRepository<StreamEntity, UUID> {
     List<StreamEntity> findAllByCategoryAndStatus(CategoryEntity category, StreamStatus status);
 
     List<StreamEntity> findByEndAtIsNotNullAndUser(UserEntity user);
+
+    List<StreamEntity> findAllByStatusOrderByIdDesc(StreamStatus status);
 }

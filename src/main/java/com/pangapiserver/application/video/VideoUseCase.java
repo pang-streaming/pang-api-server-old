@@ -54,4 +54,12 @@ public class VideoUseCase {
                 .toList();
         return DataResponse.ok("카테고리별 동영상 조회 성공", data);
     }
+
+    public DataResponse<List<StreamResponse>> getEndedStreams() {
+        List<StreamEntity> entities = streamService.getEndedStreams();
+        List<StreamResponse> data = entities.stream()
+            .map(s -> StreamResponse.of(s, redisService.getViewCount(s.getUser().getUsername())))
+            .toList();
+        return DataResponse.ok("종료된 동영상 조회 성공", data);
+    }
 }

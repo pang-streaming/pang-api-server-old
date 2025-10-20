@@ -55,6 +55,6 @@ public class TokenFilter extends OncePerRequestFilter {
     }
 
     private UserPrincipal getMemberDetails(String token) {
-        return new UserPrincipal(repository.findByUsername(parser.findUsername(token)).orElseThrow(UserNotFoundException::new));
+        return new UserPrincipal(repository.findUserWithInterestsByUsername(parser.findUsername(token)).orElseThrow(UserNotFoundException::new));
     }
 }

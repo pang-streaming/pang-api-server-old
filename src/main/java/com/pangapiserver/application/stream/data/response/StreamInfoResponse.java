@@ -23,6 +23,7 @@ public record StreamInfoResponse(
             stream.getId(),
             stream.getTitle(),
             stream.getUrl(),
+            stream.getThumbnail(),
             stream.getUser().getId(),
             stream.getUser().getUsername(),
             stream.getUser().getNickname(),

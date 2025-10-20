@@ -14,4 +14,6 @@ public interface ProductLikeRepository extends JpaRepository<ProductLikeEntity, 
     int countByProduct_Id(UUID productId);
 
     Optional<ProductLikeEntity> findByUserAndProduct(UserEntity user, ProductEntity product);
+
+    boolean existsByUserAndProduct(UserEntity user, ProductEntity product);
 }

@@ -2,11 +2,16 @@ package com.pangapiserver.domain.user.service;
 
 import com.pangapiserver.application.follow.data.FollowerCountResponse;
 import com.pangapiserver.domain.follow.repository.FollowCustomRepositoryImpl;
+import com.pangapiserver.domain.stream.document.StreamDocument;
+import com.pangapiserver.domain.stream.entity.StreamEntity;
+import com.pangapiserver.domain.user.document.UserDocument;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.domain.user.exception.UserAlreadyExistException;
 import com.pangapiserver.domain.user.exception.UserNotFoundException;
+import com.pangapiserver.domain.user.repository.UserDocumentRepository;
 import com.pangapiserver.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +23,7 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository repository;
     private final FollowCustomRepositoryImpl followCustomRepository;
+    private final UserDocumentRepository userDocumentRepository;
 
     public void update(UserEntity user) {
         repository.save(user);
@@ -25,6 +31,7 @@ public class UserService {
 
     public void create(UserEntity user) {
         repository.save(user);
+        saveDocument(user);
     }
 
     public void validateByUsernameAndEmail(String username, String email) {
@@ -59,5 +66,17 @@ public class UserService {
     public void deleteByUser(UserEntity user) {
         followCustomRepository.deleteByUserOrFollower(user);
         repository.delete(user);
+    }
+
+    private void saveDocument(UserEntity user) {
+        UserDocument document = UserDocument.builder()
+                .username(user.getUsername())
+                .nickname(user.getNickname())
+                .profileImage(user.getProfileImage())
+                .bannerImage(user.getBannerImage())
+                .description(user.getDescription())
+                .role(user.getRole())
+                .build();
+        userDocumentRepository.save(document);
     }
 }

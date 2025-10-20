@@ -12,9 +12,10 @@ public record ProductDetailResponse (
     UUID storeId,
     String profileImage,
     String username,
-    String description
+    String description,
+    boolean isLiked
 ) {
-    public static ProductDetailResponse of(ProductEntity entity, int likes) {
+    public static ProductDetailResponse of(ProductEntity entity, int likes, boolean isLiked) {
         return new ProductDetailResponse(
             entity.getImageUrl(),
             entity.getName(),
@@ -23,7 +24,8 @@ public record ProductDetailResponse (
             entity.getStore().getId(),
             entity.getStore().getProfileImage(),
             entity.getStore().getName(),
-            entity.getDescription()
+            entity.getDescription(),
+            isLiked
         );
     }
 }

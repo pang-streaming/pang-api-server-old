@@ -51,10 +51,11 @@ public class MarketUseCase {
     }
 
     public DataResponse<ProductDetailResponse> getItem(UUID productId) {
-        System.out.println("MarketUseCase#######################productId: " + productId);
+        UserEntity user = holder.current();
         ProductEntity entity = service.getById(productId);
         int likes = service.getLikes(productId);
-        ProductDetailResponse response = ProductDetailResponse.of(entity, likes);
+        boolean isLiked = service.isProductLikedByUser(user, entity);
+        ProductDetailResponse response = ProductDetailResponse.of(entity, likes, isLiked);
         return DataResponse.ok("상품 상세 조회 성공", response);
     }
 

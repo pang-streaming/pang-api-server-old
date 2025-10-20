@@ -11,7 +11,8 @@ public record ProductDetailResponse (
     int price,
     UUID storeId,
     String profileImage,
-    String username
+    String username,
+    String description
 ) {
     public static ProductDetailResponse of(ProductEntity entity, int likes) {
         return new ProductDetailResponse(
@@ -21,7 +22,8 @@ public record ProductDetailResponse (
             entity.getPrice(),
             entity.getStore().getId(),
             entity.getStore().getProfileImage(),
-            entity.getStore().getName()
+            entity.getStore().getName(),
+            entity.getDescription()
         );
     }
 }

@@ -104,4 +104,13 @@ public class StreamUseCase {
         service.closeStream(stream);
         return Response.ok("스트리밍 종료 성공");
     }
+
+    public DataResponse<List<StreamResponse>> getEndedStreamsOfFollowings() {
+        UserEntity currentUser = holder.current();
+        List<StreamEntity> endedStreams = service.getEndedStreamsOfFollowings(currentUser);
+        List<StreamResponse> response = endedStreams.stream()
+                .map(s -> StreamResponse.of(s, redisService.getViewCount(s.getUser().getUsername())))
+                .toList();
+        return DataResponse.ok("팔로우하는 유저의 종료된 방송 목록 조회 성공", response);
+    }
 }

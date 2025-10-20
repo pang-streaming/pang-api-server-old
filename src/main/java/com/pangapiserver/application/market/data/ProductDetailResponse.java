@@ -9,7 +9,7 @@ public record ProductDetailResponse (
     String name,
     int likes,
     int price,
-    UUID userId,
+    UUID storeId,
     String profileImage,
     String username
 ) {

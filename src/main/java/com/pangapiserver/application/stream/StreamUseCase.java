@@ -73,7 +73,7 @@ public class StreamUseCase {
 
     /** 스트림 키로 스트림 생성 */
     public DataResponse<StreamUserResponse> createStreamByKey(String key) {
-        StreamKeyEntity byStreamKey = keyService.getByStreamKey(Sha512Encoder.encode(key));
+        StreamKeyEntity byStreamKey = keyService.getByStreamKey(key);
         StreamEntity stream = StreamEntity.builder()
                 .user(byStreamKey.getUser())
                 .title(byStreamKey.getUser().getNickname() + "님의 방송")

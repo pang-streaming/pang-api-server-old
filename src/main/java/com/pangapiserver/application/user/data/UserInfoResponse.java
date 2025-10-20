@@ -1,11 +1,14 @@
 package com.pangapiserver.application.user.data;
 
+import com.pangapiserver.domain.category.enumeration.Chip;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.domain.user.enumeration.Gender;
 import com.pangapiserver.domain.user.enumeration.Role;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public record UserInfoResponse(
     UUID id,
@@ -20,7 +23,8 @@ public record UserInfoResponse(
     Role role,
     boolean isAlarm,
     String description,
-    int cash
+    int cash,
+    List<Chip> interests
 ) {
     public static UserInfoResponse of(UserEntity user, int cash) {
         return new UserInfoResponse(
@@ -36,7 +40,8 @@ public record UserInfoResponse(
             user.getRole(),
             user.isAlarm(),
             user.getDescription(),
-            cash
+            cash,
+            user.getInterestEntities().stream().map(interest -> interest.getChip()).collect(Collectors.toList())
         );
     }
 }

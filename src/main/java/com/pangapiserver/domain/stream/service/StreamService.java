@@ -115,7 +115,7 @@ public class StreamService {
                 .streamUrl(stream.getUrl())
                 .title(stream.getTitle())
                 .thumbnail(stream.getThumbnail())
-                .chip(stream.getCategory().getChip().toString())
+                .chip(stream.getCategory() != null ? stream.getCategory().getChip().toString() : "")
                 .build();
         streamDocumentRepository.save(document);
     }

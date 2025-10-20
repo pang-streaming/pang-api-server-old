@@ -5,6 +5,8 @@ import com.pangapiserver.application.stream.data.response.StreamResponse;
 import com.pangapiserver.domain.category.entity.CategoryEntity;
 import com.pangapiserver.domain.category.exception.CategoryNotFoundException;
 import com.pangapiserver.domain.category.repository.CategoryRepository;
+import com.pangapiserver.domain.follow.entity.FollowEntity;
+import com.pangapiserver.domain.follow.repository.FollowRepository;
 import com.pangapiserver.domain.stream.document.StreamDocument;
 import com.pangapiserver.domain.stream.entity.StreamEntity;
 import com.pangapiserver.domain.stream.entity.StreamStatus;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +33,7 @@ public class StreamService {
     private final WatchHistoryRepository watchHistoryRepository;
     private final CategoryRepository categoryRepository;
     private final StreamDocumentRepository streamDocumentRepository;
+    private final FollowRepository followRepository;
 
     public List<StreamEntity> getAll() {
         return repository.findAllByOrderByIdDesc();
@@ -122,5 +126,13 @@ public class StreamService {
 
     public List<StreamEntity> getEndedStreams() {
         return repository.findAllByStatusOrderByIdDesc(StreamStatus.ENDED);
+    }
+
+    public List<StreamEntity> getEndedStreamsOfFollowings(UserEntity user) {
+        List<FollowEntity> followings = followRepository.findFollowerByUser(user);
+        List<UserEntity> followedUsers = followings.stream()
+                .map(FollowEntity::getUser)
+                .collect(Collectors.toList());
+        return repository.findAllByUserInAndStatusOrderByIdDesc(followedUsers, StreamStatus.ENDED);
     }
 }

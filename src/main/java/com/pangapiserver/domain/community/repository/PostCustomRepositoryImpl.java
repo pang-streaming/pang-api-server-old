@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -29,36 +30,39 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
         QPostEntity post = QPostEntity.postEntity;
         QCommunityEntity community = QCommunityEntity.communityEntity;
 
-        long total = queryFactory
-            .select(post.count())
-            .from(post)
-            .where(post.community.id.eq(communityId), getFilterExpression(user, filter, post, community))
-            .fetchOne();
+        long total = Optional.ofNullable(queryFactory
+                .select(post.count())
+                .from(post)
+                .join(post.community, community)
+                .where(post.community.id.eq(communityId), getFilterExpression(user, filter, post, community))
+                .fetchOne()).orElse(0L);
 
         List<Long> ids = queryFactory
-            .select(post.id)
-            .from(post)
-            .where(post.community.id.eq(communityId), getFilterExpression(user, filter, post, community))
-            .orderBy(getOrderSpecifiers(filter, post, community))
-            .offset(pageable.getOffset())
-            .limit(pageable.getPageSize())
-            .fetch();
+                .select(post.id)
+                .from(post)
+                .join(post.community, community)
+                .where(post.community.id.eq(communityId), getFilterExpression(user, filter, post, community))
+                .orderBy(getOrderSpecifiers(filter, post, community))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
 
         if (ids.isEmpty()) {
             return new PageImpl<>(Collections.emptyList(), pageable, total);
         }
 
         List<PostEntity> content = queryFactory
-            .selectFrom(post)
-            .join(post.community, community).fetchJoin()
-            .join(post.user).fetchJoin()
-            .leftJoin(post.images).fetchJoin()
-            .where(post.id.in(ids))
-            .orderBy(getOrderSpecifiers(filter, post, community))
-            .fetch();
+                .selectFrom(post)
+                .join(post.community, community).fetchJoin()
+                .join(post.user).fetchJoin()
+                .leftJoin(post.images).fetchJoin()
+                .where(post.id.in(ids))
+                .orderBy(getOrderSpecifiers(filter, post, community))
+                .fetch();
 
         return new PageImpl<>(content, pageable, total);
     }
+
 
     private BooleanExpression getFilterExpression(UserEntity user, PostFilterType filter, QPostEntity post, QCommunityEntity community) {
         return switch (filter) {

@@ -70,6 +70,7 @@ public class UserService {
 
     private void saveDocument(UserEntity user) {
         UserDocument document = UserDocument.builder()
+                .id(user.getId())
                 .username(user.getUsername())
                 .nickname(user.getNickname())
                 .profileImage(user.getProfileImage())

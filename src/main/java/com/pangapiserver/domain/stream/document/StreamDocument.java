@@ -16,6 +16,7 @@ import java.util.UUID;
 @Document(indexName = "streams")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StreamDocument {
     @Id
@@ -39,16 +40,4 @@ public class StreamDocument {
     private String chip;
 
     private String thumbnail;
-
-    @Builder
-    public StreamDocument(String username, String nickname, String profileImage, UUID streamId, String streamUrl, String title, String chip, String thumbnail) {
-        this.username = username;
-        this.nickname = nickname;
-        this.profileImage = profileImage;
-        this.streamId = streamId;
-        this.streamUrl = streamUrl;
-        this.title = title;
-        this.chip = chip;
-        this.thumbnail = thumbnail;
-    }
 }

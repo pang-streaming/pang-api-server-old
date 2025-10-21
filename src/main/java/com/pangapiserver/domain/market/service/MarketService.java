@@ -99,10 +99,11 @@ public class MarketService {
     private void saveDocument(ProductEntity product) {
         productDocumentRepository.save(
                 ProductDocument.builder()
-                .image(product.getImageUrl())
-                .name(product.getName())
-                .price(product.getPrice())
-                .build()
+                        .id(product.getId())
+                        .image(product.getImageUrl())
+                        .name(product.getName())
+                        .price(product.getPrice())
+                        .build()
         );
     }
 }

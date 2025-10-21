@@ -41,12 +41,13 @@ public class SearchUseCase {
     private final ProductRepository productRepository;
     private final ElasticsearchClient client;
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Response reindex() {
-        createIndexIfNotExist("users");
-        createIndexIfNotExist("streams");
-        createIndexIfNotExist("products");
+        recreateIndex("users");
+        recreateIndex("streams");
+        recreateIndex("products");
 
+        // === User ===
         userRepository.findAll().forEach(user -> {
             UserDocument doc = new UserDocument(
                     user.getId(),
@@ -60,6 +61,7 @@ public class SearchUseCase {
             indexDocument("users", user.getId().toString(), doc);
         });
 
+        // === Stream ===
         streamRepository.findAll().forEach(stream -> {
             StreamDocument doc = StreamDocument.builder()
                     .username(stream.getUser().getUsername())
@@ -74,6 +76,7 @@ public class SearchUseCase {
             indexDocument("streams", stream.getId().toString(), doc);
         });
 
+        // === Product ===
         productRepository.findAll().forEach(product -> {
             ProductDocument doc = new ProductDocument(
                     product.getId(),
@@ -84,19 +87,22 @@ public class SearchUseCase {
             indexDocument("products", product.getId().toString(), doc);
         });
 
-        return Response.ok("리인덱싱 성공");
+        return Response.ok("모든 인덱스 재생성 및 리인덱싱 완료");
     }
 
-    private void createIndexIfNotExist(String indexName) {
+    private void recreateIndex(String indexName) {
         try {
             boolean exists = client.indices().exists(e -> e.index(indexName)).value();
-            if (!exists) {
-                client.indices().create(c -> c.index(indexName));
+            if (exists) {
+                client.indices().delete(d -> d.index(indexName));
             }
+            client.indices().create(c -> c.index(indexName));
         } catch (Exception e) {
+            System.out.println("인덱스 재생성 실패: " + indexName + e);
             throw new DocumentReindexingException();
         }
     }
+
 
     private <T> void indexDocument(String indexName, String id, T document) {
         try {

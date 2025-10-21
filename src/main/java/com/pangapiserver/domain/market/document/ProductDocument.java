@@ -1,7 +1,6 @@
 package com.pangapiserver.domain.market.document;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.pangapiserver.domain.user.enumeration.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,6 +16,7 @@ import java.util.UUID;
 @Document(indexName = "products")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProductDocument {
     @Id
@@ -28,11 +28,4 @@ public class ProductDocument {
     private String name;
 
     private int price;
-
-    @Builder
-    public ProductDocument(String image, String name, int price) {
-        this.image = image;
-        this.name = name;
-        this.price = price;
-    }
 }

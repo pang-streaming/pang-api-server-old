@@ -17,6 +17,7 @@ import java.util.UUID;
 @Document(indexName = "users")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDocument {
     @Id
@@ -34,14 +35,4 @@ public class UserDocument {
     private String description;
 
     private Role role;
-
-    @Builder
-    public UserDocument(String username, String nickname, String profileImage, String bannerImage, String description, Role role) {
-        this.username = username;
-        this.nickname = nickname;
-        this.profileImage = profileImage;
-        this.bannerImage = bannerImage;
-        this.description = description;
-        this.role = role;
-    }
 }

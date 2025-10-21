@@ -3,6 +3,7 @@ package com.pangapiserver.application.stream;
 import com.pangapiserver.application.stream.data.response.StreamKeyResponse;
 import com.pangapiserver.domain.community.entity.CommunityEntity;
 import com.pangapiserver.domain.community.service.CommunityService;
+import com.pangapiserver.domain.stream.entity.StreamType;
 import com.pangapiserver.domain.stream.service.StreamKeyService;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.domain.user.enumeration.Role;
@@ -22,7 +23,7 @@ public class StreamKeyUseCase {
     private final UserService userService;
     private final UserAuthenticationHolder holder;
 
-    public DataResponse<StreamKeyResponse> createKey() {
+    public DataResponse<StreamKeyResponse> createKey(StreamType type) {
         UserEntity user = holder.current();
         if (user.getRole() == Role.USER) {
             CommunityEntity community = new CommunityEntity(user, user.getNickname() + "님의 커뮤니티에 오신것을 환영합니다.");
@@ -30,7 +31,7 @@ public class StreamKeyUseCase {
             communityService.save(community);
             userService.update(user);
         }
-        return DataResponse.created("스트리밍 키 생성 성공", StreamKeyResponse.of(service.create(user)));
+        return DataResponse.created("스트리밍 키 생성 성공", StreamKeyResponse.of(service.create(user, type)));
     }
 
     public DataResponse<StreamKeyResponse> getKey() {

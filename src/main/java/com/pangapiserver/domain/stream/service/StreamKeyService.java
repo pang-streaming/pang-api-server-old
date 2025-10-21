@@ -1,6 +1,7 @@
 package com.pangapiserver.domain.stream.service;
 
 import com.pangapiserver.domain.stream.entity.StreamKeyEntity;
+import com.pangapiserver.domain.stream.entity.StreamType;
 import com.pangapiserver.domain.stream.exception.StreamKeyNotFoundException;
 import com.pangapiserver.domain.stream.repository.StreamKeyRepository;
 import com.pangapiserver.domain.user.entity.UserEntity;
@@ -16,11 +17,12 @@ public class StreamKeyService {
     private final StreamKeyRepository repository;
     private final AESEncoder aesEncoder;
 
-    public String create(UserEntity user) {
+    public String create(UserEntity user, StreamType type) {
         StreamKeyEntity streamKey = repository.findByUser(user)
             .orElse(StreamKeyEntity.create(user));
         String key = Sha512Encoder.encode(user.getUsername());
         streamKey.updateKey(aesEncoder.encrypt(key));
+        streamKey.updateType(type);
         repository.save(streamKey);
         return key;
     }

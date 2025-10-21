@@ -17,4 +17,8 @@ public class RedisService {
         int viewCount = Integer.parseInt(viewCountStr) - 1;
         return Math.max(viewCount, 0);
     }
+
+    public void deleteViewCount(String username) {
+        redisTemplate.delete(username + ":count");
+    }
 }

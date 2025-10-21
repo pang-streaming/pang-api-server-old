@@ -22,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -68,6 +69,10 @@ public class StreamService {
     public List<StreamEntity> getStreamsByCategory(Long categoryId) {
         CategoryEntity category = categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new);
         return repository.findAllByCategory(category);
+    }
+
+    public Optional<StreamEntity> getLiveStreamByUserOrNull(UserEntity user) {
+        return repository.findByUserAndStatus(user, StreamStatus.LIVE);
     }
 
     public StreamEntity getLiveStreamByUser(UserEntity user) {

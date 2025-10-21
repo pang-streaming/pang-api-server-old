@@ -23,4 +23,9 @@ public class CommunityEntity {
 
     @Column(nullable = false)
     private String description;
+
+    public CommunityEntity(UserEntity user, String description) {
+        this.user = user;
+        this.description = description;
+    }
 }

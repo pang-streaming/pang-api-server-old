@@ -1,6 +1,7 @@
 package com.pangapiserver.domain.user.entity;
 
 import com.pangapiserver.domain.common.entity.BaseEntity;
+import com.pangapiserver.domain.community.entity.CommunityEntity;
 import com.pangapiserver.domain.interest.entity.InterestEntity;
 import com.pangapiserver.domain.store.entity.StoreEntity;
 import com.pangapiserver.domain.store.entity.StoreUserEntity;
@@ -81,6 +82,10 @@ public class UserEntity extends BaseEntity {
         if (description != null) {
             this.description = description;
         }
+    }
+
+    public void changeRoleToStreamer(CommunityEntity community) {
+        this.role = Role.STREAMER;
     }
 
     @Builder

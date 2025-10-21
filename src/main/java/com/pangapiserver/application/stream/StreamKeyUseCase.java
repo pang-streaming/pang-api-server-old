@@ -1,8 +1,10 @@
 package com.pangapiserver.application.stream;
 
 import com.pangapiserver.application.stream.data.response.StreamKeyResponse;
+import com.pangapiserver.domain.community.entity.CommunityEntity;
 import com.pangapiserver.domain.stream.service.StreamKeyService;
 import com.pangapiserver.domain.user.entity.UserEntity;
+import com.pangapiserver.domain.user.enumeration.Role;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.infrastructure.security.support.UserAuthenticationHolder;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,10 @@ public class StreamKeyUseCase {
 
     public DataResponse<StreamKeyResponse> createKey() {
         UserEntity user = holder.current();
+        if (user.getRole() == Role.USER) {
+            CommunityEntity community = new CommunityEntity(user, user.getNickname() + "님의 커뮤니티에 오신것을 환영합니다.");
+            user.changeRoleToStreamer(community);
+        }
         return DataResponse.created("스트리밍 키 생성 성공", StreamKeyResponse.of(service.create(user)));
     }
 

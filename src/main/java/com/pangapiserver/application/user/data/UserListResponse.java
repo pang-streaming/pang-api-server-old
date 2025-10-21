@@ -1,6 +1,7 @@
 package com.pangapiserver.application.user.data;
 
 import com.pangapiserver.application.follow.data.FollowerCountResponse;
+import com.pangapiserver.domain.user.document.UserDocument;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.domain.user.enumeration.Role;
 
@@ -38,5 +39,26 @@ public record UserListResponse(
                 user.getRole()
             ))
             .toList();
+    }
+
+    public static List<UserListResponse> ofDocument(List<UserDocument> users, List<FollowerCountResponse> followers) {
+        Map<UUID, Long> followerCountMap = followers.stream()
+                .collect(Collectors.toMap(
+                        FollowerCountResponse::id,
+                        FollowerCountResponse::count
+                ));
+
+        return users.stream()
+                .map(user -> new UserListResponse(
+                        user.getId(),
+                        user.getUsername(),
+                        user.getNickname(),
+                        user.getProfileImage(),
+                        user.getBannerImage(),
+                        user.getDescription(),
+                        followerCountMap.getOrDefault(user.getId(), 0L),
+                        user.getRole()
+                ))
+                .toList();
     }
 }

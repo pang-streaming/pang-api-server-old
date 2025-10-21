@@ -1,6 +1,7 @@
-package com.pangapiserver.domain.stream.document;
+package com.pangapiserver.domain.user.document;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.pangapiserver.domain.user.enumeration.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,12 +14,12 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.util.UUID;
 
 @Getter
-@Document(indexName = "streams")
+@Document(indexName = "users")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class StreamDocument {
+public class UserDocument {
     @Id
     private UUID id;
 
@@ -29,15 +30,9 @@ public class StreamDocument {
 
     private String profileImage;
 
-    private UUID streamId;
+    private String bannerImage;
 
-    private String streamUrl;
+    private String description;
 
-    @Field(type = FieldType.Text)
-    private String title;
-
-    @Field(type = FieldType.Keyword)
-    private String chip;
-
-    private String thumbnail;
+    private Role role;
 }

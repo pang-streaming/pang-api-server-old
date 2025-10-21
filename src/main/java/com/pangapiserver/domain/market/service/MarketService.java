@@ -2,11 +2,13 @@ package com.pangapiserver.domain.market.service;
 
 import com.pangapiserver.application.market.data.ProductAddRequest;
 import com.pangapiserver.application.market.data.ProductWithLikeStatusDto;
+import com.pangapiserver.domain.market.document.ProductDocument;
 import com.pangapiserver.domain.market.entity.ProductEntity;
 import com.pangapiserver.domain.market.entity.ProductLikeEntity;
 import com.pangapiserver.domain.market.enumeration.LikeStatus;
 import com.pangapiserver.domain.market.enumeration.ProductCategory;
 import com.pangapiserver.domain.market.exception.ProductNotFoundException;
+import com.pangapiserver.domain.market.repository.ProductDocumentRepository;
 import com.pangapiserver.domain.market.repository.ProductLikeRepository;
 import com.pangapiserver.domain.market.repository.ProductRepository;
 import com.pangapiserver.domain.market.repository.PurchaseRepository;
@@ -30,9 +32,9 @@ import java.util.UUID;
 public class MarketService {
     private final ProductRepository productRepository;
     private final ProductLikeRepository productLikeRepository;
-    private final PurchaseRepository purchaseRepository;
     private final StoreUserRepository storeUserRepository;
     private final StoreRepository storeRepository;
+    private final ProductDocumentRepository productDocumentRepository;
 
     public void saveProduct(ProductAddRequest request, UUID userId) {
         if (storeUserRepository.existsByUserIdAndStoreId(userId, request.storeId())) {
@@ -48,6 +50,7 @@ public class MarketService {
                     .store(store)
                     .build();
             productRepository.save(entity);
+            saveDocument(entity);
         }
     }
 
@@ -91,5 +94,16 @@ public class MarketService {
 
     public List<ProductEntity> getItemsByCategory(ProductCategory category) {
         return productRepository.findByCategory(category);
+    }
+
+    private void saveDocument(ProductEntity product) {
+        productDocumentRepository.save(
+                ProductDocument.builder()
+                        .id(product.getId())
+                        .image(product.getImageUrl())
+                        .name(product.getName())
+                        .price(product.getPrice())
+                        .build()
+        );
     }
 }

@@ -1,5 +1,6 @@
 package com.pangapiserver.application.market.data;
 
+import com.pangapiserver.domain.market.document.ProductDocument;
 import com.pangapiserver.domain.market.entity.ProductEntity;
 
 import java.util.UUID;
@@ -18,6 +19,16 @@ public record ProductListResponse (
             entity.getName(),
             entity.getPrice(),
             isLiked
+        );
+    }
+
+    public static ProductListResponse of(ProductDocument entity, boolean isLiked) {
+        return new ProductListResponse(
+                entity.getId(),
+                entity.getImage(),
+                entity.getName(),
+                entity.getPrice(),
+                isLiked
         );
     }
 }

@@ -1,4 +1,4 @@
-package com.pangapiserver.domain.stream.document;
+package com.pangapiserver.domain.market.document;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -13,31 +13,19 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.util.UUID;
 
 @Getter
-@Document(indexName = "streams")
+@Document(indexName = "products")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class StreamDocument {
+public class ProductDocument {
     @Id
     private UUID id;
 
-    @Field(type = FieldType.Text)
-    private String username;
-
-    private String nickname;
-
-    private String profileImage;
-
-    private UUID streamId;
-
-    private String streamUrl;
+    private String image;
 
     @Field(type = FieldType.Text)
-    private String title;
+    private String name;
 
-    @Field(type = FieldType.Keyword)
-    private String chip;
-
-    private String thumbnail;
+    private int price;
 }

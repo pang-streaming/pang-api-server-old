@@ -108,6 +108,7 @@ public class StreamService {
 
     public void saveDocument(StreamEntity stream) {
         StreamDocument document = StreamDocument.builder()
+                .id(stream.getId())
                 .username(stream.getUser().getUsername())
                 .nickname(stream.getUser().getNickname())
                 .profileImage(stream.getUser().getProfileImage())

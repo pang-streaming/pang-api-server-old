@@ -55,7 +55,8 @@ public class MarketUseCase {
         ProductEntity entity = service.getById(productId);
         int likes = service.getLikes(productId);
         boolean isLiked = service.isProductLikedByUser(user, entity);
-        ProductDetailResponse response = ProductDetailResponse.of(entity, likes, isLiked);
+        boolean isPurchased = purchaseService.existsByUserAndProduct(user, entity);
+        ProductDetailResponse response = ProductDetailResponse.of(entity, likes, isLiked, isPurchased);
         return DataResponse.ok("상품 상세 조회 성공", response);
     }
 

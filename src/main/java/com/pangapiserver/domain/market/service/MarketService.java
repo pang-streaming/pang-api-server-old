@@ -51,6 +51,8 @@ public class MarketService {
                     .build();
             productRepository.save(entity);
             saveDocument(entity);
+        } else {
+            throw new StoreNotFoundException();
         }
     }
 

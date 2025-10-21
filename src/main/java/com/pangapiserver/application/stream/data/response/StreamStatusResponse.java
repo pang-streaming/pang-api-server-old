@@ -5,7 +5,7 @@ import com.pangapiserver.domain.stream.entity.StreamType;
 
 public record StreamStatusResponse(
         String title,
-        Long category,
+        Long categoryId,
         StreamStatus status,
         StreamType streamType
 ) {

@@ -49,6 +49,6 @@ public class StreamKeyUseCase {
         String key = service.getByUser(user);
         StreamKeyEntity byStreamKey = service.getByStreamKey(key);
         StreamEntity stream = streamService.getLiveStreamByUser(user);
-        return DataResponse.ok("스트리밍 상태 확인 성공", StreamStatusResponse.of(stream.getStatus(), byStreamKey.getType()));
+        return DataResponse.ok("스트리밍 상태 확인 성공", StreamStatusResponse.of(stream.getTitle(), stream.getCategory(), stream.getStatus(), byStreamKey.getType()));
     }
 }

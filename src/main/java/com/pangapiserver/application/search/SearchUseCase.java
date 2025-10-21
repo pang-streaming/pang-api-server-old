@@ -16,7 +16,6 @@ import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.infrastructure.common.dto.Response;
 import com.pangapiserver.infrastructure.security.support.UserAuthenticationHolder;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,7 +46,6 @@ public class SearchUseCase {
         recreateIndex("streams");
         recreateIndex("products");
 
-        // === User ===
         userRepository.findAll().forEach(user -> {
             UserDocument doc = new UserDocument(
                     user.getId(),
@@ -61,7 +59,6 @@ public class SearchUseCase {
             indexDocument("users", user.getId().toString(), doc);
         });
 
-        // === Stream ===
         streamRepository.findAll().forEach(stream -> {
             StreamDocument doc = StreamDocument.builder()
                     .username(stream.getUser().getUsername())
@@ -76,7 +73,6 @@ public class SearchUseCase {
             indexDocument("streams", stream.getId().toString(), doc);
         });
 
-        // === Product ===
         productRepository.findAll().forEach(product -> {
             ProductDocument doc = new ProductDocument(
                     product.getId(),
@@ -87,7 +83,7 @@ public class SearchUseCase {
             indexDocument("products", product.getId().toString(), doc);
         });
 
-        return Response.ok("모든 인덱스 재생성 및 리인덱싱 완료");
+        return Response.ok("모든 인덱스 재생성 및 리인덱싱 성공");
     }
 
     private void recreateIndex(String indexName) {
@@ -98,7 +94,6 @@ public class SearchUseCase {
             }
             client.indices().create(c -> c.index(indexName));
         } catch (Exception e) {
-            System.out.println("인덱스 재생성 실패: " + indexName + e);
             throw new DocumentReindexingException();
         }
     }

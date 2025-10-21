@@ -27,6 +27,7 @@ public class UserService {
 
     public void update(UserEntity user) {
         repository.save(user);
+        saveDocument(user);
     }
 
     public void create(UserEntity user) {

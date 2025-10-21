@@ -1,10 +1,7 @@
 package com.pangapiserver.presentation.stream.document;
 
 import com.pangapiserver.application.stream.data.request.UpdateStreamRequest;
-import com.pangapiserver.application.stream.data.response.StreamInfoResponse;
-import com.pangapiserver.application.stream.data.response.StreamKeyResponse;
-import com.pangapiserver.application.stream.data.response.StreamResponse;
-import com.pangapiserver.application.stream.data.response.StreamUserResponse;
+import com.pangapiserver.application.stream.data.response.*;
 import com.pangapiserver.domain.stream.entity.StreamType;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.infrastructure.common.dto.Response;
@@ -44,6 +41,10 @@ public interface StreamDocuments {
     @Operation(summary = "스트리밍 키 생성 API", description = "자신의 스트리밍 키를 생성합니다.")
     @ResponseStatus(HttpStatus.CREATED)
     DataResponse<StreamKeyResponse> createKey(StreamType type);
+
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "내 방송 상태 API", description = "내 방송 상태를 확인합니다.cl")
+    DataResponse<StreamStatusResponse> isStreaming();
 
     @Operation(summary = "스트리밍 키로 스트리밍 생성", description = "암호화 되지 않은 스트리밍 키로 스트림을 생성합니다.")
     @ResponseStatus(HttpStatus.OK)

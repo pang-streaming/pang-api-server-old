@@ -3,10 +3,7 @@ package com.pangapiserver.presentation.stream;
 import com.pangapiserver.application.stream.StreamKeyUseCase;
 import com.pangapiserver.application.stream.StreamUseCase;
 import com.pangapiserver.application.stream.data.request.UpdateStreamRequest;
-import com.pangapiserver.application.stream.data.response.StreamInfoResponse;
-import com.pangapiserver.application.stream.data.response.StreamKeyResponse;
-import com.pangapiserver.application.stream.data.response.StreamResponse;
-import com.pangapiserver.application.stream.data.response.StreamUserResponse;
+import com.pangapiserver.application.stream.data.response.*;
 import com.pangapiserver.domain.stream.entity.StreamType;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.infrastructure.common.dto.Response;
@@ -62,6 +59,12 @@ public class StreamController implements StreamDocuments {
     @PostMapping("/key")
     public DataResponse<StreamKeyResponse> createKey(@Valid @RequestParam(name = "stream-type") StreamType type) {
         return streamKeyUseCase.createKey(type);
+    }
+
+    @Override
+    @PostMapping("/me/status")
+    public DataResponse<StreamStatusResponse> isStreaming() {
+        return streamKeyUseCase.isStreaming();
     }
 
     @Override

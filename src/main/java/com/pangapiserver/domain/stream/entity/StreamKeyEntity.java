@@ -26,11 +26,19 @@ public class StreamKeyEntity extends BaseEntity {
     @Column(name = "stream_key", nullable = false, columnDefinition = "TEXT")
     private String key;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "stream_type")
+    private StreamType type;
+
     public static StreamKeyEntity create(UserEntity user) {
         return StreamKeyEntity.builder().user(user).build();
     }
 
     public void updateKey(String key) {
         this.key = key;
+    }
+
+    public void updateType(StreamType type) {
+        this.type = type;
     }
 }

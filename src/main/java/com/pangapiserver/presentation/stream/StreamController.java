@@ -7,9 +7,11 @@ import com.pangapiserver.application.stream.data.response.StreamInfoResponse;
 import com.pangapiserver.application.stream.data.response.StreamKeyResponse;
 import com.pangapiserver.application.stream.data.response.StreamResponse;
 import com.pangapiserver.application.stream.data.response.StreamUserResponse;
+import com.pangapiserver.domain.stream.entity.StreamType;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.infrastructure.common.dto.Response;
 import com.pangapiserver.presentation.stream.document.StreamDocuments;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -58,8 +60,8 @@ public class StreamController implements StreamDocuments {
 
     @Override
     @PostMapping("/key")
-    public DataResponse<StreamKeyResponse> createKey() {
-        return streamKeyUseCase.createKey();
+    public DataResponse<StreamKeyResponse> createKey(@Valid @RequestParam(name = "stream-type") StreamType type) {
+        return streamKeyUseCase.createKey(type);
     }
 
     @Override

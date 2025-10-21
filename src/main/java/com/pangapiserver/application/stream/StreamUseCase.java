@@ -105,6 +105,10 @@ public class StreamUseCase {
         StreamKeyEntity byStreamKey = keyService.getByStreamKey(key);
         StreamEntity stream = service.getLiveStreamByUser(byStreamKey.getUser());
         service.closeStream(stream);
+        
+        // Redis에서 username:count 키 삭제
+        redisService.deleteViewCount(stream.getUser().getUsername());
+        
         return Response.ok("스트리밍 종료 성공");
     }
 

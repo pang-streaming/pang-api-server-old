@@ -9,6 +9,7 @@ import com.pangapiserver.domain.follow.repository.FollowRepository;
 import com.pangapiserver.domain.stream.document.StreamDocument;
 import com.pangapiserver.domain.stream.entity.StreamEntity;
 import com.pangapiserver.domain.stream.entity.StreamStatus;
+import com.pangapiserver.domain.stream.entity.StreamType;
 import com.pangapiserver.domain.stream.exception.StreamAlreadyEndedException;
 import com.pangapiserver.domain.stream.exception.StreamNotFoundException;
 import com.pangapiserver.domain.stream.repository.StreamRepository;
@@ -34,6 +35,7 @@ public class StreamService {
     private final CategoryRepository categoryRepository;
     private final StreamDocumentRepository streamDocumentRepository;
     private final FollowRepository followRepository;
+    private final StreamKeyService streamKeyService;
 
     public List<StreamEntity> getAll() {
         return repository.findAllByOrderByIdDesc();
@@ -100,12 +102,18 @@ public class StreamService {
         repository.save(stream);
     }
 
-    public StreamEntity updateStream(StreamEntity stream, UserEntity user, String title, Long categoryId, List<String> tags, String thumbnail) {
+    public StreamEntity updateStream(StreamEntity stream, UserEntity user, String title, Long categoryId, List<String> tags, String thumbnail, StreamType streamType) {
         if (!stream.getUser().equals(user)) {
             throw new StreamNotFoundException();
         }
         CategoryEntity category = categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new);
         stream.updateStream(category, title, tags, thumbnail);
+        
+        // StreamType이 제공된 경우 StreamKeyEntity 업데이트
+        if (streamType != null) {
+            streamKeyService.updateStreamType(user, streamType);
+        }
+        
         return repository.save(stream);
     }
 

@@ -23,10 +23,11 @@ public record UserInfoResponse(
     Role role,
     boolean isAlarm,
     String description,
+    Long communityId,
     int cash,
     List<Chip> interests
 ) {
-    public static UserInfoResponse of(UserEntity user, int cash) {
+    public static UserInfoResponse of(UserEntity user, Long communityId, int cash) {
         return new UserInfoResponse(
             user.getId(),
             user.getUsername(),
@@ -40,6 +41,7 @@ public record UserInfoResponse(
             user.getRole(),
             user.isAlarm(),
             user.getDescription(),
+            communityId,
             cash,
             user.getInterestEntities().stream().map(interest -> interest.getChip()).collect(Collectors.toList())
         );

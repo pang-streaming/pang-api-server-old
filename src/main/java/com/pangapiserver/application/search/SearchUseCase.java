@@ -129,7 +129,7 @@ public class SearchUseCase {
                     .streamId(stream.getId())
                     .streamUrl(stream.getUrl())
                     .title(stream.getTitle())
-                    .chip(stream.getCategory().getChip().toString())
+                    .chip(stream.getCategory() != null ? stream.getCategory().getChip().toString() : "NONE")
                     .thumbnail(stream.getThumbnail())
                     .build();
             bulkBuilder.operations(op -> op

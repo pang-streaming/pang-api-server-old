@@ -35,19 +35,6 @@ public class SearchCustomRepositoryImpl implements SearchCustomRepository {
     private final ProductLikeRepository productLikeRepository;
     private final ProductRepository productRepository;
 
-//    @Override
-//    public <T> Page<T> search(String keyword, Pageable pageable, TotalSearchData data) {
-//        try {
-//            return switch (data.type()) {
-//                case STREAMS -> (Page<T>) searchStreams(keyword, pageable, data);
-//                case USERS -> (Page<T>) searchUsers(keyword, pageable, data);
-//                case PRODUCTS -> (Page<T>) searchProducts(keyword, pageable, data);
-//            };
-//        } catch (Exception e) {
-//            throw new ElasticsearchConnectionException();
-//        }
-//    }
-
     @Override
     public List<StreamResponse> searchStreams(String keyword, TotalSearchData data) {
         try {

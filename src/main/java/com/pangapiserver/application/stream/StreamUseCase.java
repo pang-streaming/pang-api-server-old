@@ -73,7 +73,7 @@ public class StreamUseCase {
 
     /** 스트림 키로 스트림 생성 */
     public DataResponse<StreamUserResponse> createStreamByKey(String key) {
-        StreamKeyEntity byStreamKey = keyService.getByStreamKey(Sha512Encoder.encode(key));
+        StreamKeyEntity byStreamKey = keyService.getByStreamKey(key);
         StreamEntity stream = StreamEntity.builder()
                 .user(byStreamKey.getUser())
                 .title(byStreamKey.getUser().getNickname() + "님의 방송")
@@ -103,5 +103,14 @@ public class StreamUseCase {
         StreamEntity stream = service.getById(streamId);
         service.closeStream(stream);
         return Response.ok("스트리밍 종료 성공");
+    }
+
+    public DataResponse<List<StreamResponse>> getEndedStreamsOfFollowings() {
+        UserEntity currentUser = holder.current();
+        List<StreamEntity> endedStreams = service.getEndedStreamsOfFollowings(currentUser);
+        List<StreamResponse> response = endedStreams.stream()
+                .map(s -> StreamResponse.of(s, redisService.getViewCount(s.getUser().getUsername())))
+                .toList();
+        return DataResponse.ok("팔로우하는 유저의 종료된 방송 목록 조회 성공", response);
     }
 }

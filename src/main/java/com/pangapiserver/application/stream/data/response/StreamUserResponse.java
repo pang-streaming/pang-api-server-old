@@ -9,6 +9,6 @@ public record StreamUserResponse(
         LocalDateTime createdAt
 ) {
     public static StreamUserResponse of(StreamKeyEntity entity) {
-        return new StreamUserResponse(entity.getUser().getNickname(), entity.getCreatedAt());
+        return new StreamUserResponse(entity.getUser().getUsername(), entity.getCreatedAt());
     }
 }

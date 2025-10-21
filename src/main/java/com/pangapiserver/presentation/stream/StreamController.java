@@ -85,4 +85,9 @@ public class StreamController implements StreamDocuments {
     public Response closeStream(@PathVariable("streamId") UUID streamId) {
         return streamUseCase.closeStream(streamId);
     }
+
+    @GetMapping("/ended/following")
+    public DataResponse<List<StreamResponse>> getEndedStreamsOfFollowings() {
+        return streamUseCase.getEndedStreamsOfFollowings();
+    }
 }

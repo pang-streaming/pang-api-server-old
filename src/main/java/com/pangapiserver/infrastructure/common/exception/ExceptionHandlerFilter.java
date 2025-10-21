@@ -29,6 +29,6 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
         response.setStatus(errorCode.getHttpStatus().value());
         response.setContentType("application/json; charset=UTF-8");
         response.getWriter()
-            .write(ErrorResponse.setErrorBody(GlobalExceptionStatusCode.INTERNAL_SERVER_ERROR));
+            .write(ErrorResponse.setErrorBody(errorCode));
     }
 }

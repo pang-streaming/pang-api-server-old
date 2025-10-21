@@ -5,8 +5,8 @@ import com.pangapiserver.domain.stream.entity.StreamKeyEntity;
 public record StreamKeyResponse(
     String streamKey
 ) {
-    public static StreamKeyResponse of(StreamKeyEntity streamKey) {
+    public static StreamKeyResponse of(String streamKey) {
         if (streamKey == null) return null;
-        return new StreamKeyResponse(streamKey.getKey());
+        return new StreamKeyResponse(streamKey);
     }
 }

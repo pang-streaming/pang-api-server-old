@@ -6,9 +6,7 @@ import com.pangapiserver.application.user.data.UserDetailResponse;
 import com.pangapiserver.application.user.data.UserInfoResponse;
 import com.pangapiserver.application.user.data.UserListResponse;
 import com.pangapiserver.domain.cash.service.CashService;
-import com.pangapiserver.domain.community.entity.CommunityEntity;
 import com.pangapiserver.domain.community.exception.CommunityNotfoundException;
-import com.pangapiserver.domain.community.repository.CommunityRepository;
 import com.pangapiserver.domain.community.service.CommunityService;
 import com.pangapiserver.domain.follow.service.FollowService;
 import com.pangapiserver.domain.user.entity.UserEntity;
@@ -21,7 +19,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 @Transactional
@@ -35,7 +32,13 @@ public class UserUseCase {
 
     public DataResponse<UserInfoResponse> getMyInfo() {
         UserEntity user = holder.current();
-        return DataResponse.ok("내 정보 조회 성공", UserInfoResponse.of(user, cashService.getBalance(user)));
+        Long communityId;
+        try {
+            communityId = communityService.findByUser(user).getId();
+        } catch (CommunityNotfoundException e) {
+            communityId = null;
+        }
+        return DataResponse.ok("내 정보 조회 성공", UserInfoResponse.of(user, communityId, cashService.getBalance(user)));
     }
 
     public void updateInfo(UpdateInfoRequest request) {

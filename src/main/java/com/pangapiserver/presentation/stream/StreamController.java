@@ -82,8 +82,8 @@ public class StreamController implements StreamDocuments {
 
     @Override
     @DeleteMapping("/{streamId}")
-    public Response closeStream(@PathVariable("streamId") UUID streamId) {
-        return streamUseCase.closeStream(streamId);
+    public Response closeStream(@RequestHeader("X-Stream-Key") String key) {
+        return streamUseCase.closeStream(key);
     }
 
     @GetMapping("/ended/following")

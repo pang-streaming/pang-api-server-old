@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class SearchController {
     private final SearchUseCase useCase;
 
-    @PostMapping("/{keyword}")
+    @GetMapping("/{keyword}")
     public DataResponse<TotalSearchResponse> search(@PathVariable("keyword") String keyword) {
         return useCase.search(keyword);
     }

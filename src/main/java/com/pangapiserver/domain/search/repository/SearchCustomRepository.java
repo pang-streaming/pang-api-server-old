@@ -8,7 +8,6 @@ import com.pangapiserver.application.user.data.UserListResponse;
 import java.util.List;
 
 public interface SearchCustomRepository {
-//    <T> Page<T> search(String keyword, Pageable pageable, TotalSearchData data);
     List<StreamResponse> searchStreams(String keyword, TotalSearchData data);
     List<UserListResponse> searchUsers(String keyword, TotalSearchData data);
     List<ProductListResponse> searchProducts(String keyword, TotalSearchData data);

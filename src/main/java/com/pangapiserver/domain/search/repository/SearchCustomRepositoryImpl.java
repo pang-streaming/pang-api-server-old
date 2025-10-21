@@ -87,7 +87,7 @@ public class SearchCustomRepositoryImpl implements SearchCustomRepository {
                     ))
                     .toList();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new ElasticsearchProductsSearchException();
         }
 
     }

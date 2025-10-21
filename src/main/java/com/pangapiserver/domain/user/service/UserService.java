@@ -2,8 +2,6 @@ package com.pangapiserver.domain.user.service;
 
 import com.pangapiserver.application.follow.data.FollowerCountResponse;
 import com.pangapiserver.domain.follow.repository.FollowCustomRepositoryImpl;
-import com.pangapiserver.domain.stream.document.StreamDocument;
-import com.pangapiserver.domain.stream.entity.StreamEntity;
 import com.pangapiserver.domain.user.document.UserDocument;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.domain.user.exception.UserAlreadyExistException;
@@ -11,7 +9,6 @@ import com.pangapiserver.domain.user.exception.UserNotFoundException;
 import com.pangapiserver.domain.user.repository.UserDocumentRepository;
 import com.pangapiserver.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

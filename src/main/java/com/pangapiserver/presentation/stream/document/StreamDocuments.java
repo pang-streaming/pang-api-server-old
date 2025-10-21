@@ -57,7 +57,7 @@ public interface StreamDocuments {
 
     @Operation(summary = "스트리밍 종료 API", description = "스트리밍을 종료합니다.")
     @ResponseStatus(HttpStatus.OK)
-    Response closeStream(UUID streamId);
+    Response closeStream(String key);
 
     @Operation(summary = "팔로우하는 유저의 종료된 방송 목록 조회 API", description = "팔로우하는 유저의 종료된 방송 목록을 조회합니다.")
     @ResponseStatus(HttpStatus.OK)

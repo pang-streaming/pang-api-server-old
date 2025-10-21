@@ -14,7 +14,6 @@ import com.pangapiserver.domain.stream.service.StreamService;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.infrastructure.common.dto.Response;
-import com.pangapiserver.infrastructure.encode.Sha512Encoder;
 import com.pangapiserver.infrastructure.redis.service.RedisService;
 import com.pangapiserver.infrastructure.security.support.UserAuthenticationHolder;
 import com.pangapiserver.infrastructure.stream.properties.StreamProperties;
@@ -99,8 +98,9 @@ public class StreamUseCase {
         return DataResponse.ok("방송 검색 성공", service.searchByTitle(keyword, chips, pageable));
     }
 
-    public Response closeStream(UUID streamId) {
-        StreamEntity stream = service.getById(streamId);
+    public Response closeStream(String key) {
+        StreamKeyEntity byStreamKey = keyService.getByStreamKey(key);
+        StreamEntity stream = service.getLiveStreamByUser(byStreamKey.getUser());
         service.closeStream(stream);
         return Response.ok("스트리밍 종료 성공");
     }

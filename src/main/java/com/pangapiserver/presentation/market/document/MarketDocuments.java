@@ -63,4 +63,8 @@ public interface MarketDocuments {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "카테고리별 상품 목록 조회 API", description = "카테고리 별로 상품 목록을 조회합니다.")
     DataResponse<List<ProductListResponse>> getItemsByCategory(ProductCategory category);
+
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "상품 삭제 API", description = "상품 id 로 상품을 삭제합니다.")
+    Response deleteProduct(UUID productId);
 }

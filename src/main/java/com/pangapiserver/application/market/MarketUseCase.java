@@ -186,6 +186,11 @@ public class MarketUseCase {
         return DataResponse.ok("카테고리 별 상품 조회 성공", data);
     }
 
+    public Response deleteProduct(UUID productId) {
+        service.deleteById(productId);
+        return Response.ok("상품 삭제 성공");
+    }
+
     private void checkAlreadyOwned(UserEntity user, ProductEntity product) {
         if (purchaseService.existsByUserAndProduct(user, product)) {
             throw new ProductAlreadyOwnedException();

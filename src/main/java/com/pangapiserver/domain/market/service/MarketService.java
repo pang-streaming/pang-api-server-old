@@ -99,6 +99,11 @@ public class MarketService {
         return productRepository.findByCategory(category);
     }
 
+    public void deleteById(UUID id) {
+        productRepository.deleteById(id);
+        deleteDocument(id);
+    }
+
     private void saveDocument(ProductEntity product) {
         productDocumentRepository.save(
                 ProductDocument.builder()
@@ -108,5 +113,9 @@ public class MarketService {
                         .price(product.getPrice())
                         .build()
         );
+    }
+
+    private void deleteDocument(UUID id) {
+        productDocumentRepository.deleteById(id);
     }
 }

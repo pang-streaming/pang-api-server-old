@@ -92,4 +92,10 @@ public class MarketController implements MarketDocuments {
     public DataResponse<List<ProductListResponse>> getItemsByCategory(@RequestParam ProductCategory category) {
         return useCase.getItemsByCategory(category);
     }
+
+    @Override
+    @DeleteMapping("/{productId}")
+    public Response deleteProduct(@RequestParam UUID productId) {
+        return useCase.deleteProduct(productId);
+    }
 }

@@ -64,6 +64,7 @@ public class UserService {
     public void deleteByUser(UserEntity user) {
         followCustomRepository.deleteByUserOrFollower(user);
         repository.delete(user);
+        deleteDocument(user);
     }
 
     private void saveDocument(UserEntity user) {
@@ -77,5 +78,9 @@ public class UserService {
                 .role(user.getRole())
                 .build();
         userDocumentRepository.save(document);
+    }
+
+    private void deleteDocument(UserEntity user) {
+        userDocumentRepository.deleteById(user.getId());
     }
 }

@@ -73,11 +73,13 @@ public class StreamUseCase {
     /** 스트림 키로 스트림 생성 */
     public DataResponse<StreamUserResponse> createStreamByKey(String key) {
         StreamKeyEntity byStreamKey = keyService.getByStreamKey(key);
+        UserEntity streamer = byStreamKey.getUser();
+        service.getLiveStreamByUserOrNull(streamer).ifPresent(service::closeStream);
         StreamEntity stream = StreamEntity.builder()
-                .user(byStreamKey.getUser())
-                .title(byStreamKey.getUser().getNickname() + "님의 방송")
-                .url(properties.getUrl() + byStreamKey.getUser().getUsername() + "/" + byStreamKey.getCreatedAt() + "/playlist.m3u8")
-                .thumbnail(properties.getUrl() + byStreamKey.getUser().getUsername() + "/" + byStreamKey.getCreatedAt() + "/thumbnail.jpg")
+                .user(streamer)
+                .title(streamer.getNickname() + "님의 방송")
+                .url(properties.getUrl() + streamer.getUsername() + "/" + byStreamKey.getCreatedAt() + "/playlist.m3u8")
+                .thumbnail(properties.getUrl() + streamer.getUsername() + "/" + byStreamKey.getCreatedAt() + "/thumbnail.jpg")
                 .build();
         service.save(stream);
         service.saveDocument(stream);

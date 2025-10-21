@@ -32,6 +32,12 @@ public class StoreController implements StoreDocuments {
     }
 
     @Override
+    @GetMapping("/joined")
+    public DataResponse<List<StoreResponse>> getJoinedStores() {
+        return useCase.getJoinedStores();
+    }
+
+    @Override
     @PostMapping("/{storeId}")
     public Response joinStore(@PathVariable("storeId") UUID storeId) {
         return useCase.joinStore(storeId);

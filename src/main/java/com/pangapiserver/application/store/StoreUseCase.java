@@ -4,6 +4,7 @@ import com.pangapiserver.application.market.data.ProductListResponse;
 import com.pangapiserver.application.store.data.CreateStoreRequest;
 import com.pangapiserver.application.store.data.StoreResponse;
 import com.pangapiserver.domain.market.entity.ProductEntity;
+import com.pangapiserver.domain.store.entity.StoreUserEntity;
 import com.pangapiserver.domain.store.service.StoreService;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
@@ -36,6 +37,13 @@ public class StoreUseCase {
                 .map(StoreResponse::of)
                 .toList();
         return DataResponse.ok("스토어 목록 조회 성공", stores);
+    }
+
+    public DataResponse<List<StoreResponse>> getJoinedStores() {
+        List<StoreResponse> stores = service.getJoinedStores(holder.current()).stream()
+                .map(entity -> StoreResponse.of(entity.getStore()))
+                .toList();
+        return DataResponse.ok("가입한 스토어 목록 조회 성공", stores);
     }
 
     public Response joinStore(UUID storeId) {

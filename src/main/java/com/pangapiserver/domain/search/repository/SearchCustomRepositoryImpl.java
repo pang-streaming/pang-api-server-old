@@ -16,6 +16,7 @@ import com.pangapiserver.domain.market.repository.ProductLikeRepository;
 import com.pangapiserver.domain.market.repository.ProductRepository;
 import com.pangapiserver.domain.search.exception.ElasticsearchProductsSearchException;
 import com.pangapiserver.domain.search.exception.ElasticsearchStreamsSearchException;
+import com.pangapiserver.domain.search.exception.ElasticsearchUsersSearchException;
 import com.pangapiserver.domain.stream.document.StreamDocument;
 import com.pangapiserver.domain.user.document.UserDocument;
 import com.pangapiserver.infrastructure.redis.service.RedisService;
@@ -77,7 +78,7 @@ public class SearchCustomRepositoryImpl implements SearchCustomRepository {
 
             return UserListResponse.ofDocument(userDocs, data.followers());
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new ElasticsearchUsersSearchException();
         }
     }
 

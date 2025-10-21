@@ -3,12 +3,14 @@ package com.pangapiserver.application.stream;
 import com.pangapiserver.application.stream.data.request.UpdateStreamRequest;
 import com.pangapiserver.application.stream.data.response.StreamInfoResponse;
 import com.pangapiserver.application.stream.data.response.StreamResponse;
+import com.pangapiserver.application.stream.data.response.StreamUserInfoResponse;
 import com.pangapiserver.application.stream.data.response.StreamUserResponse;
 import com.pangapiserver.domain.follow.entity.FollowEntity;
 import com.pangapiserver.domain.follow.service.FollowService;
 import com.pangapiserver.domain.interest.repository.InterestRepository;
 import com.pangapiserver.domain.stream.entity.StreamEntity;
 import com.pangapiserver.domain.stream.entity.StreamKeyEntity;
+import com.pangapiserver.domain.stream.entity.StreamType;
 import com.pangapiserver.domain.stream.service.StreamKeyService;
 import com.pangapiserver.domain.stream.service.StreamService;
 import com.pangapiserver.domain.user.entity.UserEntity;
@@ -73,8 +75,10 @@ public class StreamUseCase {
     /** 스트림 키로 스트림 생성 */
     public DataResponse<StreamUserResponse> createStreamByKey(String key) {
         StreamKeyEntity byStreamKey = keyService.getByStreamKey(key);
+        UserEntity streamer = byStreamKey.getUser();
+        service.getLiveStreamByUserOrNull(streamer).ifPresent(service::closeStream);
         StreamEntity stream = StreamEntity.builder()
-                .user(byStreamKey.getUser())
+                .user(streamer)
                 .title(byStreamKey.getUser().getNickname() + "님의 방송")
                 .url(properties.getUrl() + byStreamKey.getUser().getUsername() + "/" + byStreamKey.getCreatedAt() + "/playlist.m3u8")
                 .thumbnail(properties.getUrl() + byStreamKey.getUser().getUsername() + "/" + byStreamKey.getCreatedAt() + "/thumbnail.jpg")
@@ -91,6 +95,13 @@ public class StreamUseCase {
         int followers = followService.getFollowersByUsername(updateStream.getUser().getUsername()).size();
         int viewCount = redisService.getViewCount(updateStream.getUser().getUsername());
         return DataResponse.ok("스트리밍 정보 수정 성공", StreamInfoResponse.of(updateStream, followers, false, viewCount));
+    }
+
+    public DataResponse<StreamUserInfoResponse> isStreaming() {
+        UserEntity streamer = holder.current();
+        boolean isLive = service.getLiveStreamByUserOrNull(streamer).isPresent();
+        StreamType type = keyService.getTypeByUser(streamer);
+        return DataResponse.ok("방송 여부 조회 성공", StreamUserInfoResponse.of(type, isLive));
     }
 
     public DataResponse<Page<StreamResponse>> search(String keyword, Pageable pageable) {

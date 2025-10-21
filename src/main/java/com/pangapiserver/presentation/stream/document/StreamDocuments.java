@@ -54,6 +54,11 @@ public interface StreamDocuments {
     @ResponseStatus(HttpStatus.OK)
     DataResponse<StreamInfoResponse> updateStream(String key, UpdateStreamRequest request);
 
+    @Operation(summary = "스트리머 방송 여부 확인 API", description = "스트리머 자신이 방송중인지 확인하는 API입니다.")
+    @ResponseStatus(HttpStatus.OK)
+    DataResponse<StreamUserInfoResponse> isStreamingByUser();
+
+
     @Operation(summary = "스트리밍 검색 API", description = "방송 제목을 검색해 방송 목록을 조회합니다.")
     @ResponseStatus(HttpStatus.OK)
     DataResponse<Page<StreamResponse>> search(String keyword, Pageable pageable);

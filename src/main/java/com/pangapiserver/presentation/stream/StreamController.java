@@ -80,6 +80,12 @@ public class StreamController implements StreamDocuments {
     }
 
     @Override
+    public DataResponse<StreamUserInfoResponse> isStreamingByUser() {
+        return streamUseCase.isStreaming();
+    }
+
+
+    @Override
     @PostMapping("/search/{keyword}")
     public DataResponse<Page<StreamResponse>> search(@PathVariable("keyword") String keyword, Pageable pageable) {
         return streamUseCase.search(keyword, pageable);

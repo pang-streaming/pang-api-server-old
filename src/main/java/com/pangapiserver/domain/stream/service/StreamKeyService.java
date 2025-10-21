@@ -27,6 +27,12 @@ public class StreamKeyService {
         return key;
     }
 
+    public StreamType getTypeByUser(UserEntity user) {
+        StreamKeyEntity stream = repository.findByUser(user)
+            .orElseThrow(UserNotFoundException::new);
+        return stream.getType();
+    }
+
     public String getByUser(UserEntity user) {
         StreamKeyEntity stream = repository.findByUser(user)
             .orElseThrow(UserNotFoundException::new);

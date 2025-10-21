@@ -37,4 +37,11 @@ public class StreamKeyService {
         return repository.findByKey(aesEncoder.encrypt(key))
                 .orElseThrow(StreamKeyNotFoundException::new);
     }
+
+    public void updateStreamType(UserEntity user, StreamType type) {
+        StreamKeyEntity streamKey = repository.findByUser(user)
+            .orElseThrow(StreamKeyNotFoundException::new);
+        streamKey.updateType(type);
+        repository.save(streamKey);
+    }
 }

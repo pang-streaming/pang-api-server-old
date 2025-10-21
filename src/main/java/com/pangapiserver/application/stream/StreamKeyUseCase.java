@@ -18,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Component
 @Transactional
 @RequiredArgsConstructor
@@ -49,6 +51,7 @@ public class StreamKeyUseCase {
         String key = service.getByUser(user);
         StreamKeyEntity byStreamKey = service.getByStreamKey(key);
         StreamEntity stream = streamService.getLiveStreamByUser(user);
-        return DataResponse.ok("스트리밍 상태 확인 성공", StreamStatusResponse.of(stream.getTitle(), stream.getCategory(), stream.getStatus(), byStreamKey.getType()));
+        Long categoryId = stream.getCategory() != null ? stream.getCategory().getId() : null;
+        return DataResponse.ok("스트리밍 상태 확인 성공", StreamStatusResponse.of(stream.getTitle(), categoryId, stream.getStatus(), byStreamKey.getType()));
     }
 }

@@ -21,13 +21,14 @@ public class StreamKeyService {
             .orElse(StreamKeyEntity.create(user));
         String key = Sha512Encoder.encode(user.getUsername());
         streamKey.updateKey(aesEncoder.encrypt(key));
+        repository.save(streamKey);
         return key;
     }
 
     public String getByUser(UserEntity user) {
-        return aesEncoder.decrypt(repository.findByUser(user)
-            .orElseThrow(UserNotFoundException::new)
-                .getKey());
+        StreamKeyEntity stream = repository.findByUser(user)
+            .orElseThrow(UserNotFoundException::new);
+        return aesEncoder.decrypt(stream.getKey());
     }
 
     public StreamKeyEntity getByStreamKey(String key) {

@@ -1,6 +1,7 @@
 package com.pangapiserver.domain.store.service;
 
 import com.pangapiserver.application.store.data.CreateStoreRequest;
+import com.pangapiserver.application.store.data.StoreResponse;
 import com.pangapiserver.domain.market.entity.ProductEntity;
 import com.pangapiserver.domain.market.repository.ProductLikeRepository;
 import com.pangapiserver.domain.market.repository.ProductRepository;
@@ -43,6 +44,10 @@ public class StoreService {
 
     public List<StoreEntity> getAllStores() {
         return repository.findAll();
+    }
+
+    public List<StoreUserEntity> getJoinedStores(UserEntity user) {
+        return storeUserRepository.findByUser(user);
     }
 
     public void saveStore(UUID storeId, UserEntity user) {

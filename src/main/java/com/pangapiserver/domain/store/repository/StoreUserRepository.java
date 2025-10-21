@@ -6,6 +6,7 @@ import com.pangapiserver.domain.user.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -13,4 +14,6 @@ public interface StoreUserRepository extends JpaRepository<StoreUserEntity, Long
     boolean existsByUserIdAndStoreId(UUID userId, UUID storeId);
 
     void deleteByStoreAndUser(StoreEntity store, UserEntity user);
+
+    List<StoreUserEntity> findByUser(UserEntity user);
 }

@@ -14,6 +14,7 @@ import com.pangapiserver.domain.market.repository.ProductRepository;
 import com.pangapiserver.domain.market.repository.PurchaseRepository;
 import com.pangapiserver.domain.store.entity.StoreEntity;
 import com.pangapiserver.domain.store.exception.StoreNotFoundException;
+import com.pangapiserver.domain.store.exception.StoreNotJoinedException;
 import com.pangapiserver.domain.store.repository.StoreRepository;
 import com.pangapiserver.domain.store.repository.StoreUserRepository;
 import com.pangapiserver.domain.user.entity.UserEntity;
@@ -52,7 +53,7 @@ public class MarketService {
             productRepository.save(entity);
             saveDocument(entity);
         } else {
-            throw new StoreNotFoundException();
+            throw new StoreNotJoinedException();
         }
     }
 

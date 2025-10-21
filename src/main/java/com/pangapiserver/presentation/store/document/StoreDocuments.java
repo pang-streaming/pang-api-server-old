@@ -24,6 +24,10 @@ public interface StoreDocuments {
     DataResponse<List<StoreResponse>> getStores();
 
     @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "가입한 스토어 목록 조회 API", description = "현재 가입한 스토어 목록을 조회합니다.")
+    DataResponse<List<StoreResponse>> getJoinedStores();
+
+    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "스토어 가입 API", description = "스토어 id로 스토어에 가입합니다.")
     Response joinStore(UUID storeId);
 

@@ -14,7 +14,8 @@ public record ProductDetailResponse (
     String username,
     String description,
     boolean isLiked,
-    boolean isPurchased
+    boolean isPurchased,
+    String fileUrl
 ) {
     public static ProductDetailResponse of(ProductEntity entity, int likes, boolean isLiked, boolean isPurchased) {
         return new ProductDetailResponse(
@@ -27,7 +28,8 @@ public record ProductDetailResponse (
             entity.getStore().getName(),
             entity.getDescription(),
             isLiked,
-            isPurchased
+            isPurchased,
+            entity.getFileUrl()
         );
     }
 }

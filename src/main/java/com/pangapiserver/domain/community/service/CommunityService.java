@@ -14,6 +14,10 @@ import java.util.Optional;
 public class CommunityService {
     private final CommunityRepository repository;
 
+    public CommunityEntity save(CommunityEntity entity) {
+        return repository.save(entity);
+    }
+
     public CommunityEntity findById(Long communityId) {
         return repository.findById(communityId)
                 .orElseThrow(CommunityNotfoundException::new);

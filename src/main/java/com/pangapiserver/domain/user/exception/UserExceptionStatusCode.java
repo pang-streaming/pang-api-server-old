@@ -10,7 +10,8 @@ public enum UserExceptionStatusCode implements StatusCode {
     USER_NOT_FOUND(HttpStatus.UNAUTHORIZED, "유저를 찾을 수 없습니다"),
     PASSWORD_INCORRECT(HttpStatus.UNAUTHORIZED, "잘못된 비밀번호입니다."),
     INVALID_TOKEN_TYPE(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰 타입입니다."),
-    EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "만료된 토큰입니다.")
+    EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "만료된 토큰입니다."),
+    UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "인증이 필요합니다.")
     ;
     private final HttpStatus status;
     private final String message;

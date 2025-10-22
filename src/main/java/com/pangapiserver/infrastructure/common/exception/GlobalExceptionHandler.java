@@ -20,6 +20,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleAll(Exception e) {
         log.error("Exception Occurred", e);
-        return ErrorResponse.responseEntity(GlobalStatusCode.INTERNAL_SERVER_ERROR);
+        return ErrorResponse.responseEntity(
+            GlobalStatusCode.INTERNAL_SERVER_ERROR.getHttpStatus(),
+            e.getMessage()
+        );
     }
 }

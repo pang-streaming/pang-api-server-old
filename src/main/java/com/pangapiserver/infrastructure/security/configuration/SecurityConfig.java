@@ -45,6 +45,7 @@ public class SecurityConfig {
                     request
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").authenticated()
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/categories").permitAll()
                         .requestMatchers("/actuator/prometheus").permitAll()
                         .requestMatchers("/stream").permitAll()
                         .requestMatchers("/stream/key").authenticated()

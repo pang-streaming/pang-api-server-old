@@ -9,4 +9,5 @@ import java.util.UUID;
 
 public interface TempStreamRepository extends JpaRepository<TempStreamEntity, UUID> {
     Optional<TempStreamEntity> findByUser(UserEntity user);
+    Optional<TempStreamEntity> findByUid(String uid);
 }

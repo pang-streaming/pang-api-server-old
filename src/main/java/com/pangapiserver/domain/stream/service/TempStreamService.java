@@ -1,6 +1,7 @@
 package com.pangapiserver.domain.stream.service;
 
 import com.pangapiserver.domain.stream.entity.TempStreamEntity;
+import com.pangapiserver.domain.stream.exception.StreamNotFoundException;
 import com.pangapiserver.domain.stream.repository.TempStreamRepository;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
@@ -19,5 +20,9 @@ public class TempStreamService {
 
     public TempStreamEntity save(TempStreamEntity tempStream) {
         return repository.save(tempStream);
+    }
+
+    public TempStreamEntity findByUid(String uid) {
+        return repository.findByUid(uid).orElseThrow(StreamNotFoundException::new);
     }
 }

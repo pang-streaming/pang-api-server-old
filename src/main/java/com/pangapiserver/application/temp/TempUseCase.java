@@ -38,4 +38,8 @@ public class TempUseCase {
                 });
         return DataResponse.ok("스트림 생성 성공", liveInput);
     }
+
+    public DataResponse<TempStreamEntity> getTempStreamByUid(String uid) {
+        return DataResponse.ok("스트림 조회 성공", tempStreamService.findByUid(uid));
+    }
 }

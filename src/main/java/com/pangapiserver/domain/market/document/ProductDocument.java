@@ -27,5 +27,7 @@ public class ProductDocument {
     @Field(type = FieldType.Text)
     private String name;
 
+    private String description;
+
     private int price;
 }

@@ -163,6 +163,7 @@ public class SearchUseCase {
                     product.getId(),
                     product.getImageUrl(),
                     product.getName(),
+                    product.getDescription(),
                     product.getPrice()
             );
             bulkBuilder.operations(op -> op

@@ -9,6 +9,7 @@ public record ProductListResponse (
     UUID id,
     String image,
     String name,
+    String description,
     int price,
     boolean isLiked
 ) {
@@ -17,6 +18,7 @@ public record ProductListResponse (
             entity.getId(),
             entity.getImageUrl(),
             entity.getName(),
+            entity.getDescription(),
             entity.getPrice(),
             isLiked
         );
@@ -27,6 +29,7 @@ public record ProductListResponse (
                 entity.getId(),
                 entity.getImage(),
                 entity.getName(),
+                entity.getDescription(),
                 entity.getPrice(),
                 isLiked
         );

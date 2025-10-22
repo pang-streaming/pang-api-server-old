@@ -25,4 +25,10 @@ public class TempStreamService {
     public TempStreamEntity findByUid(String uid) {
         return repository.findByUid(uid).orElseThrow(StreamNotFoundException::new);
     }
+
+    public TempStreamEntity updateStreamInfo(String uid, String streamName, Boolean isLive) {
+        TempStreamEntity tempStream = findByUid(uid);
+        tempStream.updateStreamInfo(streamName, isLive);
+        return tempStream;
+    }
 }

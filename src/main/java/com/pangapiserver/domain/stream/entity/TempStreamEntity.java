@@ -43,4 +43,13 @@ public class TempStreamEntity extends BaseEntity {
         this.webRtcPlaybackUrl = webRtcPlaybackUrl;
         this.streamName = streamName;
     }
+
+    public void updateStreamInfo(String streamName, Boolean isLive) {
+        if (streamName != null) {
+            this.streamName = streamName;
+        }
+        if (isLive != null) {
+            this.isLive = isLive;
+        }
+    }
 }

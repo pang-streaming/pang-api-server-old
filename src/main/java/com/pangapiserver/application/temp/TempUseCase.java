@@ -1,16 +1,20 @@
 package com.pangapiserver.application.temp;
 
+import com.pangapiserver.application.temp.data.request.UpdateTempStreamRequest;
 import com.pangapiserver.domain.stream.entity.TempStreamEntity;
 import com.pangapiserver.domain.stream.service.TempStreamService;
 import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.infrastructure.cloudflare.data.StartStreamResponse;
 import com.pangapiserver.infrastructure.cloudflare.service.CloudflareService;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
+import com.pangapiserver.infrastructure.common.dto.Response;
 import com.pangapiserver.infrastructure.security.support.UserAuthenticationHolder;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@Transactional
 @RequiredArgsConstructor
 public class TempUseCase {
     private final CloudflareService service;
@@ -41,5 +45,14 @@ public class TempUseCase {
 
     public DataResponse<TempStreamEntity> getTempStreamByUid(String uid) {
         return DataResponse.ok("스트림 조회 성공", tempStreamService.findByUid(uid));
+    }
+
+    public Response updateTempStream(String uid, UpdateTempStreamRequest request) {
+        TempStreamEntity updatedStream = tempStreamService.updateStreamInfo(
+                uid,
+                request.streamName(),
+                request.isLive()
+        );
+        return Response.ok("스트림 정보 수정 성공");
     }
 }

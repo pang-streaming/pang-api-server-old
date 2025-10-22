@@ -89,7 +89,7 @@ public class StreamUseCase {
     public Response updateStream(String key, UpdateStreamRequest request) {
         StreamKeyEntity byStreamKey = keyService.getByStreamKey(key);
         StreamEntity stream = service.getLiveStreamByUser(byStreamKey.getUser());
-        service.updateStream(stream, holder.current(), request.title(), request.categoryId(), request.tags(), request.thumbnail(), request.streamType());
+        service.updateStream(stream, stream.getUser(), request.title(), request.categoryId(), request.tags(), request.thumbnail(), request.streamType());
         return Response.ok("스트리밍 정보 수정 성공");
     }
 

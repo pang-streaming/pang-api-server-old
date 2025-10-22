@@ -52,7 +52,7 @@ public interface StreamDocuments {
 
     @Operation(summary = "스트리밍 정보 수정", description = "스트리밍 정보를 수정합니다.")
     @ResponseStatus(HttpStatus.OK)
-    DataResponse<StreamInfoResponse> updateStream(String key, UpdateStreamRequest request);
+    Response updateStream(String key, UpdateStreamRequest request);
 
     @Operation(summary = "스트리밍 검색 API", description = "방송 제목을 검색해 방송 목록을 조회합니다.")
     @ResponseStatus(HttpStatus.OK)

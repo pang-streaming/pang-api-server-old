@@ -86,13 +86,11 @@ public class StreamUseCase {
         return DataResponse.ok("스트림 생성 성공", StreamUserResponse.of(byStreamKey));
     }
 
-    public DataResponse<StreamInfoResponse> updateStream(String key, UpdateStreamRequest request) {
+    public Response updateStream(String key, UpdateStreamRequest request) {
         StreamKeyEntity byStreamKey = keyService.getByStreamKey(key);
         StreamEntity stream = service.getLiveStreamByUser(byStreamKey.getUser());
-        StreamEntity updateStream = service.updateStream(stream, holder.current(), request.title(), request.categoryId(), request.tags(), request.thumbnail(), request.streamType());
-        int followers = followService.getFollowersByUsername(updateStream.getUser().getUsername()).size();
-        int viewCount = redisService.getViewCount(updateStream.getUser().getUsername());
-        return DataResponse.ok("스트리밍 정보 수정 성공", StreamInfoResponse.of(updateStream, followers, false, viewCount));
+        service.updateStream(stream, holder.current(), request.title(), request.categoryId(), request.tags(), request.thumbnail(), request.streamType());
+        return Response.ok("스트리밍 정보 수정 성공");
     }
 
     public DataResponse<Page<StreamResponse>> search(String keyword, Pageable pageable) {

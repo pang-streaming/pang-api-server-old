@@ -18,6 +18,7 @@ import com.pangapiserver.domain.user.entity.UserEntity;
 import com.pangapiserver.domain.watchHistory.entity.WatchHistoryEntity;
 import com.pangapiserver.domain.watchHistory.repository.WatchHistoryRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class StreamService {
@@ -78,6 +80,7 @@ public class StreamService {
     }
 
     public StreamEntity getLiveStreamByUser(UserEntity user) {
+        log.warn("getLiveStreamByUser: {}", user.getUsername());
         return repository.findByUserAndStatus(user, StreamStatus.LIVE)
                 .orElseThrow(StreamNotFoundException::new);
     }
@@ -102,7 +105,7 @@ public class StreamService {
         repository.save(stream);
     }
 
-    public StreamEntity updateStream(StreamEntity stream, UserEntity user, String title, Long categoryId, List<String> tags, String thumbnail, StreamType streamType) {
+    public void updateStream(StreamEntity stream, UserEntity user, String title, Long categoryId, List<String> tags, String thumbnail, StreamType streamType) {
         if (!stream.getUser().equals(user)) {
             throw new StreamNotFoundException();
         }
@@ -113,8 +116,8 @@ public class StreamService {
         if (streamType != null) {
             streamKeyService.updateStreamType(user, streamType);
         }
-        
-        return repository.save(stream);
+
+        repository.save(stream);
     }
 
     public void saveDocument(StreamEntity stream) {

@@ -75,7 +75,7 @@ public class StreamController implements StreamDocuments {
 
     @Override
     @PatchMapping
-    public DataResponse<StreamInfoResponse> updateStream(@RequestHeader("X-Stream-Key") String key, @RequestBody UpdateStreamRequest request) {
+    public Response updateStream(@RequestHeader("X-Stream-Key") String key, @RequestBody UpdateStreamRequest request) {
         return streamUseCase.updateStream(key, request);
     }
 

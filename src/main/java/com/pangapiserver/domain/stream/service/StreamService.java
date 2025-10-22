@@ -106,9 +106,6 @@ public class StreamService {
     }
 
     public void updateStream(StreamEntity stream, UserEntity user, String title, Long categoryId, List<String> tags, String thumbnail, StreamType streamType) {
-        if (!stream.getUser().equals(user)) {
-            throw new StreamNotFoundException();
-        }
         CategoryEntity category = categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new);
         stream.updateStream(category, title, tags, thumbnail);
         

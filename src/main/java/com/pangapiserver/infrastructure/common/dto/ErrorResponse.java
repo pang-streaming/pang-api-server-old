@@ -42,6 +42,15 @@ public class ErrorResponse extends Response {
             ));
     }
 
+    public static ResponseEntity<ErrorResponse> responseEntity(HttpStatus status, String message) {
+        return ResponseEntity
+            .status(status.value())
+            .body(new ErrorResponse(
+                    status,
+                    message
+            ));
+    }
+
     public static String setErrorBody(StatusCode errorCode) throws IOException {
         Response errorResponse = ErrorResponse.responseEntity(errorCode).getBody();
 

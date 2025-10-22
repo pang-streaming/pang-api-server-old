@@ -48,6 +48,7 @@ public class SecurityConfig {
                         .requestMatchers("/categories").permitAll()
                         .requestMatchers("/actuator/prometheus").permitAll()
                         .requestMatchers("/stream").permitAll()
+                        .requestMatchers("/market/top5", "/market/items", "/store").permitAll()
                         .requestMatchers("/stream/key").authenticated()
                         .anyRequest().authenticated()
             )

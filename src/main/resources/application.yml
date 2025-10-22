@@ -72,6 +72,10 @@ app:
     key: ${AES_KEY}
     iv: ${AES_IV}
 
+cloudflare:
+  account-id: ${CLOUDFLARE_ACCOUNT_ID}
+  api-token: ${CLOUDFLARE_API_TOKEN}
+
 logging:
   level:
     org:

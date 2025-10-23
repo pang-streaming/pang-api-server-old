@@ -9,8 +9,12 @@ import com.pangapiserver.domain.user.exception.UserNotFoundException;
 import com.pangapiserver.infrastructure.encode.AESEncoder;
 import com.pangapiserver.infrastructure.encode.Sha512Encoder;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class StreamKeyService {
@@ -37,8 +41,11 @@ public class StreamKeyService {
     }
 
     public String getByUser(UserEntity user) {
-        StreamKeyEntity stream = repository.findByUser(user)
-            .orElseThrow(UserNotFoundException::new);
+        StreamKeyEntity stream = repository.findByUser(user).orElse(null);
+        if (stream == null) {
+            return null;
+        }
+        log.warn("222222");
         return aesEncoder.decrypt(stream.getKey());
     }
 

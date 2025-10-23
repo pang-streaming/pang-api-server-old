@@ -15,11 +15,13 @@ import com.pangapiserver.domain.user.service.UserService;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.infrastructure.security.support.UserAuthenticationHolder;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+@Slf4j
 @Component
 @Transactional
 @RequiredArgsConstructor
@@ -48,9 +50,13 @@ public class StreamKeyUseCase {
 
     public DataResponse<StreamStatusResponse> isStreaming() {
         UserEntity user = holder.current();
+        log.warn("createKey11111: ");
         String key = service.getByUser(user);
+        log.warn("createKey22222: ");
         StreamKeyEntity byStreamKey = service.getByStreamKey(key);
+        log.warn("createKe33333: ");
         StreamEntity stream = streamService.getLiveStreamByUser(user);
+        log.warn("createKey44444: ");
         Long categoryId = stream.getCategory() != null ? stream.getCategory().getId() : null;
         return DataResponse.ok("스트리밍 상태 확인 성공", StreamStatusResponse.of(stream.getTitle(), categoryId, stream.getStatus(), byStreamKey.getType()));
     }

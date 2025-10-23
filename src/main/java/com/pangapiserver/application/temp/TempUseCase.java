@@ -10,8 +10,10 @@ import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import com.pangapiserver.infrastructure.security.support.UserAuthenticationHolder;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 @Transactional
 @RequiredArgsConstructor
@@ -22,6 +24,7 @@ public class TempUseCase {
 
     public DataResponse<CreateLiveResponse> createLive() {
         UserEntity user = holder.current();
+        log.warn("111111");
         String key = "";
         String webRtcUrl = "";
         if (streamKeyService.getByUser(user) == null) {

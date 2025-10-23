@@ -49,6 +49,14 @@ public class StreamKeyService {
         return aesEncoder.decrypt(stream.getKey());
     }
 
+    public StreamKeyEntity getKeyByUser(UserEntity user) {
+        StreamKeyEntity stream = repository.findByUser(user).orElse(null);
+        if (stream == null) {
+            return null;
+        }
+        return stream;
+    }
+
     public StreamKeyEntity getByStreamKey(String key) {
         return repository.findByKey(aesEncoder.encrypt(key))
                 .orElseThrow(StreamKeyNotFoundException::new);

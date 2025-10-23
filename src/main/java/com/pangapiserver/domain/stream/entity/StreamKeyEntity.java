@@ -30,8 +30,15 @@ public class StreamKeyEntity extends BaseEntity {
     @Column(name = "stream_type")
     private StreamType type;
 
+    @Column(name = "web_rtc_url", columnDefinition = "TEXT")
+    private String webRtcUrl;
+
     public static StreamKeyEntity create(UserEntity user) {
         return StreamKeyEntity.builder().user(user).build();
+    }
+
+    public static StreamKeyEntity create(UserEntity user, String webRtcUrl) {
+        return StreamKeyEntity.builder().user(user).webRtcUrl(webRtcUrl).build();
     }
 
     public void updateKey(String key) {

@@ -78,7 +78,7 @@ public class StreamUseCase {
         StreamEntity stream = StreamEntity.builder()
                 .user(streamer)
                 .title(streamer.getNickname() + "님의 방송")
-                .url(properties.getUrl() + streamer.getUsername() + "/" + byStreamKey.getCreatedAt() + "/playlist.m3u8")
+                .url(key)
                 .thumbnail(properties.getUrl() + streamer.getUsername() + "/" + byStreamKey.getCreatedAt() + "/thumbnail.jpg")
                 .build();
         service.save(stream);

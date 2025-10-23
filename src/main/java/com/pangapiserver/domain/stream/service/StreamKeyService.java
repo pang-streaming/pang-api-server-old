@@ -27,6 +27,15 @@ public class StreamKeyService {
         return key;
     }
 
+    public String createTemp(UserEntity user, String webRtcUrl, String key) {
+        StreamKeyEntity streamKey = repository.findByUser(user)
+            .orElse(StreamKeyEntity.create(user, webRtcUrl));
+        streamKey.updateKey(aesEncoder.encrypt(key));
+        streamKey.updateType(StreamType.WHIP);
+        repository.save(streamKey);
+        return key;
+    }
+
     public String getByUser(UserEntity user) {
         StreamKeyEntity stream = repository.findByUser(user)
             .orElseThrow(UserNotFoundException::new);

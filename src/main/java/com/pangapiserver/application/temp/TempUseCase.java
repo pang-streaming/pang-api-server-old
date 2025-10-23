@@ -1,5 +1,6 @@
 package com.pangapiserver.application.temp;
 
+import com.pangapiserver.application.temp.data.CreateLiveResponse;
 import com.pangapiserver.domain.stream.exception.StreamAlreadyEndedException;
 import com.pangapiserver.domain.stream.service.StreamKeyService;
 import com.pangapiserver.domain.user.entity.UserEntity;
@@ -19,9 +20,10 @@ public class TempUseCase {
     private final UserAuthenticationHolder holder;
     private final StreamKeyService streamKeyService;
 
-    public DataResponse<String> createLive() {
+    public DataResponse<CreateLiveResponse> createLive() {
         UserEntity user = holder.current();
         String key = "";
+        String webRtcUrl = "";
         if (streamKeyService.getByUser(user) == null) {
             StartStreamResponse streamResponse = service.createLiveInput(user).block();
             assert streamResponse != null;
@@ -29,7 +31,8 @@ public class TempUseCase {
                 throw new StreamAlreadyEndedException();
             }
             key = streamKeyService.createTemp(user, streamResponse.getResult().getWebRTC().getUrl(), streamResponse.getResult().getUid());
+            webRtcUrl = streamResponse.getResult().getWebRTC().getUrl();
         }
-        return DataResponse.ok("스트림 생성 성공", key);
+        return DataResponse.ok("스트림 생성 성공", new CreateLiveResponse(key, webRtcUrl));
     }
 }

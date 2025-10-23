@@ -1,6 +1,7 @@
 package com.pangapiserver.presentation.temp;
 
 import com.pangapiserver.application.temp.TempUseCase;
+import com.pangapiserver.application.temp.data.CreateLiveResponse;
 import com.pangapiserver.infrastructure.common.dto.DataResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,7 @@ public class TempController {
     private final TempUseCase useCase;
 
     @PostMapping
-    public DataResponse<String> createLive() {
+    public DataResponse<CreateLiveResponse> createLive() {
         return useCase.createLive();
     }
 //

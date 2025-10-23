@@ -41,7 +41,7 @@ public class TempUseCase {
             webRtcUrl = streamResponse.getResult().getWebRTC().getUrl();
         } else {
             key = aesEncoder.decrypt(streamKeyEntity.getKey());
-            webRtcUrl = streamKeyEntity.getKey();
+            webRtcUrl = streamKeyEntity.getWebRtcUrl();
         }
 
         return DataResponse.ok("스트림 생성 성공", new CreateLiveResponse(key, webRtcUrl));

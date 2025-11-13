@@ -6,7 +6,7 @@ import com.pangapiserver.application.user.data.UserDetailResponse;
 import com.pangapiserver.application.user.data.UserInfoResponse;
 import com.pangapiserver.application.user.data.UserListResponse;
 import com.pangapiserver.domain.cash.service.CashService;
-import com.pangapiserver.domain.community.exception.CommunityNotfoundException;
+import com.pangapiserver.domain.community.entity.CommunityEntity;
 import com.pangapiserver.domain.community.service.CommunityService;
 import com.pangapiserver.domain.follow.service.FollowService;
 import com.pangapiserver.domain.user.entity.UserEntity;
@@ -32,12 +32,7 @@ public class UserUseCase {
 
     public DataResponse<UserInfoResponse> getMyInfo() {
         UserEntity user = holder.current();
-        Long communityId;
-        try {
-            communityId = communityService.findByUser(user).getId();
-        } catch (CommunityNotfoundException e) {
-            communityId = null;
-        }
+        Long communityId = communityService.findByUserOrNull(user).map(CommunityEntity::getId).orElse(null);
         return DataResponse.ok("내 정보 조회 성공", UserInfoResponse.of(user, communityId, cashService.getBalance(user)));
     }
 
@@ -65,12 +60,7 @@ public class UserUseCase {
         UserEntity user = service.getByUsername(username);
         UserEntity currentUser = holder.current();
 
-        Long communityId;
-        try {
-            communityId = communityService.findByUser(user).getId();
-        } catch (CommunityNotfoundException e) {
-            communityId = null;
-        }
+        Long communityId = communityService.findByUserOrNull(user).map(CommunityEntity::getId).orElse(null);
 
         int followers = followService.getFollowersByUsername(user.getUsername()).size();
         boolean isFollowed = followService.isFollowing(user, currentUser);

@@ -95,4 +95,10 @@ public class StreamController implements StreamDocuments {
     public DataResponse<List<StreamResponse>> getEndedStreamsOfFollowings() {
         return streamUseCase.getEndedStreamsOfFollowings();
     }
+
+    @Override
+    @GetMapping("/info")
+    public DataResponse<StreamInfoResponse> getStreamByKey(@RequestHeader("X-Stream-Key") String key) {
+        return streamUseCase.getStreamByKey(key);
+    }
 }

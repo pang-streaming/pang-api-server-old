@@ -65,4 +65,8 @@ public interface StreamDocuments {
     @Operation(summary = "팔로우하는 유저의 종료된 방송 목록 조회 API", description = "팔로우하는 유저의 종료된 방송 목록을 조회합니다.")
     @ResponseStatus(HttpStatus.OK)
     DataResponse<List<StreamResponse>> getEndedStreamsOfFollowings();
+
+    @Operation(summary = "스트림 키로 스트리밍 정보 조회 API", description = "스트림 키를 통해 현재 라이브 중인 스트리밍 정보를 조회합니다.")
+    @ResponseStatus(HttpStatus.OK)
+    DataResponse<StreamInfoResponse> getStreamByKey(String key);
 }

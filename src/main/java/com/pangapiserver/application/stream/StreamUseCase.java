@@ -118,4 +118,14 @@ public class StreamUseCase {
                 .toList();
         return DataResponse.ok("팔로우하는 유저의 종료된 방송 목록 조회 성공", response);
     }
+
+    public DataResponse<StreamInfoResponse> getStreamByKey(String key) {
+        StreamKeyEntity streamKeyEntity = keyService.getByStreamKey(key);
+        UserEntity streamer = streamKeyEntity.getUser();
+        StreamEntity stream = service.getLiveStreamByUser(streamer);
+        int followers = followService.getFollowersByUsername(streamer.getUsername()).size();
+        boolean isFollowed = followService.isFollowing(holder.current(), streamer);
+        int viewCount = redisService.getViewCount(streamer.getUsername());
+        return DataResponse.ok("스트림 키로 스트리밍 정보 조회 성공", StreamInfoResponse.of(stream, followers, isFollowed, viewCount));
+    }
 }

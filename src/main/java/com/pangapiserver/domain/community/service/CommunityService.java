@@ -26,4 +26,8 @@ public class CommunityService {
     public CommunityEntity findByUser(UserEntity user) {
         return repository.findByUser(user).orElseThrow(CommunityNotfoundException::new);
     }
+
+    public Optional<CommunityEntity> findByUserOrNull(UserEntity user) {
+        return repository.findByUser(user);
+    }
 }

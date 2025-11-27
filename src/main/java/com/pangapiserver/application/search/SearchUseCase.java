@@ -119,15 +119,15 @@ public class SearchUseCase {
         if (users.isEmpty()) return;
 
         List<BulkOperation> operations = users.stream()
-                .map(u -> new UserDocument(
-                        u.getId(),
-                        u.getUsername(),
-                        u.getNickname(),
-                        u.getProfileImage(),
-                        u.getBannerImage(),
-                        u.getDescription(),
-                        u.getRole()
-                ))
+                .map(u -> UserDocument.builder()
+                        .id(u.getId())
+                        .username(u.getUsername())
+                        .nickname(u.getNickname())
+                        .profileImage(u.getProfileImage())
+                        .bannerImage(u.getBannerImage())
+                        .description(u.getDescription())
+                        .role(u.getRole())
+                        .build())
                 .map(doc -> new BulkOperation.Builder()
                         .index(idx -> idx
                                 .index("users")
@@ -168,13 +168,13 @@ public class SearchUseCase {
         if (products.isEmpty()) return;
 
         List<BulkOperation> operations = products.stream()
-                .map(p -> new ProductDocument(
-                        p.getId(),
-                        p.getImageUrl(),
-                        p.getName(),
-                        p.getDescription(),
-                        p.getPrice()
-                ))
+                .map(p -> ProductDocument.builder()
+                        .id(p.getId())
+                        .image(p.getImageUrl())
+                        .name(p.getName())
+                        .description(p.getDescription())
+                        .price(p.getPrice())
+                        .build())
                 .map(doc -> new BulkOperation.Builder()
                         .index(idx -> idx
                                 .index("products")

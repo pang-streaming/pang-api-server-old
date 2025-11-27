@@ -12,10 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 @Transactional
@@ -47,25 +45,22 @@ public class CommentUseCase {
     }
 
     private List<CommentResponse> buildCommentTree(List<CommentEntity> comments) {
-        Map<Long, CommentResponse> commentDtoMap = new HashMap<>();
-        List<CommentResponse> rootComments = new ArrayList<>();
+        Map<Long, CommentResponse> commentMap = comments.stream()
+                .collect(Collectors.toMap(
+                        CommentEntity::getId,
+                        comment -> CommentResponse.fromEntity(comment, new ArrayList<>())
+                ));
 
-        for (CommentEntity comment : comments) {
-            CommentResponse commentResponse = CommentResponse.fromEntity(comment, new ArrayList<>());
-            commentDtoMap.put(comment.getId(), commentResponse);
-        }
-
-        for (CommentEntity comment : comments) {
-            if (comment.getParent() != null) {
-                CommentResponse parentDto = commentDtoMap.get(comment.getParent().getId());
-                if (parentDto != null) {
-                    parentDto.children().add(commentDtoMap.get(comment.getId()));
-                }
-            } else {
-                rootComments.add(commentDtoMap.get(comment.getId()));
-            }
-        }
-
-        return rootComments;
+        return comments.stream()
+                .map(comment -> {
+                    CommentResponse response = commentMap.get(comment.getId());
+                    if (comment.getParent() != null) {
+                        commentMap.get(comment.getParent().getId()).children().add(response);
+                        return null;
+                    }
+                    return response;
+                })
+                .filter(Objects::nonNull)
+                .toList();
     }
 }

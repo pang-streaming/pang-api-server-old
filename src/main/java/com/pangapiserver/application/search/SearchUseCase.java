@@ -2,6 +2,7 @@ package com.pangapiserver.application.search;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
+import co.elastic.clients.elasticsearch.core.bulk.BulkOperation;
 import com.pangapiserver.application.search.data.TotalSearchResponse;
 import com.pangapiserver.domain.interest.repository.InterestRepository;
 import com.pangapiserver.domain.market.document.ProductDocument;
@@ -32,19 +33,19 @@ public class SearchUseCase {
     private final UserAuthenticationHolder holder;
     private final InterestRepository interestRepository;
 
-    public DataResponse<TotalSearchResponse> search(String keyword) {
-        UserEntity user = holder.current();
-        List<String> chips = interestRepository.getChipsWithUser(user);
-        TotalSearchResponse response = service.searchByKeyword(keyword, chips, holder.current());
-        return DataResponse.ok("통합 검색 결과 조회 성공", response);
-    }
-
     private final UserRepository userRepository;
     private final StreamRepository streamRepository;
     private final ProductRepository productRepository;
     private final ElasticsearchClient client;
 
     private static final int BATCH_SIZE = 100;
+
+    public DataResponse<TotalSearchResponse> search(String keyword) {
+        UserEntity user = holder.current();
+        List<String> chips = interestRepository.getChipsWithUser(user);
+        TotalSearchResponse response = service.searchByKeyword(keyword, chips, holder.current());
+        return DataResponse.ok("통합 검색 결과 조회 성공", response);
+    }
 
     @Transactional(readOnly = true)
     public Response reindex() {
@@ -67,7 +68,7 @@ public class SearchUseCase {
             }
             client.indices().create(c -> c.index(indexName));
         } catch (Exception e) {
-            throw new RuntimeException("Failed to recreate index: " + indexName, e);
+            throw new DocumentReindexingException();
         }
     }
 
@@ -81,32 +82,6 @@ public class SearchUseCase {
         } while (!users.isEmpty());
     }
 
-    private void bulkIndexUsers(List<UserEntity> users) {
-        if (users.isEmpty()) return;
-
-        BulkRequest.Builder bulkBuilder = new BulkRequest.Builder();
-        for (UserEntity user : users) {
-            UserDocument doc = new UserDocument(
-                    user.getId(),
-                    user.getUsername(),
-                    user.getNickname(),
-                    user.getProfileImage(),
-                    user.getBannerImage(),
-                    user.getDescription(),
-                    user.getRole()
-            );
-            bulkBuilder.operations(op -> op
-                    .index(idx -> idx.index("users").id(user.getId().toString()).document(doc))
-            );
-        }
-
-        try {
-            client.bulk(bulkBuilder.build());
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to bulk index users", e);
-        }
-    }
-
     private void reindexStreams() {
         int page = 0;
         List<StreamEntity> streams;
@@ -115,33 +90,6 @@ public class SearchUseCase {
             bulkIndexStreams(streams);
             page++;
         } while (!streams.isEmpty());
-    }
-
-    private void bulkIndexStreams(List<StreamEntity> streams) {
-        if (streams.isEmpty()) return;
-
-        BulkRequest.Builder bulkBuilder = new BulkRequest.Builder();
-        for (StreamEntity stream : streams) {
-            StreamDocument doc = StreamDocument.builder()
-                    .username(stream.getUser().getUsername())
-                    .nickname(stream.getUser().getNickname())
-                    .profileImage(stream.getUser().getProfileImage())
-                    .streamId(stream.getId())
-                    .streamUrl(stream.getUrl())
-                    .title(stream.getTitle())
-                    .chip(stream.getCategory() != null ? stream.getCategory().getChip().toString() : "NONE")
-                    .thumbnail(stream.getThumbnail())
-                    .build();
-            bulkBuilder.operations(op -> op
-                    .index(idx -> idx.index("streams").id(stream.getId().toString()).document(doc))
-            );
-        }
-
-        try {
-            client.bulk(bulkBuilder.build());
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to bulk index streams", e);
-        }
     }
 
     private void reindexProducts() {
@@ -154,28 +102,87 @@ public class SearchUseCase {
         } while (!products.isEmpty());
     }
 
-    private void bulkIndexProducts(List<ProductEntity> products) {
-        if (products.isEmpty()) return;
+    private void executeBulk(List<BulkOperation> operations) {
+        if (operations.isEmpty()) return;
 
-        BulkRequest.Builder bulkBuilder = new BulkRequest.Builder();
-        for (ProductEntity product : products) {
-            ProductDocument doc = new ProductDocument(
-                    product.getId(),
-                    product.getImageUrl(),
-                    product.getName(),
-                    product.getDescription(),
-                    product.getPrice()
-            );
-            bulkBuilder.operations(op -> op
-                    .index(idx -> idx.index("products").id(product.getId().toString()).document(doc))
-            );
-        }
-
+        BulkRequest request = new BulkRequest.Builder()
+                .operations(operations)
+                .build();
         try {
-            client.bulk(bulkBuilder.build());
+            client.bulk(request);
         } catch (Exception e) {
-            throw new RuntimeException("Failed to bulk index products", e);
+            throw new DocumentReindexingException();
         }
     }
 
+    private void bulkIndexUsers(List<UserEntity> users) {
+        if (users.isEmpty()) return;
+
+        List<BulkOperation> operations = users.stream()
+                .map(u -> new UserDocument(
+                        u.getId(),
+                        u.getUsername(),
+                        u.getNickname(),
+                        u.getProfileImage(),
+                        u.getBannerImage(),
+                        u.getDescription(),
+                        u.getRole()
+                ))
+                .map(doc -> new BulkOperation.Builder()
+                        .index(idx -> idx
+                                .index("users")
+                                .id(doc.getId().toString())
+                                .document(doc))
+                        .build())
+                .toList();
+
+        executeBulk(operations);
+    }
+
+    private void bulkIndexStreams(List<StreamEntity> streams) {
+        if (streams.isEmpty()) return;
+
+        List<BulkOperation> operations = streams.stream()
+                .map(s -> StreamDocument.builder()
+                        .username(s.getUser().getUsername())
+                        .nickname(s.getUser().getNickname())
+                        .profileImage(s.getUser().getProfileImage())
+                        .streamId(s.getId())
+                        .streamUrl(s.getUrl())
+                        .title(s.getTitle())
+                        .chip(s.getCategory() != null ? s.getCategory().getChip().toString() : "NONE")
+                        .thumbnail(s.getThumbnail())
+                        .build())
+                .map(doc -> new BulkOperation.Builder()
+                        .index(idx -> idx
+                                .index("streams")
+                                .id(doc.getStreamId().toString())
+                                .document(doc))
+                        .build())
+                .toList();
+
+        executeBulk(operations);
+    }
+
+    private void bulkIndexProducts(List<ProductEntity> products) {
+        if (products.isEmpty()) return;
+
+        List<BulkOperation> operations = products.stream()
+                .map(p -> new ProductDocument(
+                        p.getId(),
+                        p.getImageUrl(),
+                        p.getName(),
+                        p.getDescription(),
+                        p.getPrice()
+                ))
+                .map(doc -> new BulkOperation.Builder()
+                        .index(idx -> idx
+                                .index("products")
+                                .id(doc.getId().toString())
+                                .document(doc))
+                        .build())
+                .toList();
+
+        executeBulk(operations);
+    }
 }

@@ -1,0 +1,1 @@
+ALTER TABLE streams ADD start_at datetime;

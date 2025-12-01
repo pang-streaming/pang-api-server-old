@@ -58,7 +58,7 @@ public class StreamEntity extends BaseEntity {
         this.category = category;
         this.title = title;
         this.url = url;
-        this.startAt = LocalDateTime.now();
+        this.startAt = startAt;
         this.tags = tags;
         this.status = StreamStatus.LIVE;
         this.thumbnail = thumbnail;

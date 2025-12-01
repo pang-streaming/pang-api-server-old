@@ -88,7 +88,7 @@ public class StreamUseCase {
                 .build();
         service.save(stream);
         service.saveDocument(stream);
-        return DataResponse.ok("스트림 생성 성공", StreamUserResponse.of(byStreamKey));
+        return DataResponse.ok("스트림 생성 성공", StreamUserResponse.of(byStreamKey, stream));
     }
 
     public Response updateStream(String key, UpdateStreamRequest request) {

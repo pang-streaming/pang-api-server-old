@@ -37,6 +37,8 @@ public class StreamEntity extends BaseEntity {
     @Column(nullable = false)
     private String url;
 
+    private LocalDateTime startAt;
+
     private LocalDateTime endAt;
 
     @ElementCollection(fetch = FetchType.LAZY)
@@ -51,11 +53,12 @@ public class StreamEntity extends BaseEntity {
     private String thumbnail;
 
     @Builder
-    public StreamEntity(UserEntity user, CategoryEntity category, String title, String url, List<String> tags, String thumbnail) {
+    public StreamEntity(UserEntity user, CategoryEntity category, String title, String url, LocalDateTime startAt, List<String> tags, String thumbnail) {
         this.user = user;
         this.category = category;
         this.title = title;
         this.url = url;
+        this.startAt = LocalDateTime.now();
         this.tags = tags;
         this.status = StreamStatus.LIVE;
         this.thumbnail = thumbnail;

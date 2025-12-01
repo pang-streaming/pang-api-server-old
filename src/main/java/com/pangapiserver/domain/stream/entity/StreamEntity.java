@@ -67,6 +67,7 @@ public class StreamEntity extends BaseEntity {
     public void updateEndAt() {
         this.endAt = LocalDateTime.now();
         this.status = StreamStatus.ENDED;
+        this.url = this.url.replace("playlist.m3u8", "master.m3u8");
     }
 
     public void updateStream(CategoryEntity category, String title, List<String> tags, String thumbnail) {

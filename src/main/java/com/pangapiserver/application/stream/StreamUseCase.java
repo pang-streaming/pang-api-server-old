@@ -23,6 +23,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -72,14 +74,17 @@ public class StreamUseCase {
 
     /** 스트림 키로 스트림 생성 */
     public DataResponse<StreamUserResponse> createStreamByKey(String key) {
+        LocalDateTime now = LocalDateTime.now();
         StreamKeyEntity byStreamKey = keyService.getByStreamKey(key);
         UserEntity streamer = byStreamKey.getUser();
+        String streamUri = properties.getUrl() + streamer.getUsername() + "/" + now;
         service.getLiveStreamByUserOrNull(streamer).ifPresent(service::closeStream);
         StreamEntity stream = StreamEntity.builder()
                 .user(streamer)
                 .title(streamer.getNickname() + "님의 방송")
-                .url(key)
-                .thumbnail(properties.getUrl() + streamer.getUsername() + "/" + byStreamKey.getCreatedAt() + "/thumbnail.jpg")
+                .startAt(now)
+                .url(streamUri + "/playlist.m3u8")
+                .thumbnail(streamUri + "/thumbnail.jpg")
                 .build();
         service.save(stream);
         service.saveDocument(stream);

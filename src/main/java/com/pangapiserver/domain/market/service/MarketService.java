@@ -48,6 +48,7 @@ public class MarketService {
                     .price(request.price())
                     .fileUrl(request.fileUrl())
                     .category(request.category())
+                    .type(request.type())
                     .store(store)
                     .build();
             productRepository.save(entity);

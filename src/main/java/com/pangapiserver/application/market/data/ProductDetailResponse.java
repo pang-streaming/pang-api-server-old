@@ -1,6 +1,7 @@
 package com.pangapiserver.application.market.data;
 
 import com.pangapiserver.domain.market.entity.ProductEntity;
+import com.pangapiserver.domain.market.enumeration.ProductType;
 
 import java.util.UUID;
 
@@ -13,6 +14,7 @@ public record ProductDetailResponse (
     String profileImage,
     String username,
     String description,
+    ProductType type,
     boolean isLiked,
     boolean isPurchased,
     String fileUrl
@@ -27,6 +29,7 @@ public record ProductDetailResponse (
             entity.getStore().getProfileImage(),
             entity.getStore().getName(),
             entity.getDescription(),
+            entity.getType(),
             isLiked,
             isPurchased,
             entity.getFileUrl()

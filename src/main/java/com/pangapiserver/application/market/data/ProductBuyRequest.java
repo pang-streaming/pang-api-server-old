@@ -5,6 +5,7 @@ import java.util.UUID;
 public record ProductBuyRequest(
     UUID productId,
     String address,
-    String email
+    String email,
+    String phone
 ) {
 }

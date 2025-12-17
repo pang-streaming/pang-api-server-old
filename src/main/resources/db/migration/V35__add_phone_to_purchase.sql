@@ -1,0 +1,1 @@
+ALTER TABLE purchases ADD COLUMN phone VARCHAR(20) NULL;

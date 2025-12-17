@@ -39,6 +39,8 @@ public class PurchaseEntity {
 
     private String email;
 
+    private String phone;
+
     @Enumerated(EnumType.STRING)
     private DeliveryStatus deliveryStatus;
 

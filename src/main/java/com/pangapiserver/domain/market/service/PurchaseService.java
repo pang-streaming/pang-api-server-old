@@ -17,12 +17,13 @@ import java.util.UUID;
 public class PurchaseService {
     private final PurchaseRepository repository;
 
-    public void save(UserEntity user, ProductEntity product, String address, String email) {
+    public void save(UserEntity user, ProductEntity product, String address, String email, String phone) {
         PurchaseEntity entity = PurchaseEntity.builder()
             .product(product)
             .buyer(user)
             .address(address)
             .email(email)
+            .phone(phone)
             .deliveryStatus(DeliveryStatus.PREPARING)
             .createdAt(LocalDateTime.now())
             .build();

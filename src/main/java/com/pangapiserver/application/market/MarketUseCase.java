@@ -3,6 +3,7 @@ package com.pangapiserver.application.market;
 import com.pangapiserver.application.market.data.*;
 import com.pangapiserver.domain.cash.service.CashService;
 import com.pangapiserver.domain.market.entity.ProductEntity;
+import com.pangapiserver.domain.market.entity.PurchaseEntity;
 import com.pangapiserver.domain.market.enumeration.LikeStatus;
 import com.pangapiserver.domain.market.enumeration.ProductCategory;
 import com.pangapiserver.domain.market.exception.ProductAlreadyOwnedException;
@@ -75,7 +76,7 @@ public class MarketUseCase {
         ProductEntity product = service.getById(request.productId());
         checkAlreadyOwned(user, product);
         withdrawBalance(user, product);
-        purchaseService.save(user, product, request.address(), user.getEmail());
+        purchaseService.save(user, product, request.address(), user.getEmail(), request.phone());
         PurchaseResponse response = PurchaseResponse.of(product);
         return DataResponse.ok("구매 성공", response);
     }
@@ -87,7 +88,7 @@ public class MarketUseCase {
         checkAlreadyOwned(receiver, product);
         withdrawBalance(user, product);
         // buyer는 결제한 사람(user), receiver는 받은 사람
-        com.pangapiserver.domain.market.entity.PurchaseEntity purchase = com.pangapiserver.domain.market.entity.PurchaseEntity.builder()
+        PurchaseEntity purchase = com.pangapiserver.domain.market.entity.PurchaseEntity.builder()
             .product(product)
             .buyer(user)
             .receiver(receiver)
@@ -145,6 +146,7 @@ public class MarketUseCase {
                 .receiver(purchase.getReceiver())
                 .address(request.address())
                 .email(purchase.getEmail())
+                .phone(purchase.getPhone())
                 .deliveryStatus(request.deliveryStatus() != null ? request.deliveryStatus() : purchase.getDeliveryStatus())
                 .createdAt(purchase.getCreatedAt())
                 .build();
@@ -156,6 +158,7 @@ public class MarketUseCase {
                 .receiver(purchase.getReceiver())
                 .address(purchase.getAddress())
                 .email(purchase.getEmail())
+                .phone(purchase.getPhone())
                 .deliveryStatus(request.deliveryStatus())
                 .createdAt(purchase.getCreatedAt())
                 .build();
